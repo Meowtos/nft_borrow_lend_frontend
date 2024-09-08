@@ -1,0 +1,20 @@
+CONTRACT_OBJECT_ADDR=0x860c6bda60c2171b8ff7f6244d3e1802354fed9f4d4f0188236eb346a0171816
+
+PUBLISHER_PROFILE=default
+PUBLISHER_ADDR=0x$(aptos config show-profiles --profile=$PUBLISHER_PROFILE | grep 'account' | sed -n 's/.*"account": \"\(.*\)\".*/\1/p')
+
+aptos move upgrade-object-package \
+    --object-address $CONTRACT_OBJECT_ADDR \
+    --named-addresses nft_lending=$CONTRACT_OBJECT_ADDR\
+    --profile $PUBLISHER_PROFILE \
+    --assume-yes --skip-fetch-latest-git-deps 
+
+aptos move create-object-and-publish-package \
+    --address-name nft_lending \
+    --named-addresses nft_lending=$PUBLISHER_ADDR\
+    --profile $PUBLISHER_PROFILE \
+    --assume-yes --skip-fetch-latest-git-deps 
+
+aptos move compile --dev --skip-fetch-latest-git-deps
+aptos move test --skip-fetch-latest-git-deps
+aptos move publish --named-addresses my_addr=default --skip-fetch-latest-git-deps --included-artifacts none
