@@ -8,6 +8,7 @@ import "@/assets/css/resp.css";
 import Header from '@/components/header'
 import Footer from "@/components/footer";
 import { WalletProvider } from "@/context/WalletProvider";
+import { Toaster } from "sonner";
 const font = Josefin_Sans({ subsets: ["latin"], weight: "400" })
 export const metadata: Metadata = {
   title: "DeFi NFT Loans",
@@ -27,6 +28,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </WalletProvider>
+        <Toaster />
       </body>
     </html>
   );

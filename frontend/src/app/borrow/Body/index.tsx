@@ -6,6 +6,7 @@ import { getUserOwnedCollections, getUserOwnedTokensByCollection } from "@/utils
 import { Collection } from "@/types/Collection";
 import Image from "next/image";
 import { Token } from "@/types/Token";
+import Link from "next/link";
 
 export function Body() {
     const [userOwnedCollections, setUserOwnedCollections] = useState<Collection[]>([]);
@@ -96,7 +97,7 @@ function OwnedTokens({ collectionId }: { collectionId: string | null }) {
                 <div className="card-body">
                     <h5 className="card-title">{token.token_name}</h5>
                     <p className="card-text"></p>
-                    <a href="#" className="btn btn-primary">Go somewhere</a>
+                    <Link href={`/borrow/${collectionId}/${token.token_data_id}`} className="btn btn-primary">Go somewhere</Link>
                 </div>
             </div>
         ))
