@@ -6,7 +6,7 @@ import 'swiper/css/effect-cards';
 // import { EffectCards, Autoplay } from 'swiper/modules';
 // import Image from 'next/image'
 import ParticlesComponent from '@/components/config/particles'
-
+import Link from "next/link";
 export default function Home() {
   return (
     <>
@@ -18,7 +18,12 @@ export default function Home() {
             <div className="col-12 col-lg-8">
               <h1>Unlock NFT Value with Instant Crypto Loans</h1>
               <p className="pt-3">Turn your NFTs into collateral and access cryptocurrency loans with ease. No need to sell—just lend your NFTs and get the liquidity you need in minutes.</p>
-              <button className="connect-btn mt-4">Get Started</button>
+              <Link href={"/borrow"}>
+                <button className="connect-btn mt-4">Get a loan now</button>
+              </Link>
+              <Link href={"/lend"}>
+                <button className="connect-btn mt-4">I want to lend</button>
+              </Link>
             </div>
             <div className="col-12 col-lg-4">
               {/* <Swiper effect={'cards'} grabCursor={true} modules={[EffectCards, Autoplay]}

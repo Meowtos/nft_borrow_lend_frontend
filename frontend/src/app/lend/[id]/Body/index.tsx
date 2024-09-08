@@ -51,8 +51,8 @@ export function Body({ tokenListing }: BodyProps) {
                     toast.success("Offer given")
                 })
             } catch (error: any) {
-                console.log(error)
-                toast.error(error.message)
+                console.error(error)
+                toast.error(error)
             }
         }
     })
