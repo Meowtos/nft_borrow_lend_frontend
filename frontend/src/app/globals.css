@@ -1,0 +1,104 @@
+:root {
+  /* theme colors */
+  --light:#ffffff;
+  --black: #000000;
+  --primary-1: #3E065F;
+  --primary-2: #700B97;
+  --primary-3: #8E05C2;
+
+  /* theme2 */
+  /* --primary-1: #3D0000;
+  --primary-2: #950101;
+  --primary-3: #FF0000; */
+
+  /* theme3 */
+  /* --primary-1: #86003C;
+  --primary-2: #E41F7B;
+  --primary-3: #FF8BA0; */
+
+
+}
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body{
+  background-color: var(--black);
+  color: var(--light);
+}
+
+.container{
+  max-width: 80% !important;
+}
+
+/* Headings */
+h2{
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 56px;
+}
+
+/* Pages */
+#particles-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.header,
+.banner, .footer, .about{
+  position: relative;
+  z-index: 2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+/* body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} */
+
+/* @media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+} */

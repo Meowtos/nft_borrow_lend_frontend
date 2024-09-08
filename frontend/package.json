@@ -1,0 +1,31 @@
+{
+  "name": "nft_lending",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@aptos-labs/ts-sdk": "^1.27.1",
+    "@aptos-labs/wallet-adapter-react": "^3.6.2",
+    "@tsparticles/all": "^3.5.0",
+    "@tsparticles/react": "^3.0.0",
+    "bootstrap": "^5.3.3",
+    "mongoose": "^8.6.1",
+    "next": "14.2.8",
+    "react": "^18",
+    "react-dom": "^18",
+    "swiper": "^11.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.8",
+    "typescript": "^5"
+  }
+}

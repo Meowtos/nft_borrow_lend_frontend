@@ -1,0 +1,111 @@
+/* ------------------------------------------------------- */
+/* Header */
+/* ------------------------------------------------------- */
+.header{
+    border-bottom: 1px solid var(--primary-1);
+    background: var(--black);
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    z-index: 9999;
+}
+.header .row{
+    align-items: center;
+}
+.connect-btn{
+    padding: 16px 24px;
+    background: var(--primary-1);
+    color: var(--light);
+    border: 1px solid var(--primary-1);
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 500;
+    transition: all 1s ease;
+}
+.connect-btn:hover{
+    background: var(--primary-3);
+    color: var(--light);
+    border-color: var(--primary-3);
+}
+
+/* ------------------------------------------------------- */
+/* Home */
+/* ------------------------------------------------------- */
+.banner{
+    padding: 180px 0px;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+.banner .row{
+    align-items: center;
+}
+.banner h1{
+    font-size: 74px;
+    width: 80%;
+    line-height: 82px;
+    color: var(--primary-3);
+    font-weight: 600;
+}
+.banner p{
+    font-size: 16px;
+    width: 64%;
+}
+.swiper-cards .swiper-slide {
+    border: unset;
+    border-radius: 8px;
+	height: 600px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #000000;
+}
+.banner-cards img{
+    height: 100% !important;
+}
+
+.about{
+    /* background: var(--black); */
+    padding: 0px 0px 80px 0px;
+}
+.steps p{
+    margin: 0px;
+    width: 70%;
+    color: #ffffff99;
+}
+.steps h3{
+   color: var(--primary-3);
+}
+.ps-right{
+    width: 50%;
+    margin-left: auto;
+    border-left: 1px dashed var(--primary-3);
+}
+.ps-left{
+    width: 50%;
+    margin-right: auto;
+    text-align: end;
+    border-right: 1px dashed var(--primary-3);
+    position: relative;
+    right: -1px;
+}
+.ps-right, .ps-left{
+    padding: 24px;
+}
+
+
+
+/* ------------------------------------------------------- */
+/* Footer */
+/* ------------------------------------------------------- */
+.footer{
+    background: var(--black);
+    padding: 16px 0px;
+}
+.footer p{
+    color: #ffffff99;
+}
+
+
+
+

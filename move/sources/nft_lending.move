@@ -1,180 +1,119 @@
 module nft_lending::nft_lending {
-    use std::signer;
+    use std::signer::address_of;
     use aptos_framework::object::{Self, Object};
     use aptos_framework::fungible_asset::{Self, Metadata, FungibleStore};
     use aptos_framework::primary_fungible_store;
     use aptos_framework::timestamp;
 
-    // Events
     use nft_lending::nft_lending_events;
-    
-    #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
-    struct Listing has key {
-        // Token id object of nft
-        token: Object<object::ObjectCore>,
-        // address of user
-        user_addr: address,
-        // is loan taken by user for this listing
-        is_locked: bool,
-        // timestamp of lock of listing
-        lock_timestamp: u64,
-        extend_ref: object::ExtendRef,
-        delete_ref: object::DeleteRef,
-    }
-
-    #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
+    // Loan given by the user
+    #[resource_group_member(group=aptos_framework::object::ObjectGroup)]
     struct Loan has key {
-        // listing object
-        listing: Object<object::ObjectCore>,
-        // address of user offering loan
-        offered_by: address,
+        // loan giver address
+        giver_addr: address,
+        // Token id of the nft loan being given for (for validation)
+        token_id: Object<object::ObjectCore>,
         // FA Metadata
         fa_metadata: Object<Metadata>,
-        // FA store of object
+        // FA store
         fa_store: Object<FungibleStore>,
-        // loan amount
+        // Amount
         amount: u64,
         // loan duration (in days)
         duration: u64,
-        // apr on loan
+        // apr
         apr: u64,
-        // for one time trasfer to listing signer
-        transfer_ref: object::TransferRef,
+        // extend_ref
         extend_ref: object::ExtendRef,
+        // delete ref
         delete_ref: object::DeleteRef,
-    }
-    // errors
-    const ENO_LISTING: u64 = 0;
-    const ENOT_LISTING_OWNER: u64 = 1;
-    const ECANNOT_DELIST: u64 = 2;
-    const ELISTING_OWNER: u64 = 3;
-    const ELISTING_LOCKED: u64 = 4;
-    const ELOAN_OFFER_DOESNT_EXIST: u64 = 5;
-    const ENOT_LOAN_OFFER_OWNER: u64 = 6;
-    const EDURATION_EXCEED: u64 = 7;
-    const ELISTING_NOT_LOCKED: u64 = 8;
-    const EREPAY_TIME_EXCEED: u64 = 9;
-    const EREPAY_TIME_HAS_NOT_EXCEED: u64 = 10;
+    }   
+    #[resource_group_member(group=aptos_framework::object::ObjectGroup)]
+    struct Borrow has key {
+        // loan borrower address
+        borrower_addr: address,
+        // loan giver address
+        giver_addr: address,
+        // Token id of the nft loan borrowed with
+        token_id: Object<object::ObjectCore>,
+        // FA Metadata
+        fa_metadata: Object<Metadata>,
+        // Amount
+        amount: u64,
+        // loan duration (in days)
+        duration: u64,
+        // apr
+        apr: u64,
+        // Loan start timestamp
+        start_timestamp: u64,
+        // extend_ref
+        extend_ref: object::ExtendRef,
+        // delete ref
+        delete_ref: object::DeleteRef,
+    }   
+    // Errors
+    const ELOAN_DURATION_LIMIT_EXCEED: u64 = 0;
+    const EINSUFFICIENT_BALANCE: u64 = 1;
+    const ELOAN_DOESNT_EXIST: u64 = 2;
+    const ECANNOT_BORROW_OWN_LOAN: u64 = 3;
+    const EBORROW_DOESNT_EXIST: u64 = 4;
+    const ENOT_BORROW_OWNER: u64 = 5;
+    const EREPAY_TIME_HAS_EXCEED: u64 = 6;
+    const EUNAUTHORIZED_ACTION: u64 = 7;
+    const EREPAY_TIME_HAS_NOT_EXCEED: u64 = 8;
+
     // constants
     const APR_DENOMINATOR: u64 = 10000;
-
-    entry fun list_nft(
-        user: &signer,
-        token: Object<object::ObjectCore>,
-    ) {
-        let constructor_ref = object::create_object(signer::address_of(user));
-
-        // disable object transfer
-        let transfer_ref = object::generate_transfer_ref(&constructor_ref);
-        object::disable_ungated_transfer(&transfer_ref);
-
-        let obj_signer = object::generate_signer(&constructor_ref);
-
-        move_to(&obj_signer, Listing {
-            token,
-            user_addr: signer::address_of(user),
-            // initially set to false, sets true when loan offer is accepted
-            is_locked: false, 
-            // initially set to 0, timestamp starts when loan offer is accepted
-            lock_timestamp: 0, 
-            extend_ref: object::generate_extend_ref(&constructor_ref),
-            delete_ref: object::generate_delete_ref(&constructor_ref),
-        });
-        // Transfer the listing object to object signer
-        object::transfer(user, token, signer::address_of(&obj_signer));
-        // emit event
-        nft_lending_events::new_listing_event(object::object_address(&token), object::address_from_constructor_ref(&constructor_ref));
-    }
-
-    entry fun delist_nft(
-        owner: &signer,
-        listing: Object<object::ObjectCore>,
-    ) acquires Listing {
-        let listing_addr = object::object_address(&listing);
-        assert!(exists<Listing>(listing_addr), ENO_LISTING);
-        assert!(object::is_owner(listing, signer::address_of(owner)), ENOT_LISTING_OWNER);
-
-        let Listing {
-            token,
-            user_addr,
-            is_locked,
-            lock_timestamp:_,
-            extend_ref,
-            delete_ref,
-        } = move_from<Listing>(listing_addr);
-
-        assert!(is_locked == true, ECANNOT_DELIST);
-
-        let obj_signer = object::generate_signer_for_extending(&extend_ref);
-        // Transfer token back to user
-        object::transfer(&obj_signer, token, user_addr);
-        // Delete the listing
-        object::delete(delete_ref);
-        // emit event
-        nft_lending_events::new_delisting_event(object::object_address(&token), listing_addr);
-    }
-
-    entry fun give_loan(
-        user: &signer,
-        listing: Object<object::ObjectCore>,
+    // Give loan on an token
+    public(friend) entry fun give_loan(
+        giver: &signer,
+        token_id: Object<object::ObjectCore>,
         fa_metadata: Object<Metadata>,
         amount: u64,
         duration: u64,
         apr: u64,
-    ) acquires Listing {
-        let listing_addr = object::object_address(&listing);
-        assert!(exists<Listing>(listing_addr), ENO_LISTING);
-        // check that loan giver is not the listing owner
-        assert!(!object::is_owner(listing, signer::address_of(user)), ELISTING_OWNER);
-        // check that listing is not locked yet
-        assert!(lock_status(listing_addr) == false, ELISTING_LOCKED);
-        // duration min 0 and max 365 days
-        assert!(duration > 0 && duration < 365, EDURATION_EXCEED);
-        let constructor_ref = object::create_object(signer::address_of(user));
-        let obj_signer = object::generate_signer(&constructor_ref);
-        // withdraw asset
-        let fa = primary_fungible_store::withdraw(user, fa_metadata, amount);
-        // create object store
-        let fa_store = fungible_asset::create_store<Metadata>(&constructor_ref, fa_metadata);
-        // transfer asset to store
+    ) {
+        // argument validation checks
+        assert!(duration > 0 && duration < 365, ELOAN_DURATION_LIMIT_EXCEED);
+        let constructor_ref = &object::create_object(address_of(giver));
+         // withdraw assets
+        let fa = primary_fungible_store::withdraw(giver, fa_metadata, amount);
+        let fa_store = fungible_asset::create_store<Metadata>(constructor_ref, fa_metadata); 
         fungible_asset::deposit(fa_store, fa);
-
-        let offer = Loan {
-            listing,
-            offered_by: signer::address_of(user),
+        // object signer
+        let obj_signer = &object::generate_signer(constructor_ref);
+        move_to(obj_signer, Loan {
+            giver_addr: address_of(giver),
+            token_id,
             fa_metadata,
             fa_store,
             amount,
             duration,
             apr,
-            extend_ref: object::generate_extend_ref(&constructor_ref),
-            delete_ref: object::generate_delete_ref(&constructor_ref),
-            transfer_ref: object::generate_transfer_ref(&constructor_ref),
-        };
-
-        move_to(&obj_signer, offer);
-        // emit event
-        nft_lending_events::new_give_loan_event(
-            listing_addr,
+            extend_ref: object::generate_extend_ref(constructor_ref),
+            delete_ref: object::generate_delete_ref(constructor_ref),
+        });
+        nft_lending_events::new_loan_event(
+            address_of(giver),
+            object::object_address(&token_id),
             object::object_address(&fa_metadata),
             amount,
             duration,
             apr,
-            object::address_from_constructor_ref(&constructor_ref),
+            object::address_from_constructor_ref(constructor_ref),
         );
     }
-
-    entry fun withdraw_loan(
-        user: &signer,
+    // withdraw loan / cancel loan
+    public(friend) entry fun withdraw_loan(
+        giver: &signer,
         loan: Object<object::ObjectCore>,
     ) acquires Loan {
         let loan_addr = object::object_address(&loan);
-        assert!(exists<Loan>(loan_addr), ELOAN_OFFER_DOESNT_EXIST);
-        // Loan object is transferred to listing signer, so it no longer exists on loan giver
-        assert!(object::is_owner(loan, signer::address_of(user)), ENOT_LOAN_OFFER_OWNER);
+        assert!(exists<Loan>(loan_addr), ELOAN_DOESNT_EXIST);
+        assert!(object::is_owner(loan, address_of(giver)), EUNAUTHORIZED_ACTION);
         let Loan {
-            listing: _,
-            offered_by: user_addr,
+            giver_addr,
+            token_id: _,
             fa_metadata,
             fa_store,
             amount,
@@ -182,164 +121,144 @@ module nft_lending::nft_lending {
             apr: _,
             extend_ref,
             delete_ref,
-            transfer_ref: _,
         } = move_from<Loan>(loan_addr);
+        // transfer the fa collateral back to loan giver
         let obj_signer = object::generate_signer_for_extending(&extend_ref);
-        // withdraw fa from loan object
         let fa = fungible_asset::withdraw<FungibleStore>(&obj_signer, fa_store, amount);
-        // transfer asset to user
-        let user_store = primary_fungible_store::ensure_primary_store_exists<Metadata>(user_addr, fa_metadata);
-        fungible_asset::deposit(user_store, fa);
-        // deleting loan object
+        let giver_store = primary_fungible_store::ensure_primary_store_exists<Metadata>(giver_addr, fa_metadata);
+        fungible_asset::deposit(giver_store, fa);
         object::delete(delete_ref);
-        // emit event
-        nft_lending_events::new_withdraw_loan_event(loan_addr);
-    }
-
-    entry fun borrow(
-        user: &signer,
+        nft_lending_events::new_loan_withdraw_event(
+            loan_addr,
+        );
+    }   
+    // Borrow loan while keeping token as collateral
+    public(friend) entry fun borrow(
+        borrower: &signer,
         loan: Object<object::ObjectCore>,
-    ) acquires Loan, Listing {
+    ) acquires Loan {
         let loan_addr = object::object_address(&loan);
-        // check loan exists
-        assert!(exists<Loan>(loan_addr), ELOAN_OFFER_DOESNT_EXIST);
-        // check listing exists
-        let listing_obj = &borrow_global<Loan>(loan_addr).listing;
-        let listing_addr = object::object_address(listing_obj);
-        assert!(exists<Listing>(listing_addr), ENO_LISTING);
-        // check listing is not locked yet
-        assert!(lock_status(listing_addr) == false, ELISTING_LOCKED);
-        // borrow loan obj
-        let loan_offer = borrow_global<Loan>(loan_addr);
-        let loan_signer = object::generate_signer_for_extending(&loan_offer.extend_ref);
-        // withdraw loan amount
-        let fa = fungible_asset::withdraw<FungibleStore>(&loan_signer, loan_offer.fa_store, loan_offer.amount);
-        // transfer to listing user address
-        let user_store = primary_fungible_store::ensure_primary_store_exists<Metadata>(signer::address_of(user), loan_offer.fa_metadata);
-        fungible_asset::deposit(user_store, fa);
-        // Transfer the loan to listing signer so that it doesnt exist on loan giver anymore
-        // Linear transfer ref of loan
-        let linear_transfer_ref = object::generate_linear_transfer_ref(&loan_offer.transfer_ref);
-        let listing = borrow_global_mut<Listing>(listing_addr);
-        let listing_obj_signer = object::generate_signer_for_extending(&listing.extend_ref);
-        object::transfer_with_ref(linear_transfer_ref, signer::address_of(&listing_obj_signer));
-        // update is_locked
-        listing.is_locked = true;
-        // update lock timestamp
-        listing.lock_timestamp = timestamp::now_seconds();
-    }
-
-    entry fun repay(
-        user: &signer,
-        loan: Object<object::ObjectCore>,
-    ) acquires Loan, Listing {
-        let loan_addr = object::object_address(&loan);
-        assert!(exists<Loan>(loan_addr), ELOAN_OFFER_DOESNT_EXIST);
-        // Loan is transferred to listing signer, check if it avaialble
-        assert!(object::is_owner(loan, signer::address_of(user)), ENOT_LOAN_OFFER_OWNER);
-
+        assert!(exists<Loan>(loan_addr), ELOAN_DOESNT_EXIST);
+        // check borrower address is not equal to loan giver
+        assert!(!object::is_owner(loan, address_of(borrower)), ECANNOT_BORROW_OWN_LOAN);
         let Loan {
-            listing,
-            offered_by,
+            giver_addr,
+            token_id,
             fa_metadata,
-            fa_store:_,
+            fa_store,
             amount,
             duration,
             apr,
-            extend_ref:_,
-            delete_ref,
-            transfer_ref: _,
-        } = move_from<Loan>(loan_addr);
-        // delete loan object
-        object::delete(delete_ref);
-        let listing_addr = object::object_address(&listing);
-        assert!(exists<Listing>(listing_addr), ENO_LISTING);
-        assert!(object::is_owner(listing, signer::address_of(user)), ENOT_LISTING_OWNER);
-        let Listing {
-            token,
-            user_addr,
-            is_locked,
-            lock_timestamp,
             extend_ref,
             delete_ref,
-        } = move_from<Listing>(listing_addr);
-        // listing should be locked
-        assert!(is_locked == true, ELISTING_NOT_LOCKED);
-        let current_timestamp = timestamp::now_seconds();
-        let end_timestamp = add_days_to_a_timestamp(duration, lock_timestamp);
-        // check loan time has not exceed yet
-        assert!(current_timestamp <= end_timestamp, EREPAY_TIME_EXCEED);
-        // per day interest on loan * duration ( in %age )
-        let total_interest = apr / 365 * duration;
-        // actual interest to add to amount to repay
-        let interest_amount = ((amount * total_interest) / APR_DENOMINATOR) / 100;
-        let repay_amount = amount + interest_amount;
-        // Transfer asset to loan giver
-        let fa = primary_fungible_store::withdraw(user, fa_metadata, repay_amount);
-        primary_fungible_store::deposit(offered_by, fa);
-        let listing_signer = object::generate_signer_for_extending(&extend_ref);
-        // transfer the nft back to user
-        object::transfer(&listing_signer, token, user_addr);
-        // delete listing object
+        } = move_from<Loan>(loan_addr);
+        // Transfer the asset to borrower
+        let loan_signer = object::generate_signer_for_extending(&extend_ref);
+        let fa = fungible_asset::withdraw<FungibleStore>(&loan_signer, fa_store, amount);
+        let borrower_store = primary_fungible_store::ensure_primary_store_exists<Metadata>(address_of(borrower), fa_metadata);
+        fungible_asset::deposit(borrower_store, fa);
         object::delete(delete_ref);
+        // create a new borrow
+        let constructor_ref = &object::create_object(address_of(borrower));
+        let obj_signer = &object::generate_signer(constructor_ref);
+        move_to(obj_signer, Borrow {
+            borrower_addr: address_of(borrower),
+            giver_addr,
+            token_id,
+            fa_metadata,
+            amount,
+            duration,
+            apr,
+            start_timestamp: timestamp::now_seconds(),
+            extend_ref: object::generate_extend_ref(constructor_ref),
+            delete_ref: object::generate_delete_ref(constructor_ref),
+        });
+        object::transfer(borrower, token_id, address_of(obj_signer));
+        nft_lending_events::new_borrow_event(
+            address_of(borrower),
+            giver_addr,
+            loan_addr,
+            object::address_from_constructor_ref(constructor_ref),
+        );
+    }
+    // repay the loan and get nft, user can repay the loan anytime
+    public(friend) fun repay(
+        user: &signer,
+        borrow: Object<object::ObjectCore>,
+    ) acquires Borrow {
+        let borrow_addr = object::object_address(&borrow);
+        assert!(exists<Borrow>(borrow_addr), EBORROW_DOESNT_EXIST);
+        assert!(object::is_owner(borrow, address_of(user)), ENOT_BORROW_OWNER);
+        let Borrow {
+            borrower_addr,
+            giver_addr,
+            token_id,
+            fa_metadata,
+            amount,
+            duration,
+            apr,
+            start_timestamp,
+            extend_ref,
+            delete_ref,
+        } = move_from<Borrow>(borrow_addr);
+        // loan/borrow time has not ended
+        let borrow_end_timestamp = add_days_to_a_timestamp(duration, start_timestamp);
+        let current_timestamp = timestamp::now_seconds();
+        assert!(borrow_end_timestamp >= current_timestamp, EREPAY_TIME_HAS_EXCEED);
+        // Return loan amount to giver
+        let repay_amount = amount_with_intrest(amount, apr, duration);
+        let fa = primary_fungible_store::withdraw(user, fa_metadata, repay_amount);
+        primary_fungible_store::deposit(giver_addr, fa);
+        // Get token into wallet again
+        let obj_signer = &object::generate_signer_for_extending(&extend_ref);
+        object::transfer(obj_signer, token_id, borrower_addr);
+        // clear object
+        object::delete(delete_ref);
+        nft_lending_events::new_repay_event(
+            borrow_addr,
+        );
     }
 
-    // if user failed to repay the loan
-    entry fun break_vault(
+    public(friend) entry fun break_vault(
         user: &signer,
-        loan: Object<object::ObjectCore>
-    ) acquires Loan, Listing {
-        let loan_addr = object::object_address(&loan);
-        assert!(exists<Loan>(loan_addr), ELOAN_OFFER_DOESNT_EXIST);
-        let Loan {
-            listing,
-            offered_by,
+        borrow: Object<object::ObjectCore>,
+    ) acquires Borrow {
+        let borrow_addr = object::object_address(&borrow);
+        assert!(exists<Borrow>(borrow_addr), EBORROW_DOESNT_EXIST);
+        let Borrow {
+            borrower_addr:_,
+            giver_addr,
+            token_id,
             fa_metadata:_,
-            fa_store:_,
             amount:_,
             duration,
             apr:_,
-            extend_ref: _,
-            delete_ref,
-            transfer_ref: _,
-        } = move_from<Loan>(loan_addr);
-        // check vault breaker is loan giver
-        assert!(offered_by == signer::address_of(user), ENOT_LOAN_OFFER_OWNER);
-        // delete the loan object
-        object::delete(delete_ref);
-        let listing_addr = object::object_address(&listing);
-        assert!(exists<Listing>(listing_addr), ENO_LISTING);
-        let Listing {
-            token,
-            user_addr:_,
-            is_locked,
-            lock_timestamp,
+            start_timestamp,
             extend_ref,
             delete_ref,
-        } = move_from<Listing>(listing_addr);
-        // check if listing is locked
-        assert!(is_locked == true, ELISTING_NOT_LOCKED);
+        } = move_from<Borrow>(borrow_addr);
+        // vault break is loan giver
+        assert!(giver_addr == address_of(user), EUNAUTHORIZED_ACTION);
+        let borrow_end_timestamp = add_days_to_a_timestamp(duration, start_timestamp);
         let current_timestamp = timestamp::now_seconds();
-        let end_timestamp = add_days_to_a_timestamp(duration, lock_timestamp);
-        // check repay time has exceed
-        assert!(current_timestamp > end_timestamp, EREPAY_TIME_HAS_NOT_EXCEED);
-        let obj_signer = object::generate_signer_for_extending(&extend_ref);
-        // transfer token to loan giver
-        object::transfer(&obj_signer, token, offered_by);
-        // delete listing object
+        assert!(borrow_end_timestamp < current_timestamp, EREPAY_TIME_HAS_NOT_EXCEED);
+        // transfer the collateral nft to giver
+        let obj_signer = &object::generate_signer_for_extending(&extend_ref);
+        object::transfer(obj_signer, token_id, giver_addr);
         object::delete(delete_ref);
+        nft_lending_events::new_break_vault_event(
+            borrow_addr,
+        );
     }
-
-    // ==================== helper functions ====================
-    fun lock_status(listing_addr: address): bool acquires Listing {
-        // tells if loan offer has been accepted by the user
-        borrow_global<Listing>(listing_addr).is_locked
-    }
-
+    // ==================== Helpers ====================
     fun add_days_to_a_timestamp(days: u64, timestamp_in_secs: u64): u64 {
         let one_day_in_secs = 86400; 
         let additional_secs = days * one_day_in_secs;
         timestamp_in_secs + additional_secs
     }
+    fun amount_with_intrest(amount: u64, apr: u64, days: u64): u64 {
+        let percent_interest = (apr / 365) * days;
+        let percent_amount = (amount * percent_interest) / APR_DENOMINATOR;
+        (percent_amount / 100) + amount
+    }
 }
-
