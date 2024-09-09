@@ -1,4 +1,4 @@
-CONTRACT_OBJECT_ADDR=0x860c6bda60c2171b8ff7f6244d3e1802354fed9f4d4f0188236eb346a0171816
+CONTRACT_OBJECT_ADDR=0xc1ad5509a57eb43b514e8639967b91fc959bfaab68e606953b07cd1552249e6e
 
 PUBLISHER_PROFILE=default
 PUBLISHER_ADDR=0x$(aptos config show-profiles --profile=$PUBLISHER_PROFILE | grep 'account' | sed -n 's/.*"account": \"\(.*\)\".*/\1/p')

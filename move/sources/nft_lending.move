@@ -182,7 +182,7 @@ module nft_lending::nft_lending {
         );
     }
     // repay the loan and get nft, user can repay the loan anytime
-    public(friend) fun repay(
+    public(friend) entry fun repay(
         user: &signer,
         borrow: Object<object::ObjectCore>,
     ) acquires Borrow {
