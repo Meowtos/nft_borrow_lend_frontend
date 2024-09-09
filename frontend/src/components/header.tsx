@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { WalletButtons } from './WalletButton';
+import Link from 'next/link';
 const Header = () => {
     return (
         <>
@@ -7,9 +8,9 @@ const Header = () => {
                 <div className="container">
                     <div className="row m-0">
                         <div className="col p-0">
-                        {/* <Image src="/media/logo.png" alt="logo" height={80} width={190} /> */}
-                        {/* <Image src="/media/logo2.png" alt="logo" height={80} width={90} /> */}
-                        <Image src="/media/logo3.png" alt="logo" height={60} width={150} />
+                            <Link href={"/"}>
+                                <Image src="/media/logo3.png" alt="logo" height={60} width={150} />
+                            </Link>
                         </div>
                         <div className="col p-0 text-end">
                             <WalletButtons />

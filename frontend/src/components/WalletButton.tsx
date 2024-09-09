@@ -7,6 +7,7 @@ import {
   isRedirectable,
   WalletName,
 } from "@aptos-labs/wallet-adapter-react";
+import Image from "next/image";
 import React from "react";
 import { IoClose } from "react-icons/io5";
 
@@ -74,16 +75,35 @@ const WalletView = ({ wallet }: { wallet: Wallet }) => {
     if (mobileSupport) {
       return (
         <button className="wl-item rounded w-100" onClick={() => onWalletConnectRequest(wallet.name)}>
+          <Image
+            alt={wallet.name}
+            src={wallet.icon}
+            height={20}
+            width={20}
+          />&nbsp;
           {wallet.name}
         </button>
       );
     }
     return (
-      <button className="wl-item rounded w-100" disabled={true}>{wallet.name} - Desktop Only</button>
+      <button className="wl-item rounded w-100" disabled={true}>
+        <Image
+          alt={wallet.name}
+          src={wallet.icon}
+          height={20}
+          width={20}
+        />&nbsp;{wallet.name} - Desktop Only
+      </button>
     );
   } else {
     return (
       <button disabled={!isWalletReady} onClick={() => onWalletConnectRequest(wallet.name)} className={`wl-item rounded w-100 ${!isWalletReady ? 'disabled' : 'active'}`} >
+        <Image
+            alt={wallet.name}
+            src={wallet.icon}
+            height={20}
+            width={20}
+          />&nbsp;
         {wallet.name}
       </button>
     );
