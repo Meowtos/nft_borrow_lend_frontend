@@ -25,11 +25,15 @@ const swiperConfig = {
     },
     768: {
       slidesPerView: 4,
-      spaceBetween: 40,
+      spaceBetween: 20,
     },
     1024: {
       slidesPerView: 4,
-      spaceBetween: 50,
+      spaceBetween: 20,
+    },
+    1800: {
+      slidesPerView: 6,
+      spaceBetween: 20,
     },
   },
   modules: [Pagination],
@@ -37,7 +41,7 @@ const swiperConfig = {
 };
 
 export default function Home() {
-  const repeater = 5;
+  const repeater = 10;
   return (
     <>
 
@@ -107,16 +111,16 @@ export default function Home() {
 
       {/* Collection Slider */}
       <section className="coll-slider">
-        <div className="container">
+        <div className="container-fluid">
           <div className="row">
-            <div className="col">
+            <div className="col px-3">
               <h2 className="text-center mb-5">Popular Collections</h2>
               <Swiper {...swiperConfig}>
                 {Array.from({ length: repeater }).map((_, index) => (
                   <SwiperSlide>
                     <div className="nft-coll rounded">
                       <div className="coll-thumbnail">
-                        <Image src={`/media/nfts/${index + 1}.jpeg`} alt="nft" height={350} width={400} className="w-100" />
+                        <Image src={`/media/nfts/${index + 1}.jpeg`} alt="nft" height={320} width={400} className="w-100" />
                       </div>
                       <div className="coll-details">
                         <h5 className="text-center coll-title">legends trade</h5>
@@ -146,8 +150,8 @@ export default function Home() {
           <div className="row">
             <div className="col">
               <h2 className="text-center">Frequently Asked Questions</h2>
-              <div className="accordion mt-4 w-75 m-auto">
-                <div className="accordion-item">
+              <div className="accordion mt-5 w-75 m-auto">
+                <div className="accordion-item ">
                   <h2 className="accordion-header">
                     <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                       What is NFT lending?

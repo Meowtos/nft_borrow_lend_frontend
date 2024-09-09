@@ -10,6 +10,10 @@ import {
 import Image from "next/image";
 import React from "react";
 import { IoClose } from "react-icons/io5";
+import { FaRegUser } from "react-icons/fa";
+import { FaAward } from "react-icons/fa6";
+import { FaRegBell } from "react-icons/fa";
+import { RxExit } from "react-icons/rx";
 
 export const WalletButtons = () => {
   const { wallets, connected, disconnect, isLoading } = useWallet();
@@ -17,7 +21,12 @@ export const WalletButtons = () => {
   if (connected) {
     return (
       <>
-        <button onClick={disconnect} className="connect-btn rounded">Disconnect</button>;
+        <div className="connected">
+          <FaRegBell className="cn-icon" />
+          <FaRegUser className="cn-icon" />
+          <FaAward className="cn-icon" />
+          <button onClick={disconnect} className="connect-btn rounded disconnect"><RxExit /> Disconnect</button>
+        </div>
       </>
     )
   }
@@ -99,11 +108,11 @@ const WalletView = ({ wallet }: { wallet: Wallet }) => {
     return (
       <button disabled={!isWalletReady} onClick={() => onWalletConnectRequest(wallet.name)} className={`wl-item rounded w-100 ${!isWalletReady ? 'disabled' : 'active'}`} >
         <Image
-            alt={wallet.name}
-            src={wallet.icon}
-            height={20}
-            width={20}
-          />&nbsp;
+          alt={wallet.name}
+          src={wallet.icon}
+          height={20}
+          width={20}
+        />&nbsp;
         {wallet.name}
       </button>
     );

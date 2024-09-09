@@ -55,6 +55,9 @@
 .close-icon:hover{
     color: var(--primary-3) !important;
 }
+.disconnect{
+    color: #c5c4c4;
+}
 
 
 
@@ -71,6 +74,16 @@
 }
 .header .row{
     align-items: center;
+}
+.cn-icon{
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    color: #c5c4c4;
+    margin-right: 20px;
+}
+.cn-icon:hover{
+    color: var(--primary-3) !important;
 }
 
 /* ------------------------------------------------------- */
@@ -175,6 +188,12 @@
     position: relative !important;
     padding-top:24px;
     bottom: unset !important;
+}
+.swiper-pagination-bullet{
+    background-color: var(--light) !important;
+    height: 11px !important;
+    width: 11px !important;
+
 }
 
 

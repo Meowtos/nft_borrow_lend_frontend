@@ -33,6 +33,7 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  scroll-behavior: smooth !important;
 }
 
 body{
@@ -67,7 +68,7 @@ h2{
 }
 
 .header,
-.banner, .footer, .about{
+.banner, .footer, .about, .faqs{
   position: relative;
   z-index: 2;
 }
