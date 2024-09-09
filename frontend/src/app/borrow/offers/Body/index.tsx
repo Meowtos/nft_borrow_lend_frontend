@@ -10,7 +10,7 @@ export function Body() {
     const [offers, setOffers] = useState<ILoanSchema[]>([])
     const fetchOffers = useCallback(async () => {
         if (!account?.address) return;
-        fetch("/api/offers?address=" + account.address).then(async (res) => {
+        fetch("/api/listing?address=" + account.address).then(async (res) => {
             const response = await res.json();
             if(res.ok){
                 setOffers(response.data);
@@ -51,7 +51,6 @@ export function Body() {
     useEffect(() => {
         fetchOffers()
     }, [fetchOffers])
-    console.log(offers)
     return (
         <section className="banner">
             <div className="container">

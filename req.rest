@@ -1,0 +1,6 @@
+POST http://localhost:3000/api/loan/borrow/66dea768dd953a0d32cbae0b
+Content-Type: application/json
+
+{
+
+}
