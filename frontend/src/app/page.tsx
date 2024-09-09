@@ -12,7 +12,32 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 
+const swiperConfig = {
+  slidesPerView: 1,
+  spaceBetween: 20,
+  pagination: {
+    clickable: true,
+  },
+  breakpoints: {
+    640: {
+      slidesPerView: 2,
+      spaceBetween: 20,
+    },
+    768: {
+      slidesPerView: 4,
+      spaceBetween: 40,
+    },
+    1024: {
+      slidesPerView: 4,
+      spaceBetween: 50,
+    },
+  },
+  modules: [Pagination],
+  className: 'mySwiper',
+};
+
 export default function Home() {
+  const repeater = 5;
   return (
     <>
 
@@ -80,70 +105,35 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="nft-slider">
+      {/* Collection Slider */}
+      <section className="coll-slider">
         <div className="container">
           <div className="row">
             <div className="col">
-              <h2 className="text-center mb-4">Popular Collections</h2>
-              <Swiper
-                slidesPerView={1}
-                spaceBetween={20}
-                pagination={{
-                  clickable: true,
-                }}
-                breakpoints={{
-                  640: {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
-                  },
-                  768: {
-                    slidesPerView: 4,
-                    spaceBetween: 40,
-                  },
-                  1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 50,
-                  },
-                }}
-                modules={[Pagination]}
-                className="mySwiper"
-              >
-                <SwiperSlide>
-                  <div className="nft-cll">
-                    <div className="coll-thumbnail"><Image src="/media/nfts/1.jpeg" alt="nft" height={350} width={400} className="w-100" /></div>
-                    <div className="coll-details"><h5 className="text-center">legends trade</h5></div></div>
-                </SwiperSlide>
-                <SwiperSlide><div className="nft-cll">
-                  <div className="coll-thumbnail"><Image src="/media/nfts/2.jpeg" alt="nft" height={350} width={400} className="w-100" /></div>
-                  <div className="coll-details"><h5 className="text-center">legends trade</h5></div></div></SwiperSlide>
-                <SwiperSlide><div className="nft-cll">
-                  <div className="coll-thumbnail"><Image src="/media/nfts/3.jpeg" alt="nft" height={350} width={400} className="w-100" /></div>
-                  <div className="coll-details"><h5 className="text-center">legends trade</h5></div></div>
-                </SwiperSlide>
-                <SwiperSlide><div className="nft-cll">
-                  <div className="coll-thumbnail"><Image src="/media/nfts/4.jpeg" alt="nft" height={350} width={400} className="w-100" /></div>
-                  <div className="coll-details"><h5 className="text-center">legends trade</h5></div></div>
-                </SwiperSlide>
-                <SwiperSlide><div className="nft-cll">
-                  <div className="coll-thumbnail"><Image src="/media/nfts/5.jpeg" alt="nft" height={350} width={400} className="w-100" /></div>
-                  <div className="coll-details"><h5 className="text-center">legends trade</h5></div></div>
-                </SwiperSlide>
-                <SwiperSlide><div className="nft-cll">
-                  <div className="coll-thumbnail"><Image src="/media/nfts/6.jpeg" alt="nft" height={350} width={400} className="w-100" /></div>
-                  <div className="coll-details"><h5 className="text-center">legends trade</h5></div></div>
-                </SwiperSlide>
-                <SwiperSlide><div className="nft-cll">
-                  <div className="coll-thumbnail"><Image src="/media/nfts/7.jpeg" alt="nft" height={350} width={400} className="w-100" /></div>
-                  <div className="coll-details"><h5 className="text-center">legends trade</h5></div></div>
-                </SwiperSlide>
-                <SwiperSlide><div className="nft-cll">
-                  <div className="coll-thumbnail"><Image src="/media/nfts/8.jpeg" alt="nft" height={350} width={400} className="w-100" /></div>
-                  <div className="coll-details"><h5 className="text-center">legends trade</h5></div></div>
-                </SwiperSlide>
-                <SwiperSlide><div className="nft-cll">
-                  <div className="coll-thumbnail"><Image src="/media/nfts/9.jpeg" alt="nft" height={350} width={400} className="w-100" /></div>
-                  <div className="coll-details"><h5 className="text-center">legends trade</h5></div></div>
-                </SwiperSlide>
+              <h2 className="text-center mb-5">Popular Collections</h2>
+              <Swiper {...swiperConfig}>
+                {Array.from({ length: repeater }).map((_, index) => (
+                  <SwiperSlide>
+                    <div className="nft-coll rounded">
+                      <div className="coll-thumbnail">
+                        <Image src={`/media/nfts/${index + 1}.jpeg`} alt="nft" height={350} width={400} className="w-100" />
+                      </div>
+                      <div className="coll-details">
+                        <h5 className="text-center coll-title">legends trade</h5>
+                        <div className="row pt-3">
+                          <div className="col text-center p-0">
+                            <h6>Loan Count</h6>
+                            <p>200</p>
+                          </div>
+                          <div className="col text-center p-0">
+                            <h6>APR</h6>
+                            <p>30%</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))}
               </Swiper>
             </div>
           </div>
@@ -223,8 +213,8 @@ export default function Home() {
         </div>
       </section >
 
-      <section className="card">
-        {/* <Swiper effect={'cards'} grabCursor={true} modules={[EffectCards, Autoplay]}
+      {/* <section className="card"> */}
+      {/* <Swiper effect={'cards'} grabCursor={true} modules={[EffectCards, Autoplay]}
                 autoplay={{
                   delay: 3000,
                   disableOnInteraction: false,
@@ -240,7 +230,7 @@ export default function Home() {
                 <SwiperSlide><Image src="/media/nfts/8.jpeg" alt="nft" height={600} width={500} className="w-100" /></SwiperSlide>
                 <SwiperSlide><Image src="/media/nfts/9.jpeg" alt="nft" height={600} width={500} className="w-100" /></SwiperSlide>
               </Swiper> */}
-      </section>
+      {/* </section> */}
     </>
   );
 }

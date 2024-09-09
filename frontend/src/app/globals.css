@@ -44,7 +44,12 @@ body{
   max-width: 80% !important;
 }
 
+
 /* Headings */
+h1,h2,h3,h4,h5,h6,p{
+  margin:0px;
+}
+.col{padding:0px}
 h2{
   font-size: 48px;
   font-weight: 600;
