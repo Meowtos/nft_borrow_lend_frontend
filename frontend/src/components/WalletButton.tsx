@@ -8,38 +8,43 @@ import {
   WalletName,
 } from "@aptos-labs/wallet-adapter-react";
 import React from "react";
+import { IoClose } from "react-icons/io5";
 
 export const WalletButtons = () => {
   const { wallets, connected, disconnect, isLoading } = useWallet();
 
   if (connected) {
-    return <button onClick={disconnect} className="connect-btn rounded">Disconnect</button>;
+    return (
+      <>
+        <button onClick={disconnect} className="connect-btn rounded">Disconnect</button>;
+      </>
+    )
   }
 
   if (isLoading || !wallets || !wallets[0]) {
     return <p>Loading...</p>;
   }
 
-  return <WalletList wallets={wallets as Wallet[]}/>;
+  return <WalletList wallets={wallets as Wallet[]} />;
 };
 
 const WalletList = ({ wallets }: { wallets: Wallet[] }) => {
   return (
     <React.Fragment>
-      <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      <button type="button" className="connect-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         Connect Wallet
       </button>
       <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-dialog modal-dialog-centered wallet-modal">
           <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="staticBackdropLabel">Connect Wallet</h1>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div className="modal-header text-center py-4">
+              <h1 className="modal-title w-100 fs-3">Connect Wallet</h1>
+              <IoClose type="button" className="text-light close-icon" data-bs-dismiss="modal" aria-label="Close" />
             </div>
-            <div className="modal-body">
-              {wallets.map((wallet, index)=>(
-                <div key={index}>
-                    <WalletView wallet={wallet} key={index}/>
+            <div className="modal-body text-center p-0">
+              {wallets.map((wallet, index) => (
+                <div key={index} >
+                  <WalletView wallet={wallet} key={index} />
                 </div>
               ))}
             </div>
@@ -49,6 +54,7 @@ const WalletList = ({ wallets }: { wallets: Wallet[] }) => {
     </React.Fragment>
   )
 }
+
 const WalletView = ({ wallet }: { wallet: Wallet }) => {
   const { connect } = useWallet();
   const isWalletReady =
@@ -67,21 +73,17 @@ const WalletView = ({ wallet }: { wallet: Wallet }) => {
   if (!isWalletReady && isRedirectable()) {
     if (mobileSupport) {
       return (
-        <button className="connect-btn rounded" onClick={() => onWalletConnectRequest(wallet.name)}>
+        <button className="wl-item rounded w-100" onClick={() => onWalletConnectRequest(wallet.name)}>
           {wallet.name}
         </button>
       );
     }
     return (
-      <button className="connect-btn rounded" disabled={true}>{wallet.name} - Desktop Only</button>
+      <button className="wl-item rounded w-100" disabled={true}>{wallet.name} - Desktop Only</button>
     );
   } else {
     return (
-      <button
-        disabled={!isWalletReady}
-        onClick={() => onWalletConnectRequest(wallet.name)}
-        className="connect-btn rounded"
-      >
+      <button disabled={!isWalletReady} onClick={() => onWalletConnectRequest(wallet.name)} className={`wl-item rounded w-100 ${!isWalletReady ? 'disabled' : 'active'}`} >
         {wallet.name}
       </button>
     );
