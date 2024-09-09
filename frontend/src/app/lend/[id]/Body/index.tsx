@@ -61,7 +61,7 @@ export function Body({ tokenListing }: BodyProps) {
                     },
                     body: JSON.stringify({
                         account_address: account.address,
-                        listing_id: tokenListing._id,
+                        for: tokenListing._id,
                         fa_metadata: data.fa_metadata,
                         amount: data.amount,
                         duration: data.duration,

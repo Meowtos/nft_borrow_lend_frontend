@@ -1,26 +1,26 @@
 import { Schema, model, models } from "mongoose";
-export type LoanStatus = "open" | "closed" | "borrowed" | "repayed";
+export type LoanStatus = "open" | "withdrawn" | "borrowed" | "repayed";
 export interface ILoanSchema {
     _id: string;
     account_address: string;
-    listing_id: Schema.Types.ObjectId;
+    for: Schema.Types.ObjectId; // For which Listing
     fa_metadata: string;
     amount: number;
     duration: number;
     apr: number;
     status: LoanStatus;
-    // The loan object
     object: string;
-    tx_hash: string;
+    tx_hash: string; // creation tx hash
     created_at: Date;
     updated_at: Date;
 }
+
 const LoanSchema = new Schema<ILoanSchema>({
     account_address: {
         type: String,
         required: true
     },
-    listing_id: {
+    for: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: "Listing"
