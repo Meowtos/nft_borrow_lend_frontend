@@ -2,12 +2,7 @@ import { connectDB } from "@/lib/connect";
 import { Listing } from "@/models/listing";
 import { NextResponse } from "next/server";
 connectDB()
-type Params = {
-    params : {
-        id: string
-    }
-}
-export async function GET(req: Request, context: Params){
+export async function GET(req: Request, context: any){
     try {
         const { id } = context.params;
         const exists = await Listing.findById(id);

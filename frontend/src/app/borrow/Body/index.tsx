@@ -12,7 +12,7 @@ export function Body() {
     const [userOwnedCollections, setUserOwnedCollections] = useState<Collection[]>([]);
     const [collectionId, setCollectionId] = useState<string | null>(null)
     const { account } = useWallet();
-    const getCollectionsOwnedByUser = useCallback(() => {
+    const getCollectionsOwnedByUser = useCallback(async() => {
         if (!account?.address) return;
         try {
             getUserOwnedCollections(account.address).then((res) => {

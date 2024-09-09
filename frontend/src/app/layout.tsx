@@ -10,6 +10,7 @@ import Footer from "@/components/footer";
 import { WalletProvider } from "@/context/WalletProvider";
 import { Toaster } from "sonner";
 import { Bootstrap } from "@/context/Bootstrap";
+import { AppProvider } from "@/context/AppProvider";
 
 const font = Josefin_Sans({ subsets: ["latin"], weight: "400" })
 export const metadata: Metadata = {
@@ -25,11 +26,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${font.className} container-fluid p-0`}>
-        <WalletProvider>
-          <Header />
-          {children}
-          <Footer />
-        </WalletProvider>
+        <AppProvider>
+          <WalletProvider>
+            <Header />
+            {children}
+            <Footer />
+          </WalletProvider>
+        </AppProvider>
         <Toaster />
         <Bootstrap />
       </body>

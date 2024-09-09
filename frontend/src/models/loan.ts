@@ -9,6 +9,9 @@ export interface ILoanSchema {
     duration: number;
     apr: number;
     status: LoanStatus;
+    // The loan object
+    object: string;
+    tx_hash: string;
     created_at: Date;
     updated_at: Date;
 }
@@ -41,6 +44,14 @@ const LoanSchema = new Schema<ILoanSchema>({
     status: {
         type: String,
         default: "open"
+    },
+    object: {
+        type: String,
+        required: true
+    },
+    tx_hash: {
+        type: String,
+        required: true
     }
 }, {
     timestamps: {

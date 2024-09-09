@@ -6,11 +6,13 @@ import { useFormik } from "formik";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useApp } from "@/context/AppProvider";
 interface BodyProps {
     collectionId: string;
     tokenDataId: string;
 }
 export function Body({ collectionId, tokenDataId }: BodyProps) {
+    const { assets } = useApp();
     const { account } = useWallet();
     const [token, setToken] = useState<Token | null>(null)
     const getOwnedTokensByCollection = useCallback(() => {
@@ -31,7 +33,7 @@ export function Body({ collectionId, tokenDataId }: BodyProps) {
         } catch (error) {
             console.error(error)
         }
-    }, [account?.address, collectionId])
+    }, [account?.address, collectionId, tokenDataId])
 
     const { values, handleSubmit, handleChange } = useFormik({
         initialValues: {
@@ -40,8 +42,8 @@ export function Body({ collectionId, tokenDataId }: BodyProps) {
             duration: "",
             apr: ""
         },
-        onSubmit: async(data) => {
-            if(!account?.address || !token) return;
+        onSubmit: async (data) => {
+            if (!account?.address || !token) return;
             const formData = {
                 ...data,
                 account_address: account.address,
@@ -52,20 +54,22 @@ export function Body({ collectionId, tokenDataId }: BodyProps) {
                 // override metadata
                 fa_metadata: data.fa_metadata !== "" ? data.fa_metadata : null,
             }
-                fetch("/api/listing", { method: "POST", headers: { 
+            fetch("/api/listing", {
+                method: "POST", headers: {
                     contentType: "application/json"
-                }, body: JSON.stringify(formData) }).then((res)=> {
-                    if(!res.ok){
-                        return res.json().then((error)=>{
-                            throw new Error(error.message)
-                        })
-                    }
-                    return res.json()
-                }).then((_data)=>{
-                    toast.success("Item listed")
-                }).catch((error)=>{
-                    toast.error(error.message)
-                })
+                }, body: JSON.stringify(formData)
+            }).then((res) => {
+                if (!res.ok) {
+                    return res.json().then((error) => {
+                        throw new Error(error.message)
+                    })
+                }
+                return res.json()
+            }).then(() => {
+                toast.success("Item listed")
+            }).catch((error) => {
+                toast.error(error.message)
+            })
         }
     })
     useEffect(() => {
@@ -90,6 +94,11 @@ export function Body({ collectionId, tokenDataId }: BodyProps) {
                             <label>Select token</label>
                             <select className="form-select" name="fa_metadata" value={values.fa_metadata} onChange={handleChange}>
                                 <option value=""></option>
+                                {
+                                    assets.map(fa => (
+                                        <option value={fa.asset_type} key={fa.asset_type}>{fa.symbol}</option>
+                                    ))
+                                }
                             </select>
                             <input type="text" name="amount" value={values.amount} onChange={handleChange} placeholder="Enter Amount" />
                             <label>Select lock duration</label>
@@ -97,7 +106,7 @@ export function Body({ collectionId, tokenDataId }: BodyProps) {
                                 <option value="1">1 days</option>
                                 <option value="2">2 days</option>
                             </select>
-                            <input type="text" name="apr" value={values.apr} onChange={handleChange}/>
+                            <input type="text" name="apr" value={values.apr} onChange={handleChange} />
                             <input type="submit" />
                         </form>
                     </div>
