@@ -12,13 +12,13 @@ export function Body() {
         if (!account?.address) return;
         fetch("/api/listing?address=" + account.address).then(async (res) => {
             const response = await res.json();
-            if(res.ok){
+            if (res.ok) {
                 setOffers(response.data);
             }
         })
     }, [account?.address]);
     const onBorrow = async (object: string) => {
-        if(!account?.address) return;
+        if (!account?.address) return;
         const response = await signAndSubmitTransaction({
             sender: account.address,
             data: {
@@ -42,9 +42,9 @@ export function Body() {
                 object: borrowObject,
                 loan: object
             })
-        }).then(()=>{
+        }).then(() => {
             toast.success("borrow success")
-        }).catch((error)=>{
+        }).catch((error) => {
             toast.error(error.message)
         })
     }
@@ -52,33 +52,27 @@ export function Body() {
         fetchOffers()
     }, [fetchOffers])
     return (
-        <section className="banner">
-            <div className="container">
-                <div className="row">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Amount</th>
-                                <th>Apr</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                offers.map((loan, index) => (
-                                    <tr key={index}>
-                                        <td>{loan.amount}</td>
-                                        <td>{loan.apr}</td>
-                                        <td>{loan.status}</td>
-                                        <td><button onClick={() => onBorrow(loan.object)}>Accept offer</button></td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
+        <table className="table">
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Apr</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    offers.map((loan, index) => (
+                        <tr key={index}>
+                            <td>{loan.amount}</td>
+                            <td>{loan.apr}</td>
+                            <td>{loan.status}</td>
+                            <td><button onClick={() => onBorrow(loan.object)}>Accept offer</button></td>
+                        </tr>
+                    ))
+                }
+            </tbody>
+        </table>
     )
 }
