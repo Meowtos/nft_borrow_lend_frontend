@@ -6,11 +6,11 @@ import { getUserOwnedCollections, getUserOwnedTokensByCollection } from "@/utils
 import { Collection } from "@/types/Collection";
 import Image from "next/image";
 import { Token } from "@/types/Token";
-import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import { BsList } from "react-icons/bs";
 import { BsFillGridFill } from "react-icons/bs";
 import { Loading } from "@/components/Loading";
+import { assetListingModalId, ListingModal } from "../ListingModal";
 
 export function Body() {
     const { account } = useWallet();
@@ -94,7 +94,8 @@ type OwnedTokensProps = {
 function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
 // function OwnedTokens({ collectionId }: { collectionId: string | null }) {
     const { account } = useWallet()
-    const [tokens, setTokens] = useState<Token[]>([])
+    const [tokens, setTokens] = useState<Token[]>([]);
+    const [chosenToken, setChosenToken] = useState<Token | null>(null);
     const getOwnedTokensByCollection = useCallback(() => {
         if (!account?.address || !collectionId) {
             return setTokens([])
@@ -105,8 +106,9 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                 for (const token of res) {
                     ownedTokens.push({
                         token_data_id: token.token_data_id,
-                        token_icon_uri: token.current_token_data?.token_uri,
-                        token_name: token.current_token_data?.token_name
+                        token_icon_uri: token.current_token_data?.token_uri ?? null,
+                        token_name: token.current_token_data?.token_name ?? "",
+                        collection_id: token.current_token_data?.collection_id ?? ""
                     })
                 }
                 setTokens(ownedTokens)
@@ -119,7 +121,7 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
         getOwnedTokensByCollection()
     }, [getOwnedTokensByCollection])
     return (
-        <>
+        <React.Fragment>
             <div className="all-cards pt-4 grid-view" hidden={viewtype == 'grid' ? false : true}>
                 {
                     tokens.map((token, index) => (
@@ -129,7 +131,7 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                             <div className="card-body">
                                 <h4 className="card-title">{token.token_name}</h4>
                                 <p className="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magnam, modi?</p>
-                                <Link href={`/borrow/${collectionId}/${token.token_data_id}`} className="btn connect-btn w-100 mt-3">List NFT</Link>
+                                <button onClick={()=>setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`} className="btn connect-btn w-100 mt-3">List</button>
                             </div>
                         </div>
                     ))
@@ -153,13 +155,16 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                                     <td><Image src={`/media/nfts/${index + 1}.jpeg`} className="rounded me-2" alt="nft" width={40} height={40} /><span className="fs-5">{token.token_name}</span></td>
                                     <td>--</td>
                                     <td className="text-center">collection name</td>
-                                    <td className="text-end"><Link href={`/borrow/${collectionId}/${token.token_data_id}`} className="action-btn rounded">List</Link></td>
+                                    <td className="text-end">
+                                        <button onClick={()=>setChosenToken(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`}>List</button>
+                                    </td>
                                 </tr>
                             ))
                         }
                     </tbody>
                 </table>
             </div>
-        </>
+            <ListingModal token={chosenToken}/>
+        </React.Fragment>
     )
 }
