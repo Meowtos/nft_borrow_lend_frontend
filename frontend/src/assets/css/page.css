@@ -118,9 +118,6 @@
 	justify-content: center;
 	background: #000000;
 }
-.banner-cards img{
-    height: 100% !important;
-}
 
 .about{
     padding: 0px 0px 0px 0px;
@@ -240,6 +237,105 @@
     background-color: var(--light);
     color: var(--primary-3);
 }
+
+
+
+/* ------------------------------------------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+/* Inner pages */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+.inner-banner{
+    padding: 240px 0px 150px 0px;
+    background-image: url('/media/inner-banner.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+}
+.inner-banner::before{
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left:0px;
+    background: #000000;
+    opacity: 0.6;
+}
+.inner-banner h2{
+    position: relative;
+    z-index: 1;
+}
+
+/* Borrowpage */
+.tab-btns{
+    width: 20%;
+}
+.tab-btn {
+    padding: 16px 24px;
+    font-size: 18px;
+    line-height: 18px;
+    background: #ffffff20;
+    color: #ffffff;
+    margin-top: 16px;
+    border: unset;
+    border-radius: 4px;
+    transition: all 0.5s ease;
+    text-align: left;
+}
+.tab-btn:hover {
+    background: var(--primary-1);
+}
+.tab-btn.active, .tab-btn.active:hover {
+    background: var(--primary-3);
+}
+.tab-btn:first-child{
+    margin-top: 0px;
+}
+.borrow-tabs .tab-content{
+    border: 1px solid #ffffff50;
+    width: 100%;
+    padding: 24px;
+}
+.content-header{
+    border-bottom: 1px solid #ffffff;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    align-items: center;
+}
+.content-header .collection{
+    position: relative;
+    width: 50%;
+}
+.dropdown-btn button{
+    padding: 10px 24px;
+    background: #ffffff10;
+    border: unset;
+    color: var(--light);
+    width: 50%;
+    border: 1px solid #ffffff20;
+}
+.coll-dropdown{
+    position: absolute;
+    background: #292929;
+    margin-top: 10px;
+    z-index: 9999;
+}
+.coll-item{
+    padding: 12px 24px;
+    border-bottom: 1px solid #ffffff20;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+.coll-item:last-child{
+    border-bottom: unset;
+}
+.coll-item:hover{
+    background-color: var(--primary-1);
+}
+
+
 
 
 
