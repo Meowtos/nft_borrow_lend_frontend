@@ -15,7 +15,7 @@ export function NftSlider() {
                         <h2 className="text-center mb-5">Popular Collections</h2>
                         <Swiper {...swiperConfig}>
                             {Array.from({ length: repeater }).map((_, index) => (
-                                <SwiperSlide>
+                                <SwiperSlide key={index}>
                                     <div className="nft-coll rounded">
                                         <div className="coll-thumbnail">
                                             <Image src={`/media/nfts/${index + 1}.jpeg`} alt="nft" height={320} width={400} className="w-100" />

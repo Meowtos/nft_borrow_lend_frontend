@@ -15,8 +15,12 @@ export async function GET(_req: NextRequest, context: { params: Params }){
             throw new Error("Listing doesn't exist")
         }
         return NextResponse.json({ data: exists })
-    } catch (error: any) {
-        return NextResponse.json({ message: error.message }, { status: 500 })
+    } catch (error: unknown) {
+        let errorMessage = 'An unexpected error occurred';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+        return NextResponse.json({ message: errorMessage }, { status: 500 });
     }
 }
 
@@ -37,7 +41,11 @@ export async function PUT(req: NextRequest, context: { params: Params }){
         });
         
         return NextResponse.json({ data: exists })
-    } catch (error: any) {
-        return NextResponse.json({ message: error.message }, { status: 500 })
+    } catch (error: unknown) {
+        let errorMessage = 'An unexpected error occurred';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+        return NextResponse.json({ message: errorMessage }, { status: 500 });
     }
 }

@@ -6,7 +6,7 @@ connectDB();
 
 export async function GET(req: NextRequest) {
     try {
-        const condition: any = {};
+        const condition: { [key: string]: string } = {};
         const address = req.nextUrl.searchParams.get("address");
         if (address) {
             condition.account_address = address;
@@ -17,8 +17,12 @@ export async function GET(req: NextRequest) {
         }
         const data = await Loan.find(condition);
         return NextResponse.json({ message: "success", data }, { status: 200 });
-    } catch (error: any) {
-        return NextResponse.json({ message: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        let errorMessage = 'An unexpected error occurred';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+        return NextResponse.json({ message: errorMessage }, { status: 500 });
     }
 }
 export async function POST(req: NextRequest) {
@@ -46,7 +50,11 @@ export async function POST(req: NextRequest) {
         });
         await newLoan.save();
         return NextResponse.json({ message: "success" }, { status: 200 });
-    } catch (error: any) {
-        return NextResponse.json({ message: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        let errorMessage = 'An unexpected error occurred';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+        return NextResponse.json({ message: errorMessage }, { status: 500 });
     }
 }

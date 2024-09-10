@@ -3,6 +3,10 @@ import Link from "next/link";
 import { ParticlesComponent } from "./ReactParticles";
 import { NftSlider } from "./NftSlider";
 import { faq, working } from "@/utils/constants";
+export const metadata = {
+  title: "Home - DeFi NFT Loans",
+  description: "Homepage of DeFi NFT Loans"
+}
 export default function Home() {
   return (
     <React.Fragment>

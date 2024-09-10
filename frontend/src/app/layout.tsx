@@ -5,12 +5,14 @@ import "./globals.css";
 import "@/assets/css/page.css";
 import "@/assets/css/resp.css";
 
-import Header from '@/components/header'
-import Footer from "@/components/footer";
-import { WalletProvider } from "@/context/WalletProvider";
 import { Toaster } from "sonner";
 import { Bootstrap } from "@/context/Bootstrap";
+import { WalletProvider } from "@/context/WalletProvider";
 import { AppProvider } from "@/context/AppProvider";
+import { ProgressBar } from "@/context/ProgressBar";
+
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const font = Josefin_Sans({ subsets: ["latin"], weight: "400" })
 export const metadata: Metadata = {
@@ -35,6 +37,7 @@ export default function RootLayout({
         </AppProvider>
         <Toaster />
         <Bootstrap />
+        <ProgressBar />
       </body>
     </html>
   );

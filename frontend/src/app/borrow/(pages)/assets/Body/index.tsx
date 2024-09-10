@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { getUserOwnedCollections, getUserOwnedTokensByCollection } from "@/utils/aptos";
 import { Collection } from "@/types/Collection";
@@ -10,41 +10,35 @@ import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import { BsList } from "react-icons/bs";
 import { BsFillGridFill } from "react-icons/bs";
+import { Loading } from "@/components/Loading";
 
 export function Body() {
     const { account } = useWallet();
     const [userOwnedCollections, setUserOwnedCollections] = useState<Collection[]>([]);
-    const [collectionId, setCollectionId] = useState<string | null>(null);
+    const [chosenCollection, setChosenCollection] = useState<Collection | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [dropdown, setDropdown] = useState(true);
     const [view, setView] = useState('grid');
-
-
-    const chosenCollection: Collection | null = useMemo(() => {
-        const found = userOwnedCollections.find((collection) => collection.collection_id === collectionId);
-        return found ?? null;
-    }, [collectionId, userOwnedCollections])
     const getCollectionsOwnedByUser = useCallback(async () => {
         if (!account?.address) {
             return setIsLoading(false)
         };
         setIsLoading(true)
         try {
-            getUserOwnedCollections(account.address).then((res) => {
-                const ownedCollections: Collection[] = [];
-                for (const collection of res) {
-                    ownedCollections.push({
-                        collection_id: collection.collection_id,
-                        collection_name: collection.collection_name,
-                        collection_uri: collection.collection_uri,
-                        token_standard: collection.current_collection?.token_standard,
-                    })
-                }
-                setUserOwnedCollections(ownedCollections);
-                if (ownedCollections.length > 0) {
-                    setCollectionId(ownedCollections[0].collection_id ?? null)
-                }
-            });
+            const res = await getUserOwnedCollections(account.address)
+            const ownedCollections: Collection[] = [];
+            for (const collection of res) {
+                ownedCollections.push({
+                    collection_id: collection.collection_id ?? null,
+                    collection_name: collection.collection_name ?? "Unknown Collection",
+                    collection_uri: collection.collection_uri,
+                    token_standard: collection.current_collection?.token_standard,
+                })
+            }
+            setUserOwnedCollections(ownedCollections);
+            if (ownedCollections.length > 0) {
+                setChosenCollection(ownedCollections[0])
+            }
         } catch (error) {
             console.error(error)
         } finally {
@@ -55,13 +49,11 @@ export function Body() {
         getCollectionsOwnedByUser()
     }, [getCollectionsOwnedByUser])
 
-    const handleCollectionSelect = (collection: any) => {
-        if (collection.collection_id) {
-            setCollectionId(collection.collection_id);
-        }
-        setDropdown(!dropdown);
+    const handleCollectionSelect = (collection: Collection) => {
+        setChosenCollection(collection)
+        setDropdown(!dropdown); // Close the dropdown after selection
     };
-    if (isLoading) return "Loading...."
+    if (isLoading) return <Loading />
     return (
         <React.Fragment>
             <div className="content-header d-flex">
@@ -69,7 +61,7 @@ export function Body() {
                     <div className="dropdown-btn">
                         <button className="rounded text-start" onClick={() => setDropdown(!dropdown)}>
                             {
-                                chosenCollection ? chosenCollection.collection_name ?? "Select Collection" : "Select Collection"
+                                chosenCollection ? chosenCollection.collection_name : "Select Collection"
                             }
                             <IoIosArrowDown /></button>
                     </div>
@@ -89,7 +81,7 @@ export function Body() {
                 </div>
             </div>
             <div className="content-body">
-                <OwnedTokens collectionId={collectionId} />
+                <OwnedTokens collectionId={chosenCollection?.collection_id ?? null} />
             </div>
         </React.Fragment>
     )
@@ -152,7 +144,7 @@ function OwnedTokens({ collectionId }: { collectionId: string | null }) {
                     <tbody>
                         {
                             tokens.map((token, index) => (
-                                <tr>
+                                <tr key={index}>
                                     <td><Image src={`/media/nfts/${index + 1}.jpeg`} className="rounded me-2" alt="nft" width={40} height={40} /><span className="fs-5">{token.token_name}</span></td>
                                     <td>--</td>
                                     <td className="text-center">collection name</td>

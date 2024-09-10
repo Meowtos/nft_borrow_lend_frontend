@@ -5,7 +5,7 @@ connectDB();
 
 export async function GET(req: NextRequest) {
     try {
-        const condition: any = {};
+        const condition: { [key: string]: string } = {};
         const status = req.nextUrl.searchParams.get("status");
         if (status) {
             condition.status = status;
@@ -16,8 +16,12 @@ export async function GET(req: NextRequest) {
         }
         const data = await Listing.find(condition);
         return NextResponse.json({ message: "success", data }, { status: 200 });
-    } catch (error: any) {
-        return NextResponse.json({ message: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        let errorMessage = 'An unexpected error occurred';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+        return NextResponse.json({ message: errorMessage }, { status: 500 });
     }
 }
 
@@ -45,7 +49,11 @@ export async function POST(req: NextRequest) {
         });
         await newListing.save();
         return NextResponse.json({ message: "success" }, { status: 200 });
-    } catch (error: any) {
-        return NextResponse.json({ message: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        let errorMessage = 'An unexpected error occurred';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+        return NextResponse.json({ message: errorMessage }, { status: 500 });
     }
 }

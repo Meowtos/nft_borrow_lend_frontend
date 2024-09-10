@@ -26,7 +26,11 @@ export async function POST(req: NextRequest, context: { params: Params }) {
         // })
 
         return NextResponse.json({ message: "success" }, { status: 200 });
-    } catch (error: any) {
-        return NextResponse.json({ message: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        let errorMessage = 'An unexpected error occurred';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+        return NextResponse.json({ message: errorMessage }, { status: 500 });
     }
 }
