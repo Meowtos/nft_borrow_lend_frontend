@@ -8,6 +8,8 @@ import Image from "next/image";
 import { Token } from "@/types/Token";
 import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
+import { BsList } from "react-icons/bs";
+import { BsFillGridFill } from "react-icons/bs";
 
 export function Body() {
     const { account } = useWallet();
@@ -15,10 +17,13 @@ export function Body() {
     const [collectionId, setCollectionId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [dropdown, setDropdown] = useState(true);
-    const chosenCollection: Collection | null = useMemo(()=>{
+    const [view, setView] = useState('grid');
+
+
+    const chosenCollection: Collection | null = useMemo(() => {
         const found = userOwnedCollections.find((collection) => collection.collection_id === collectionId);
         return found ?? null;
-    },[collectionId, userOwnedCollections])
+    }, [collectionId, userOwnedCollections])
     const getCollectionsOwnedByUser = useCallback(async () => {
         if (!account?.address) {
             return setIsLoading(false)
@@ -36,13 +41,13 @@ export function Body() {
                     })
                 }
                 setUserOwnedCollections(ownedCollections);
-                if(ownedCollections.length > 0){
+                if (ownedCollections.length > 0) {
                     setCollectionId(ownedCollections[0].collection_id ?? null)
                 }
             });
         } catch (error) {
             console.error(error)
-        } finally{
+        } finally {
             setIsLoading(false)
         }
     }, [account?.address])
@@ -54,9 +59,9 @@ export function Body() {
         if (collection.collection_id) {
             setCollectionId(collection.collection_id);
         }
-        setDropdown(!dropdown); // Close the dropdown after selection
+        setDropdown(!dropdown);
     };
-    if(isLoading) return "Loading...."
+    if (isLoading) return "Loading...."
     return (
         <React.Fragment>
             <div className="content-header d-flex">
@@ -77,7 +82,10 @@ export function Body() {
                     </div>
                 </div>
                 <div className="view-type">
-                    <p>list/grid</p>
+                    <div className="dsp-layout">
+                        <BsList className={`layout-icon me-1 ${view == 'list' ? 'active' : ''}`} onClick={() => setView('list')} />
+                        <BsFillGridFill className={`layout-icon ${view == 'grid' ? 'active' : ''}`} onClick={() => setView('grid')} />
+                    </div>
                 </div>
             </div>
             <div className="content-body">
@@ -115,10 +123,10 @@ function OwnedTokens({ collectionId }: { collectionId: string | null }) {
     }, [getOwnedTokensByCollection])
     return (
         <>
-            <div className="all-cards pt-4 d-flex gap-3 flex-4">
+            <div className="all-cards pt-4 grid-view">
                 {
                     tokens.map((token, index) => (
-                        <div className="card w-25" key={token.token_data_id}>
+                        <div className="card" key={token.token_data_id}>
                             {/* <Image src={token.token_icon_uri ?? "/media/nfts/1.jpeg"} className="card-img-top" alt="..." width={50} height={200} /> */}
                             <Image src={`/media/nfts/${index + 1}.jpeg`} className="card-img-top w-100" alt="..." width={250} height={250} />
                             <div className="card-body">
@@ -129,6 +137,31 @@ function OwnedTokens({ collectionId }: { collectionId: string | null }) {
                         </div>
                     ))
                 }
+            </div>
+
+            <div className="pt-4 list-view">
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>More Info</th>
+                            <th className="text-center">Collection</th>
+                            <th className="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            tokens.map((token, index) => (
+                                <tr>
+                                    <td><Image src={`/media/nfts/${index + 1}.jpeg`} className="rounded me-2" alt="nft" width={40} height={40} /><span className="fs-5">{token.token_name}</span></td>
+                                    <td>--</td>
+                                    <td className="text-center">collection name</td>
+                                    <td className="text-end"><Link href={`/borrow/${collectionId}/${token.token_data_id}`} className="action-btn rounded">List</Link></td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
             </div>
         </>
     )

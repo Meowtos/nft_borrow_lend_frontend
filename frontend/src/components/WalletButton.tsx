@@ -41,10 +41,9 @@ export const WalletButtons = () => {
 const WalletList = ({ wallets }: { wallets: Wallet[] }) => {
   return (
     <React.Fragment>
-      <button type="button" className="connect-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Connect Wallet
-      </button>
-      <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <button type="button" className="connect-btn" data-bs-toggle="modal" data-bs-target="#connectmodal">Connect Wallet</button>
+      
+      <div className="modal fade" id="connectmodal" tabIndex={-1} aria-labelledby="areaLabel" aria-hidden="true" >
         <div className="modal-dialog modal-dialog-centered wallet-modal">
           <div className="modal-content">
             <div className="modal-header text-center py-4">
@@ -61,6 +60,7 @@ const WalletList = ({ wallets }: { wallets: Wallet[] }) => {
           </div>
         </div>
       </div>
+
     </React.Fragment>
   )
 }
@@ -106,15 +106,12 @@ const WalletView = ({ wallet }: { wallet: Wallet }) => {
     );
   } else {
     return (
-      <button disabled={!isWalletReady} onClick={() => onWalletConnectRequest(wallet.name)} className={`wl-item rounded w-100 ${!isWalletReady ? 'disabled' : 'active'}`} >
-        <Image
-          alt={wallet.name}
-          src={wallet.icon}
-          height={20}
-          width={20}
-        />&nbsp;
-        {wallet.name}
-      </button>
+      <>
+        <button disabled={!isWalletReady} onClick={() => onWalletConnectRequest(wallet.name)}  data-bs-dismiss="modal" className={`wl-item rounded w-100 ${!isWalletReady ? 'disabled' : 'active'}`} >
+          <Image alt={wallet.name} src={wallet.icon} height={20} width={20} />&nbsp;
+          {wallet.name}
+        </button>
+      </>
     );
   }
 };

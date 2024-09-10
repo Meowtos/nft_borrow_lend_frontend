@@ -40,7 +40,7 @@ export default function BorrowLayout({ children }: { children: React.ReactNode }
                                     {
                                         paths.map((path, index) => (
                                             <Link href={`/borrow/${path.to}`} className={`tab-btn ${pathname === `/borrow/${path.to}` ? "active" : ""}`} key={`borrow-path-${index}`} scroll={false}>
-                                                <button
+                                                {/* <button
                                                     className="tab-btn"
                                                     id={`borrow-${path.to}-tab`}
                                                     data-bs-toggle="pill"
@@ -49,9 +49,9 @@ export default function BorrowLayout({ children }: { children: React.ReactNode }
                                                     role="tab"
                                                     aria-controls={`borrow-${path.to}`}
                                                     aria-selected="true"
-                                                >
+                                                > */}
                                                     {path.name}
-                                                </button>
+                                                {/* </button> */}
                                             </Link>
                                         ))
                                     }

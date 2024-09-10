@@ -36,13 +36,9 @@
 /* ------------------------------------------------------- */
 /* Modals */
 /* ------------------------------------------------------- */
-#staticBackdrop {
-	background: #00000050 !important;
-}
 .wallet-modal .modal-header,
 .wallet-modal .modal-body {
     background-color: #000000ee;
-    /* background-color: var(--black); */
 }
 .wallet-modal .modal-header{
     border-bottom: 3px solid var(--primary-3);
@@ -299,7 +295,7 @@
     padding: 24px;
 }
 .content-header{
-    border-bottom: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff30;
     justify-content: space-between;
     padding-bottom: 16px;
     align-items: center;
@@ -334,6 +330,52 @@
 .coll-item:hover{
     background-color: var(--primary-1);
 }
+.dsp-layout {
+    background: #ffffff0f;
+    padding: 6px 8px;
+    border-radius: 4px;
+}
+  
+.dsp-layout .layout-icon {
+    font-size: 32px;
+    padding: 6px;
+    color: var(--light10);
+}
+
+.dsp-layout .layout-icon.active,
+.dsp-layout .layout-icon:hover {
+    background: #ffffff33;
+    color: var(--light);
+    border-radius: 4px;
+    cursor: pointer;
+}
+.all-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
+}
+
+.table tr{
+    border-bottom:1px solid #ffffff15;
+}
+.table th{
+    background:#ffffff33;
+    color: #ffffffaa;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+}
+.table td{
+    background: #000000;
+    color: var(--light);
+    padding: 10px 8px;
+    vertical-align: middle;
+}
+.action-btn{
+    background: #ffffff20;
+    color: #ffffff90;
+    padding: 8px 14px;
+}
+
 
 
 
