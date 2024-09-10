@@ -81,13 +81,18 @@ export function Body() {
                 </div>
             </div>
             <div className="content-body">
-                <OwnedTokens collectionId={chosenCollection?.collection_id ?? null} />
+                <OwnedTokens viewtype={view} collectionId={chosenCollection?.collection_id ?? null} />
             </div>
         </React.Fragment>
     )
 }
 
-function OwnedTokens({ collectionId }: { collectionId: string | null }) {
+type OwnedTokensProps = {
+    collectionId: string | null;
+    viewtype: string; 
+  };
+function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
+// function OwnedTokens({ collectionId }: { collectionId: string | null }) {
     const { account } = useWallet()
     const [tokens, setTokens] = useState<Token[]>([])
     const getOwnedTokensByCollection = useCallback(() => {
@@ -115,7 +120,7 @@ function OwnedTokens({ collectionId }: { collectionId: string | null }) {
     }, [getOwnedTokensByCollection])
     return (
         <>
-            <div className="all-cards pt-4 grid-view">
+            <div className="all-cards pt-4 grid-view" hidden={viewtype == 'grid' ? false : true}>
                 {
                     tokens.map((token, index) => (
                         <div className="card" key={token.token_data_id}>
@@ -131,7 +136,7 @@ function OwnedTokens({ collectionId }: { collectionId: string | null }) {
                 }
             </div>
 
-            <div className="pt-4 list-view">
+            <div className="pt-4 list-view" hidden={viewtype == 'list' ? false : true}>
                 <table className="table">
                     <thead>
                         <tr>
