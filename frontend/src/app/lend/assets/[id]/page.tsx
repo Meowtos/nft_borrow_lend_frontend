@@ -1,3 +1,4 @@
+// /lend/assets/id
 import { IListingSchema } from "@/models/listing";
 import { Body } from "./Body";
 

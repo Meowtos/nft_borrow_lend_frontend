@@ -1,3 +1,4 @@
+// lend/assets (Give a new loan)
 import { IListingSchema } from "@/models/listing";
 import { Body } from "./Body";
 

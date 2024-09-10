@@ -42,7 +42,6 @@ export function Body() {
         getCollectionsOwnedByUser()
     }, [getCollectionsOwnedByUser])
 
-    const repeater = 8;
     const [dropdown, setDropdown] = useState(true)
     const handleCollectionSelect = (collection: any) => {
         if (collection.collection_id) {

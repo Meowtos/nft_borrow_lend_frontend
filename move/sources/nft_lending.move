@@ -76,7 +76,8 @@ module nft_lending::nft_lending {
         // argument validation checks
         assert!(duration > 0 && duration < 365, ELOAN_DURATION_LIMIT_EXCEED);
         let constructor_ref = &object::create_object(address_of(giver));
-         // withdraw assets
+        // withdraw assets
+        assert!(primary_fungible_store::balance(address_of(giver), fa_metadata) >= amount, EINSUFFICIENT_BALANCE);
         let fa = primary_fungible_store::withdraw(giver, fa_metadata, amount);
         let fa_store = fungible_asset::create_store<Metadata>(constructor_ref, fa_metadata); 
         fungible_asset::deposit(fa_store, fa);
@@ -207,6 +208,7 @@ module nft_lending::nft_lending {
         assert!(borrow_end_timestamp >= current_timestamp, EREPAY_TIME_HAS_EXCEED);
         // Return loan amount to giver
         let repay_amount = amount_with_intrest(amount, apr, duration);
+        assert!(primary_fungible_store::balance(address_of(user), fa_metadata) >= repay_amount, EINSUFFICIENT_BALANCE);
         let fa = primary_fungible_store::withdraw(user, fa_metadata, repay_amount);
         primary_fungible_store::deposit(giver_addr, fa);
         // Get token into wallet again

@@ -1,13 +1,11 @@
+"use client"
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { useEffect, useMemo, useState } from "react";
-
-import ParticlesConfig from '@/components/config/particles-config'
+import { config as ParticlesConfig } from "./config"; 
 import { loadSlim } from "@tsparticles/slim";
 
-
-const ParticlesComponent = (props) => {
-
-  const [init, setInit] = useState(false);
+export const ParticlesComponent = (props) => {
+  const [_init, setInit] = useState(false);
   useEffect(() => {
     initParticlesEngine(async (engine) => {
       await loadSlim(engine);
@@ -15,18 +13,11 @@ const ParticlesComponent = (props) => {
       setInit(true);
     });
   }, []);
-
-  const particlesLoaded = (container) => {
-    console.log(container);
+  const particlesLoaded = (_container) => {
   };
-
   const options = useMemo(
     () => (ParticlesConfig),
     [],
   );
-
-
   return <Particles id={props.id} init={particlesLoaded} options={options} />; 
 };
-
-export default ParticlesComponent;
