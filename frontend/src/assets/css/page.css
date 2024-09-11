@@ -309,7 +309,7 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------------------------------------------------------- */
 .inner-banner{
-    padding: 240px 0px 150px 0px;
+    padding: 220px 0px 130px 0px;
     background-image: url('/media/inner-banner.jpg');
     background-position: center;
     background-size: cover;
@@ -381,7 +381,6 @@
     border: unset;
     color: var(--light);
     width: max-content;
-    border: 1px solid #ffffff10;
 }
 .coll-dropdown{
     position: absolute;
