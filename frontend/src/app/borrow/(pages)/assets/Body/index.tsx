@@ -59,11 +59,12 @@ export function Body() {
             <div className="content-header d-flex">
                 <div className="collection">
                     <div className="dropdown-btn">
-                        <button className="rounded text-start" onClick={() => setDropdown(!dropdown)}>
+                        <span className="me-2 fs-6">Select Collection:</span>
+                        <button className="rounded text-start coll-btn" onClick={() => setDropdown(!dropdown)}>
                             {
                                 chosenCollection ? chosenCollection.collection_name : "Select Collection"
                             }
-                            <IoIosArrowDown /></button>
+                            <IoIosArrowDown className="dd-icon" /></button>
                     </div>
                     <div className="coll-dropdown rounded" hidden={dropdown}>
                         {userOwnedCollections.map((collection, index) => (
@@ -73,10 +74,11 @@ export function Body() {
                         ))}
                     </div>
                 </div>
-                <div className="view-type">
+                <div className="view-type d-flex align-items-center">
+                    <span className="me-2">View:</span>
                     <div className="dsp-layout">
+                        <BsFillGridFill className={`layout-icon me-1 ${view == 'grid' ? 'active' : ''}`} onClick={() => setView('grid')} />
                         <BsList className={`layout-icon me-1 ${view == 'list' ? 'active' : ''}`} onClick={() => setView('list')} />
-                        <BsFillGridFill className={`layout-icon ${view == 'grid' ? 'active' : ''}`} onClick={() => setView('grid')} />
                     </div>
                 </div>
             </div>
@@ -89,10 +91,10 @@ export function Body() {
 
 type OwnedTokensProps = {
     collectionId: string | null;
-    viewtype: string; 
-  };
+    viewtype: string;
+};
 function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
-// function OwnedTokens({ collectionId }: { collectionId: string | null }) {
+    // function OwnedTokens({ collectionId }: { collectionId: string | null }) {
     const { account } = useWallet()
     const [tokens, setTokens] = useState<Token[]>([]);
     const [chosenToken, setChosenToken] = useState<Token | null>(null);
@@ -125,13 +127,13 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
             <div className="all-cards pt-4 grid-view" hidden={viewtype == 'grid' ? false : true}>
                 {
                     tokens.map((token, index) => (
-                        <div className="card" key={token.token_data_id}>
+                        <div className="card border-0" key={token.token_data_id}>
                             {/* <Image src={token.token_icon_uri ?? "/media/nfts/1.jpeg"} className="card-img-top" alt="..." width={50} height={200} /> */}
-                            <Image src={`/media/nfts/${index + 1}.jpeg`} className="card-img-top w-100" alt="..." width={250} height={250} />
-                            <div className="card-body">
+                            <Image src={`/media/nfts/${index + 1}.jpeg`} className="card-img-top w-100" alt="..." width={250} height={270} />
+                            <div className="card-body ">
                                 <h4 className="card-title">{token.token_name}</h4>
-                                <p className="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magnam, modi?</p>
-                                <button onClick={()=>setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`} className="btn connect-btn w-100 mt-3">List</button>
+                                {/* <p className="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magnam, modi?</p> */}
+                                <button onClick={() => setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`} className="btn list-btn w-100 mt-3">List</button>
                             </div>
                         </div>
                     ))
@@ -152,11 +154,11 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                         {
                             tokens.map((token, index) => (
                                 <tr key={index}>
-                                    <td><Image src={`/media/nfts/${index + 1}.jpeg`} className="rounded me-2" alt="nft" width={40} height={40} /><span className="fs-5">{token.token_name}</span></td>
+                                    <td><Image src={`/media/nfts/${index + 1}.jpeg`} className="rounded me-2" alt="nft" width={32} height={32} /><span className="fs-5">{token.token_name}</span></td>
                                     <td>--</td>
                                     <td className="text-center">collection name</td>
                                     <td className="text-end">
-                                        <button onClick={()=>setChosenToken(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`}>List</button>
+                                        <button onClick={() => setChosenToken(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`}>List</button>
                                     </td>
                                 </tr>
                             ))
@@ -164,7 +166,7 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                     </tbody>
                 </table>
             </div>
-            <ListingModal token={chosenToken}/>
+            <ListingModal token={chosenToken} />
         </React.Fragment>
     )
 }

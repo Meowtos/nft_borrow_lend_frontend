@@ -32,6 +32,73 @@
 .wl-item.disabled {
 	opacity: 0.5;
 }
+.coll-btn{
+    position: relative;
+}
+
+.action-btn {
+    background: #86003C;
+    color: var(--light);
+    padding: 10px 18px;
+    border: unset;
+    font-size: 14px;
+    line-height: 14px;
+    transition: all 0.5s ease;
+}
+.action-btn:hover {
+    background: #E41F7B;
+    color: var(--light);
+}
+.submit-btn{
+    background-color: #86003C !important;
+    color: #ffffff !important;
+    width: 30%;
+    margin-left: auto;
+    padding: 16px 24px !important;
+    border: unset !important;
+    text-transform: uppercase;
+    font-weight: 400 !important;
+    transition: all 0.5s ease;
+}
+.submit-btn:hover{
+    background: #E41F7B !important;
+}
+
+.grid-view .list-btn{
+    padding: 12px 24px;
+    background: #86003C;
+    color: var(--light);
+    transition: all 0.5s ease;
+}
+.grid-view .list-btn:hover {
+    background: #E41F7B;
+}
+
+.off-status {
+    width: fit-content;
+    margin-left: auto;
+    padding: 4px 18px;
+    font-size: 14px;
+    line-height: 14px;
+    background: #72727233;
+    border-radius: 4px;
+}
+.off-status.live{
+    color: yellow;
+}
+.off-status.accepted{
+    color: green;
+}
+.off-status.ended{
+    color: red;
+}
+.action-btn.ended{
+    opacity: 0.5;
+}
+
+
+
+
 
 /* ------------------------------------------------------- */
 /* Modals */
@@ -267,18 +334,21 @@
 /* Borrowpage */
 .tab-btns{
     width: 20%;
+    padding: 48px 16px;
+    background: #0f0e10;
 }
 .tab-btn {
-    padding: 16px 24px;
-    font-size: 18px;
+    padding: 15px 18px;
+    font-size: 16px;
     line-height: 18px;
-    background: #ffffff20;
+    /* background: #ffffff20; */
     color: #ffffff;
     margin-top: 16px;
     border: unset;
     border-radius: 4px;
     transition: all 0.5s ease;
     text-align: left;
+    border-bottom: 1px solid #ffffff33;
 }
 .tab-btn:hover {
     background: var(--primary-1);
@@ -289,10 +359,11 @@
 .tab-btn:first-child{
     margin-top: 0px;
 }
-.borrow-tabs .tab-content{
-    border: 1px solid #ffffff50;
+.borrow-tabs .tab-content {
+    /* border: 1px solid #ffffff50; */
     width: 100%;
-    padding: 24px;
+    padding: 48px 24px;
+    background: #0f0e10;
 }
 .content-header{
     border-bottom: 1px solid #ffffff30;
@@ -302,21 +373,23 @@
 }
 .content-header .collection{
     position: relative;
-    width: 50%;
+    width: fit-content;
 }
 .dropdown-btn button{
-    padding: 10px 24px;
+    padding: 10px 50px 10px 18px;
     background: #ffffff10;
     border: unset;
     color: var(--light);
-    width: 50%;
-    border: 1px solid #ffffff20;
+    width: max-content;
+    border: 1px solid #ffffff10;
 }
 .coll-dropdown{
     position: absolute;
     background: #292929;
     margin-top: 10px;
     z-index: 9999;
+    /* width: 100%; */
+    width: -webkit-fill-available;
 }
 .coll-item{
     padding: 12px 24px;
@@ -354,27 +427,100 @@
     grid-template-columns: repeat(4, 1fr); 
     gap: 20px;
 }
+.card{
+    overflow: hidden;
+}
+.card .card-body{
+    background-color: #282828;
+    border: unset;
+    color: #ffffff33;
+}
+.card .card-title{
+    color: var(--light);
+    text-transform: capitalize;
+}
 
+/* .table thead{
+    border-top:1px solid #E41F7B;
+} */
 .table tr{
     border-bottom:1px solid #ffffff15;
 }
 .table th{
-    background:#ffffff33;
+    background:#303030;
     color: #ffffffaa;
     font-size: 18px !important;
     font-weight: 500 !important;
 }
 .table td{
-    background: #000000;
-    color: var(--light);
+    /* background: #000000; */
+    background: #060606;
+    /* color: var(--light); */
+    color: #ffffffcc;
     padding: 10px 8px;
     vertical-align: middle;
 }
-.action-btn{
-    background: #ffffff20;
-    color: #ffffff90;
-    padding: 8px 14px;
+
+/* List nft modal */
+.list-modal .close-icon{
+    position: absolute;
+    right: 24px;
+    top: 24px;
 }
+.modal-content.list-modal {
+    padding: 48px;
+    background: #262626;
+}
+.asset-form{
+    border: unset !important;
+    position: relative;
+}
+.asset-form input,
+.select-field button {
+    background: transparent;
+    color: #ffffff66;
+    border: unset;
+    border-bottom: 1px solid #ffffff33;
+    padding: 12px 10px;
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 500 !important;
+}
+.asset-form input,
+.form-group{
+    margin-top: 24px;
+} 
+.form-group:first-child{
+    margin: 0px;
+}
+.asset-form input::placeholder,
+.asset-form select::placeholder{
+    color: #ffffff66;
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 500 !important;
+}
+.asset-form input:focus,.asset-form input:focus-visible,
+.asset-form select:focus,.asset-form select:focus-visible{
+    color: #ffffff;
+    outline: unset;
+    background-color: unset;
+    box-shadow: unset;
+}
+.select-dropdown {
+    width: -webkit-fill-available;
+    background: #3e3e3e;
+}
+.dd-icon{
+    position: absolute;
+    right: 0px;
+}
+.coll-btn .dd-icon{
+    right: 16px;
+    margin-top: 4px;
+}
+
+
 
 
 

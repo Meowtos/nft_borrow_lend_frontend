@@ -1,10 +1,13 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useApp } from "@/context/AppProvider";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { Token } from "@/types/Token";
 import { toast } from "sonner";
 import { useFormik } from "formik";
+import Image from 'next/image'
+import { IoIosArrowDown } from 'react-icons/io'
+import { IoClose } from 'react-icons/io5'
 
 export const assetListingModalId = "assetListingModal";
 interface ListingModalProps {
@@ -50,42 +53,83 @@ export function ListingModal({ token }: ListingModalProps) {
             })
         }
     })
+    const [dropdownToken, setDropdownToken] = useState(true);
+    const [dropdownDuration, setDropdownDuration] = useState(true);
+    const [chosenToken, setChosenToken] = useState<Token | null>(null);
+
+    const handleTokenSelection = (fa: Token) => {
+        setChosenToken(fa)
+        setDropdownToken(!dropdownToken);
+    };
+    const handleDurationSelection = () => {
+        setDropdownDuration(!dropdownDuration);
+    };
     return (
         <React.Fragment>
-            <div className="modal fade" id={assetListingModalId} tabIndex={-1} aria-labelledby={`${assetListingModalId}Label`} aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h1 className="modal-title fs-5" id={`${assetListingModalId}Label`}>List Asset</h1>
-                            <button id="closeAssetListingModal" type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            {
-                                token &&
-                                <form className="p-3 border" onSubmit={handleSubmit}>
-                                    <label>Select token</label>
-                                    <select className="form-select" name="fa_metadata" value={values.fa_metadata} onChange={handleChange}>
-                                        <option value=""></option>
-                                        {
-                                            assets.map(fa => (
-                                                <option value={fa.asset_type} key={fa.asset_type}>{fa.symbol}</option>
-                                            ))
-                                        }
-                                    </select>
-                                    <input type="text" name="amount" value={values.amount} onChange={handleChange} placeholder="Enter Amount" />
-                                    <label>Select lock duration</label>
-                                    <select className="form-select" name="duration" value={values.duration} onChange={handleChange}>
-                                        <option value="1">1 days</option>
-                                        <option value="2">2 days</option>
-                                    </select>
-                                    <input type="text" name="apr" value={values.apr} onChange={handleChange} />
-                                    <input type="submit" />
-                                </form>
-                            }
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary">Save changes</button>
+            <div className="modal fade" id={assetListingModalId} tabIndex={-1} aria-labelledby={`${assetListingModalId}Label`} >
+                <div className="modal-dialog modal-dialog-centered modal-xl">
+                    <div className="modal-content list-modal">
+                        <IoClose type="button" className="text-light close-icon" data-bs-dismiss="modal" aria-label="Close" />
+                        <div className="row">
+                            <div className="col-lg-4 p-0">
+                                <Image src={`/media/nfts/1.jpeg`} className="w-100" alt="..." width={250} height={370} />
+                                {/* <h5 className="mt-3">legend1002</h5>
+                                <p className="mt-3">Legends Trade</p> */}
+                            </div>
+                            <div className="col-lg-8 p-0 ps-5">
+                                <h3>Asset Listing</h3>
+                                {
+                                    token &&
+                                    <form className="asset-form pt-4" onSubmit={handleSubmit} autoComplete="off">
+                                        <div className="form-group">
+                                            <div className="dropdown-btn select-field">
+                                                <button className="rounded text-start w-100" onClick={() => setDropdownToken(!dropdownToken)}>
+                                                    {
+                                                        chosenToken ? chosenToken.symbol : "Select Token"
+                                                    }
+                                                    <IoIosArrowDown className="dd-icon" /></button>
+                                            </div>
+                                            <div className="coll-dropdown rounded select-dropdown" hidden={dropdownToken}>
+                                                {
+                                                    assets.map(fa => (
+                                                        <div className="coll-item" onClick={() => handleTokenSelection(fa)}>
+                                                            <p key={fa.asset_type}>{fa.symbol}</p>
+                                                        </div>
+                                                    ))}
+                                            </div>
+                                        </div>
+                                        {/* <label>Select token</label>
+                                        <select className="form-select" name="fa_metadata" value={values.fa_metadata} onChange={handleChange}>
+                                            <option value=""></option>
+                                            {
+                                                assets.map(fa => (
+                                                    <option value={fa.asset_type} key={fa.asset_type}>{fa.symbol}</option>
+                                                ))
+                                            }
+                                        </select> */}
+                                        <input type="text" name="amount" value={values.amount} onChange={handleChange} placeholder="Enter Amount" className="form-control" />
+                                        <div className="form-group">
+                                            <div className="dropdown-btn select-field">
+                                                <button className="rounded text-start w-100" onClick={() => setDropdownDuration(!dropdownDuration)}>Select lock duration<IoIosArrowDown className="dd-icon" /></button>
+                                            </div>
+                                            <div className="coll-dropdown rounded select-dropdown" hidden={dropdownDuration}>
+                                                <div className="coll-item" onClick={()=>handleDurationSelection}><p>1 days</p></div>
+                                                <div className="coll-item" onClick={()=>handleDurationSelection}><p>2 days</p></div>
+                                                <div className="coll-item" onClick={()=>handleDurationSelection}><p>3 days</p></div>
+                                                <div className="coll-item" onClick={()=>handleDurationSelection}><p>4 days</p></div>
+                                                <div className="coll-item" onClick={()=>handleDurationSelection}><p>5 days</p></div>
+                                            </div>
+                                        </div>
+                                        {/* <label>Select lock duration</label>
+                                        <select name="duration" value={values.duration} onChange={handleChange} className="form-control">
+                                            <option value="1">1 days</option>
+                                            <option value="2">2 days</option>
+                                        </select> */}
+                                        <input type="text" name="apr" value={values.apr} onChange={handleChange} className="form-control" placeholder="APR(%)" />
+                                        <input type="submit" className="submit-btn" />
+                                    </form>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
