@@ -1,4 +1,4 @@
-CONTRACT_OBJECT_ADDR=0xc1ad5509a57eb43b514e8639967b91fc959bfaab68e606953b07cd1552249e6e
+CONTRACT_OBJECT_ADDR=0xb9d1d7e0ad0664c3574851570a96de0691d6a637a77aa7d2e49bbaaebeda506a
 
 PUBLISHER_PROFILE=default
 PUBLISHER_ADDR=0x$(aptos config show-profiles --profile=$PUBLISHER_PROFILE | grep 'account' | sed -n 's/.*"account": \"\(.*\)\".*/\1/p')
@@ -18,3 +18,4 @@ aptos move create-object-and-publish-package \
 aptos move compile --dev --skip-fetch-latest-git-deps
 aptos move test --skip-fetch-latest-git-deps
 aptos move publish --named-addresses my_addr=default --skip-fetch-latest-git-deps --included-artifacts none
+
