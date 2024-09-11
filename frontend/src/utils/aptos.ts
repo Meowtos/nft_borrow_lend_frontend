@@ -1,13 +1,12 @@
 import { AptosConfig, NetworkToNetworkName, Aptos } from "@aptos-labs/ts-sdk";
 import { ABI_ADDRESS, NETWORK } from "./env";
+import { APTOS_V1, APTOS_V2, MEOW, SIMPU_COIN } from "./coins";
 const config = new AptosConfig({
     network: NetworkToNetworkName[NETWORK]
 });
 export const aptos = new Aptos(config);
 export const APR_DENOMINATOR = 10000;
-// Aptos and aptos pepe FA on devnet
-export const APTOS = "0x000000000000000000000000000000000000000000000000000000000000000a";
-export const APTOS_PEPE = "0xed26077894baf29ce90d490499544efc5cb7859fea33f46f0966cbfc48c5fcda";
+export const MAX_LOCK_DURATION = 365;
 
 export const getUserOwnedCollections = async (ownerAddr: string) => {
     const result = await aptos.getAccountCollectionsWithOwnedTokens({
@@ -27,13 +26,9 @@ export const getFAMetadata = async () => {
         options: {
             where: {
                 asset_type: {
-                    _in: [APTOS, APTOS_PEPE]
+                    _in: [APTOS_V1, APTOS_V2, MEOW, SIMPU_COIN]
                 },
-                token_standard: {
-                    _eq: "v2"
-                }
             },
-
         }
     });
     return result;

@@ -13,26 +13,24 @@ import { Loading } from "@/components/Loading";
 import { assetListingModalId, ListingModal } from "../ListingModal";
 
 export function Body() {
-    const { account } = useWallet();
+    const { account, connected } = useWallet();
     const [userOwnedCollections, setUserOwnedCollections] = useState<Collection[]>([]);
     const [chosenCollection, setChosenCollection] = useState<Collection | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [dropdown, setDropdown] = useState(true);
     const [view, setView] = useState('grid');
     const getCollectionsOwnedByUser = useCallback(async () => {
-        if (!account?.address) {
-            return setIsLoading(false)
-        };
+        if (!account?.address) return;
         setIsLoading(true)
         try {
             const res = await getUserOwnedCollections(account.address)
             const ownedCollections: Collection[] = [];
             for (const collection of res) {
                 ownedCollections.push({
-                    collection_id: collection.collection_id ?? null,
+                    collection_id: collection.current_collection?.collection_id ?? null,
                     collection_name: collection.collection_name ?? "Unknown Collection",
-                    collection_uri: collection.collection_uri,
-                    token_standard: collection.current_collection?.token_standard,
+                    collection_uri: collection.collection_uri ?? null,
+                    token_standard: collection.current_collection?.token_standard ?? null,
                 })
             }
             setUserOwnedCollections(ownedCollections);
@@ -53,6 +51,7 @@ export function Body() {
         setChosenCollection(collection)
         setDropdown(!dropdown); // Close the dropdown after selection
     };
+    if(!connected) return "connect wallet";
     if (isLoading) return <Loading />
     return (
         <React.Fragment>
@@ -94,14 +93,16 @@ type OwnedTokensProps = {
     viewtype: string;
 };
 function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
-    // function OwnedTokens({ collectionId }: { collectionId: string | null }) {
     const { account } = useWallet()
     const [tokens, setTokens] = useState<Token[]>([]);
     const [chosenToken, setChosenToken] = useState<Token | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
     const getOwnedTokensByCollection = useCallback(() => {
         if (!account?.address || !collectionId) {
+            setIsLoading(false)
             return setTokens([])
         }
+        setIsLoading(true)
         try {
             getUserOwnedTokensByCollection(account.address, collectionId).then((res) => {
                 const ownedTokens: Token[] = [];
@@ -109,30 +110,35 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                     ownedTokens.push({
                         token_data_id: token.token_data_id,
                         token_icon_uri: token.current_token_data?.token_uri ?? null,
-                        token_name: token.current_token_data?.token_name ?? "",
-                        collection_id: token.current_token_data?.collection_id ?? ""
+                        token_name: token.current_token_data?.token_name ?? "Unknown Token",
+                        token_description: token.current_token_data?.description ?? "",
+                        collection_id: token.current_token_data?.collection_id ?? "",
+                        token_standard: token.current_token_data?.token_standard ?? null,
+                        collection_name: token.current_token_data?.current_collection?.collection_name ?? "Unknown Collection"
                     })
                 }
                 setTokens(ownedTokens)
             })
         } catch (error) {
             console.error(error)
+        } finally {
+            setIsLoading(false)
         }
     }, [account?.address, collectionId])
     useEffect(() => {
         getOwnedTokensByCollection()
-    }, [getOwnedTokensByCollection])
+    }, [getOwnedTokensByCollection]);
+    if(isLoading) return <Loading />;
     return (
         <React.Fragment>
             <div className="all-cards pt-4 grid-view" hidden={viewtype == 'grid' ? false : true}>
                 {
-                    tokens.map((token, index) => (
+                    tokens.map((token) => (
                         <div className="card border-0" key={token.token_data_id}>
-                            {/* <Image src={token.token_icon_uri ?? "/media/nfts/1.jpeg"} className="card-img-top" alt="..." width={50} height={200} /> */}
-                            <Image src={`/media/nfts/${index + 1}.jpeg`} className="card-img-top w-100" alt="..." width={250} height={270} />
+                            <Image src={`${token.token_icon_uri}`} className="card-img-top w-100" alt={token.token_name} width={150} height={150} />
                             <div className="card-body ">
                                 <h4 className="card-title">{token.token_name}</h4>
-                                {/* <p className="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magnam, modi?</p> */}
+                                <p className="card-text">{token.token_description}</p>
                                 <button onClick={() => setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`} className="btn list-btn w-100 mt-3">List</button>
                             </div>
                         </div>
@@ -144,20 +150,25 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>More Info</th>
-                            <th className="text-center">Collection</th>
-                            <th className="text-end">Action</th>
+                            <th>Token Name</th>
+                            <th>Token Description</th>
+                            <th>Token Standard</th>
+                            <th>Collection</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
                             tokens.map((token, index) => (
                                 <tr key={index}>
-                                    <td><Image src={`/media/nfts/${index + 1}.jpeg`} className="rounded me-2" alt="nft" width={32} height={32} /><span className="fs-5">{token.token_name}</span></td>
-                                    <td>--</td>
-                                    <td className="text-center">collection name</td>
-                                    <td className="text-end">
+                                    <td>
+                                        <Image src={`/media/nfts/${index + 1}.jpeg`} className="rounded me-2" alt="nft" width={32} height={32} />
+                                        <span className="fs-5">{token.token_name}</span>
+                                    </td>
+                                    <td>{token.token_description}</td>
+                                    <td>{token.token_standard}</td>
+                                    <td>{token.collection_name}</td>
+                                    <td>
                                         <button onClick={() => setChosenToken(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`}>List</button>
                                     </td>
                                 </tr>

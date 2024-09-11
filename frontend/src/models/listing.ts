@@ -2,12 +2,14 @@ import { Schema, model, models } from "mongoose";
 export type ListingStatus = "open" | "closed" | "accepted";
 export interface IListingSchema {
     _id: string;
-    account_address: string;
+    address: string;
+    collection_name: string;
     collection_id: string;
     token_data_id: string;
     token_name: string;
     token_icon: string;
-    fa_metadata: string | null;
+    token_standard: string;
+    coin: string | null;
     amount: number | null;
     duration: number | null;
     apr: number | null;
@@ -16,7 +18,11 @@ export interface IListingSchema {
     updated_at: Date;
 }
 const ListingSchema = new Schema<IListingSchema>({
-    account_address: {
+    address: {
+        type: String,
+        required: true
+    },
+    collection_name: {
         type: String,
         required: true
     },
@@ -36,7 +42,11 @@ const ListingSchema = new Schema<IListingSchema>({
         type: String,
         required: true,
     },
-    fa_metadata: {
+    token_standard: {
+        type: String,
+        required: true,
+    },
+    coin: {
         type: String,
         default: null,
     },

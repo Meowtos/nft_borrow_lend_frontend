@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Josefin_Sans } from "next/font/google";
+import { League_Spartan } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./globals.css";
 import "@/assets/css/page.css";
@@ -14,7 +14,7 @@ import { ProgressBar } from "@/context/ProgressBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const font = Josefin_Sans({ subsets: ["latin"], weight: "400" })
+const font = League_Spartan({ subsets: ["latin"], weight: "400" })
 export const metadata: Metadata = {
   title: "DeFi NFT Loans",
   description: "Get tokens in loan by lending your nfts",
