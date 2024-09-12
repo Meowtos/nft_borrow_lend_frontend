@@ -166,7 +166,7 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                             tokens.map((token, index) => (
                                 <tr key={index}>
                                     <td>
-                                        <Image src={`/media/nfts/${index + 1}.jpeg`} className="rounded me-2" alt="nft" width={32} height={32} />
+                                        <Image src={`${token.token_icon_uri}`} className="rounded me-2" alt="nft" width={32} height={32} />
                                         <span className="fs-5">{token.token_name}</span>
                                     </td>
                                     <td>{token.token_description}</td>

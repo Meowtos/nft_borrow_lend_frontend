@@ -9,13 +9,17 @@ export async function GET(req: NextRequest) {
         const condition: { [key: string]: string } = {};
         const address = req.nextUrl.searchParams.get("address");
         if (address) {
-            condition.account_address = address;
+            condition.address = address;
         }
-        const forListingId = req.nextUrl.searchParams.get("for");
+        const forListingId = req.nextUrl.searchParams.get("forListing");
         if (forListingId) {
-            condition.for = forListingId;
+            condition.forListing = forListingId;
         }
-        const data = await Loan.find(condition);
+        const status = req.nextUrl.searchParams.get("status");
+        if(status){
+            condition.status = status;
+        }
+        const data = await Loan.find(condition, "_id address coin amount duration apr offer_obj hash forListing").populate("forListing");
         return NextResponse.json({ message: "success", data }, { status: 200 });
     } catch (error: unknown) {
         let errorMessage = 'An unexpected error occurred';
@@ -33,7 +37,7 @@ export async function POST(req: NextRequest) {
             throw new Error("Listing doesn't exist")
         }
         const exists = await Loan.findOne({
-            object: request.object,
+            offer_obj: request.offer_obj,
         });
         if (exists) {
             throw new Error("Same Loan Already Exists");

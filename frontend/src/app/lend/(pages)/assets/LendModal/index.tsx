@@ -98,9 +98,9 @@ export function LendModal({ token }: LendModalProps) {
                         hash: response.hash,
                     })
                 });
-                // const apiRes = await res.json();
+                const apiRes = await res.json();
                 if(!res.ok){
-                    throw new Error("Something went wrong!!")
+                    throw new Error(apiRes.message)
                 }
                 document.getElementById("closeLendModal")?.click();
                 toast.success("Transaction succeed", {
