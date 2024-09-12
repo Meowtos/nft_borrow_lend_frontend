@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     try {
         const request = await req.json();
         const exists = await Listing.findOne({
-            account_address: request.account_address,
+            address: request.address,
             token_data_id: request.token_data_id,
             status: "open"
         });
@@ -37,16 +37,19 @@ export async function POST(req: NextRequest) {
             throw new Error("Same Listing Already Exists");
         }
         const newListing = new Listing({
-            account_address: request.account_address,
+            address: request.address,
+            collection_name: request.collection_name,
             collection_id: request.collection_id,
             token_data_id: request.token_data_id,
             token_name: request.token_name,
             token_icon: request.token_icon,
-            fa_metadata: request.fa_metadata,
+            token_standard: request.token_standard,
+            coin: request.coin,
             amount: request.amount,
             duration: request.duration,
-            apr: request.apr,
+            apr: request.apr
         });
+        
         await newListing.save();
         return NextResponse.json({ message: "success" }, { status: 200 });
     } catch (error: unknown) {

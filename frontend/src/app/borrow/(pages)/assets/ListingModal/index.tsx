@@ -14,6 +14,8 @@ import { MdCollections } from "react-icons/md";
 import { MdOutlineToken } from "react-icons/md";
 
 import { MAX_LOCK_DURATION } from "@/utils/aptos";
+import * as Yup from "yup";
+import { ButtonLoading } from "@/components/ButtonLoading";
 
 export const assetListingModalId = "assetListingModal";
 interface ListingModalProps {
@@ -24,24 +26,31 @@ export function ListingModal({ token }: ListingModalProps) {
     const { account } = useWallet();
     const [dropdownToken, setDropdownToken] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
-    const { values, handleSubmit, handleChange, setFieldValue } = useFormik({
+    const { values, handleSubmit, handleChange, setFieldValue, errors, touched } = useFormik({
         initialValues: {
             coin: "",
             amount: "",
             duration: "",
             apr: ""
         },
+        validationSchema: Yup.object({
+            amount: Yup.number().typeError("Amount must be a number").positive("Amount must be +ve"),
+            duration: Yup.number().min(1, "Minimum 1 day required").max(MAX_LOCK_DURATION, `Max ${MAX_LOCK_DURATION} day allowed`),
+            apr: Yup.number().positive("Apr must be +ve"),
+        }),
         onSubmit: async (data) => {
             if (!account?.address || !token) return;
             setSubmitLoading(true)
             const formData = {
                 ...data,
-                account_address: account.address,
+                address: account.address,
                 collection_id: token.collection_id,
+                collection_name: token.collection_name,
                 token_data_id: token.token_data_id,
                 token_icon: token.token_icon_uri,
                 token_name: token.token_name,
-                fa_metadata: data.coin !== "" ? data.coin : null,
+                token_standard: token.token_standard,
+                coin: data.coin !== "" ? data.coin : null,
             }
             fetch("/api/listing", {
                 method: "POST", headers: {
@@ -73,7 +82,7 @@ export function ListingModal({ token }: ListingModalProps) {
             <div className="modal fade" id={assetListingModalId} tabIndex={-1} aria-labelledby={`${assetListingModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <IoClose type="button" className="text-light close-icon" data-bs-dismiss="modal" aria-label="Close" />
+                        <IoClose type="button" className="text-light close-icon" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal" />
                         {
                             token &&
                             <div className="row">
@@ -97,9 +106,22 @@ export function ListingModal({ token }: ListingModalProps) {
                                 <div className="col-lg-9 p-0 ps-5">
                                     <h3>Asset Listing</h3>
                                     <form className="asset-form pt-4" onSubmit={handleSubmit} autoComplete="off">
-                                        <div className="form-group">
-                                            <div className="dropdown-btn select-field">
-                                                <button type="button" className="rounded text-start w-100" onClick={() => setDropdownToken(!dropdownToken)}>
+                                        <div className="mb-3">
+                                            <div className="form-group">
+                                                <div className="dropdown-btn select-field">
+                                                    <button type="button" className="rounded text-start w-100" onClick={() => setDropdownToken(!dropdownToken)}>
+                                                        {
+                                                            chosenCoin ? chosenCoin.symbol : "Any Coin"
+                                                        }
+                                                        <IoIosArrowDown className="dd-icon" /></button>
+                                                </div>
+                                                <div className="coll-dropdown rounded select-dropdown" hidden={dropdownToken}>
+                                                    <div className="coll-item" onClick={() => {
+                                                        setFieldValue("coin", "");
+                                                        setDropdownToken(!dropdownToken)
+                                                    }}>
+                                                        <p>Any Coin</p>
+                                                    </div>
                                                     {
                                                         chosenCoin ? chosenCoin.symbol : "Any"
                                                     }
@@ -118,16 +140,24 @@ export function ListingModal({ token }: ListingModalProps) {
                                                         </div>
                                                     ))}
                                             </div>
+                                            {errors.coin && touched.coin && <span className="text-danger">{errors.coin}</span>}
                                         </div>
-                                        <input type="text" name="amount" value={values.amount} onChange={handleChange} placeholder="Enter Amount" className="form-control" />
-                                        <input type="text" name="duration" value={values.duration} onChange={handleChange} placeholder="Enter Duration (In days)" className="form-control" />
-                                        <input type="text" name="apr" value={values.apr} onChange={handleChange} className="form-control" placeholder="Enter APR (%)" />
+                                        <div className="mb-3">
+                                            <input type="text" name="amount" value={values.amount} onChange={handleChange} placeholder="Enter Amount" className="form-control" />
+                                            {errors.amount && touched.amount && <span className="text-danger">{errors.amount}</span>}
+                                        </div>
+                                        <div className="mb-3">
+                                            <input type="text" name="duration" value={values.duration} onChange={handleChange} placeholder={`Enter Duration (1 day - ${MAX_LOCK_DURATION} days)`} className="form-control" />
+                                            {errors.duration && touched.duration && <span className="text-danger">{errors.duration}</span>}
+                                        </div>
+                                        <div className="mb-3">
+                                            <input type="text" name="apr" value={values.apr} onChange={handleChange} className="form-control" placeholder="Enter APR (%)" />
+                                            {errors.apr && touched.apr && <span className="text-danger">{errors.apr}</span>}
+                                        </div>
                                         {
                                             submitLoading
                                                 ?
-                                                <button type="button" disabled className="submit-btn">
-                                                    Loading...
-                                                </button>
+                                                <ButtonLoading className="submit-btn" />
                                                 :
                                                 <input type="submit" className="submit-btn" />
                                         }

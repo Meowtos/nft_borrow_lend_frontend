@@ -10,7 +10,11 @@ module nft_lending::simpu_coin {
         burn_cap: BurnCapability<SimpuCoin>,
     }
 
-    const FAUCET_LIMIT: u64 = 10000000; // 10 tokens
+    struct FaucetManagement has key {
+        claim_timestamp: u64,
+    }
+
+    const FAUCET_LIMIT: u64 = 5000000; // 5 tokens
 
     fun init_module(creator: &signer){
         let (burn_cap, freeze_cap, mint_cap) = coin::initialize<SimpuCoin>(

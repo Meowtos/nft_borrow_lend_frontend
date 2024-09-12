@@ -10,11 +10,9 @@ module nft_lending::nft_lending {
     use aptos_framework::timestamp;
     use aptos_framework::aptos_account;
 
-
     struct AppSigner has key {
         extend_ref: object::ExtendRef,
     }
-
 
     #[resource_group_member(group=aptos_framework::object::ObjectGroup)]
     struct MetadataInfo has key {

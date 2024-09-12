@@ -1,5 +1,5 @@
 // Fungible assets for testing used withing app for demo
-module nft_lending::aptos_pepe {
+module nft_lending::meow {
     use std::signer;
     use aptos_framework::fungible_asset::{Self, MintRef, TransferRef, Metadata};
     use aptos_framework::object;
@@ -13,15 +13,9 @@ module nft_lending::aptos_pepe {
         transfer_ref: TransferRef,
     }
 
-    struct FaucetManagement has key {
-        claim_timestamp: u64 
-    }
-
-    const ECOME_BACK_LATER: u64 = 0;
-
-    const ASSET_SYMBOL: vector<u8> = b"PEPE";
-    const ASSET_NAME: vector<u8> = b"Aptos Pepe";
-    const ASSET_ICON_URI: vector<u8> = b"https://static01.nyt.com/images/2016/09/28/us/28xp-pepefrog/28xp-pepefrog-superJumbo.jpg";
+    const ASSET_SYMBOL: vector<u8> = b"MEOW";
+    const ASSET_NAME: vector<u8> = b"Meow Meow";
+    const ASSET_ICON_URI: vector<u8> = b"https://yt3.googleusercontent.com/ytc/AIdro_kwV3SXYI2QnFZNe8vCvFYBzi0_JUec5VwBv0bLV6LxUjw=s160-c-k-c0x00ffffff-no-rj";
     const FAUCET_LIMIT: u64 = 1000000000; // 10 tokens
 
     fun init_module(creator: &signer){
@@ -60,24 +54,9 @@ module nft_lending::aptos_pepe {
         object::address_to_object<Metadata>(addr)
     }
 
-    public entry fun take_faucet(user: &signer) acquires FaucetManagement, AssetManagement {
+    public entry fun take_faucet(user: &signer) acquires AssetManagement {
         let user_addr = signer::address_of(user);
-        if(!exists<FaucetManagement>(user_addr)){
-            move_to(user, FaucetManagement {
-                claim_timestamp: 0,
-            });
-        };
-        let faucet_management = borrow_global_mut<FaucetManagement>(user_addr);
-        let current_timestamp = timestamp::now_seconds();
-        assert!(current_timestamp > add_hours_to_timestamp(4, faucet_management.claim_timestamp), ECOME_BACK_LATER);
         mint(user_addr, FAUCET_LIMIT);
-        faucet_management.claim_timestamp = current_timestamp;
-    }
-
-    fun add_hours_to_timestamp(hours: u64, timestamp: u64): u64 {
-        let additional_secs = hours * 60 * 3600;
-        timestamp + additional_secs
-
     }
     
 }
