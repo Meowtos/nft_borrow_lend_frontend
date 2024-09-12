@@ -41,35 +41,39 @@ export function ListingModal({ token }: ListingModalProps) {
         onSubmit: async (data) => {
             if (!account?.address || !token) return;
             setSubmitLoading(true)
-            const formData = {
-                ...data,
-                address: account.address,
-                collection_id: token.collection_id,
-                collection_name: token.collection_name,
-                token_data_id: token.token_data_id,
-                token_icon: token.token_icon_uri,
-                token_name: token.token_name,
-                token_standard: token.token_standard,
-                coin: data.coin !== "" ? data.coin : null,
-            }
-            fetch("/api/listing", {
-                method: "POST", headers: {
-                    contentType: "application/json"
-                }, body: JSON.stringify(formData)
-            }).then((res) => {
-                if (!res.ok) {
-                    return res.json().then((error) => {
-                        throw new Error(error.message)
-                    })
+            try {
+                const formData = {
+                    ...data,
+                    address: account.address,
+                    collection_id: token.collection_id,
+                    collection_name: token.collection_name,
+                    token_data_id: token.token_data_id,
+                    token_icon: token.token_icon_uri,
+                    token_name: token.token_name,
+                    token_standard: token.token_standard,
+                    coin: data.coin !== "" ? data.coin : null,
                 }
-                return res.json()
-            }).then(() => {
-                document.getElementById("closeAssetListingModal")?.click()
-                toast.success("Item listed")
-            }).catch((error) => {
-                toast.error(error.message)
-            })
-            setSubmitLoading(false)
+                const res = await fetch("/api/listing", {
+                    method: "POST", 
+                    headers: {
+                        contentType: "application/json"
+                    }, 
+                    body: JSON.stringify(formData)
+                });
+                const _response = await res.json();
+                if(!res.ok){
+                    throw new Error("Something went wrong!!")
+                }
+                document.getElementById("closeAssetListingModal")?.click();
+            } catch (error: unknown) {
+                let errorMessage = 'An unexpected error occurred';
+                if (error instanceof Error) {
+                    errorMessage = error.message;
+                } 
+                toast.error(errorMessage);
+            } finally {
+                setSubmitLoading(false)
+            }
         }
     })
     const chosenCoin = useMemo(() => {
@@ -136,8 +140,8 @@ export function ListingModal({ token }: ListingModalProps) {
                                                             setDropdownToken(!dropdownToken)
                                                         }} key={fa.asset_type}>
                                                             <p>
-                                                                <Image src={fa.icon_uri} alt={fa.symbol} height={20} width={20} className="rounded-circle me-2" />
-                                                                {fa.symbol} ({fa.token_standard})</p>
+                                                                {/* <Image src={fa.icon_uri} alt={fa.symbol} height={20} width={20} className="rounded-circle me-2" /> */}
+                                                                {fa.symbol}</p>
                                                         </div>
                                                     ))}
                                             </div>

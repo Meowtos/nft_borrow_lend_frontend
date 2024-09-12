@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     try {
         const request = await req.json();
-        const existListing = await Listing.findById(request.for);
+        const existListing = await Listing.findById(request.forListing);
         if(!existListing){
             throw new Error("Listing doesn't exist")
         }
@@ -39,14 +39,14 @@ export async function POST(req: NextRequest) {
             throw new Error("Same Loan Already Exists");
         }
         const newLoan = new Loan({
-            account_address: request.account_address,
-            for: request.for,
-            fa_metadata: request.fa_metadata,
+            address: request.address,
+            forListing: request.forListing,
+            coin: request.coin,
             amount: request.amount,
             duration: request.duration,
             apr: request.apr,
-            object: request.object,
-            tx_hash: request.tx_hash
+            offer_obj: request.offer_obj,
+            hash: request.hash,
         });
         await newLoan.save();
         return NextResponse.json({ message: "success" }, { status: 200 });

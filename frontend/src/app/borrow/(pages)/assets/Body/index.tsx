@@ -13,7 +13,7 @@ import { Loading } from "@/components/Loading";
 import { assetListingModalId, ListingModal } from "../ListingModal";
 
 export function Body() {
-    const { account, connected } = useWallet();
+    const { account } = useWallet();
     const [userOwnedCollections, setUserOwnedCollections] = useState<Collection[]>([]);
     const [chosenCollection, setChosenCollection] = useState<Collection | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -51,7 +51,6 @@ export function Body() {
         setChosenCollection(collection)
         setDropdown(!dropdown); // Close the dropdown after selection
     };
-    if (!connected) return "connect wallet";
     if (isLoading) return <Loading />
     return (
         <React.Fragment>

@@ -4,7 +4,8 @@ import { FA } from "@/types/Fa";
 import { getFAMetadata } from "@/utils/aptos";
 import { createContext, useContext, useEffect, useState } from "react";
 type AppContextType = {
-    assets: FA[]
+    assets: FA[],
+    getAssetByType: (type: string) => FA | undefined
 }
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -12,6 +13,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     children
 }) =>  {
     const [assets, setAssets] = useState<FA[]>([]);
+    const getAssetByType = (type: string): FA | undefined => {
+        return assets.find(asset => asset.asset_type === type);
+    }
     useEffect(()=>{
         getFAMetadata().then((res)=>{
             const result: FA[] = [];
@@ -30,7 +34,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     },[setAssets])
     return(
         <AppContext.Provider value={{
-            assets
+            assets,
+            getAssetByType
         }}>
             {children}
         </AppContext.Provider>

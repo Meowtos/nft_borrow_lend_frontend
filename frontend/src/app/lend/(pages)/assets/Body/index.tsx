@@ -4,6 +4,7 @@ import Image from "next/image"
 import React, { useState } from "react"
 import { BsFillGridFill, BsList } from "react-icons/bs"
 import { LendModal, lendModalId } from "../LendModal"
+import { useApp } from "@/context/AppProvider"
 interface BodyProps {
     tokensListing: IListingSchema[]
 }
@@ -48,6 +49,7 @@ interface TokenListingsProps {
     tokens: IListingSchema[];
 }
 export function TokenListings({ viewtype, tokens }: TokenListingsProps){
+    const { getAssetByType } = useApp();
     const [chosenToken, setChosenToken] = useState<IListingSchema | null>(null);
 
     return(
@@ -90,7 +92,7 @@ export function TokenListings({ viewtype, tokens }: TokenListingsProps){
                             </td>
                             <td>{token.token_standard}</td>
                             <td>{token.collection_name}</td>
-                            <td>{token.amount} {token.coin}</td>
+                            <td>{token.amount} {token.coin ? getAssetByType(token.coin)?.symbol : ""}</td>
                             <td>{token.duration}</td>
                             <td>{token.apr}</td>
                             <td>

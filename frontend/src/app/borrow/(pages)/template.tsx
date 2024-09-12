@@ -2,9 +2,10 @@
 import React from "react"
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 export default function BorrowLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
+    const { connected } = useWallet();
     const paths = [
         {
             name: "My Assets",
@@ -60,7 +61,7 @@ export default function BorrowLayout({ children }: { children: React.ReactNode }
                                     {
                                         paths.map((path, index) => (
                                             <div key={`borrow-content-${index}`} className={`tab-pane fade ${pathname === `/borrow/${path.to}` ? "show active" : ""}`} id={`borrow-${path.to}`} role="tabpanel" aria-labelledby={`borrow-${path}`}>
-                                                {children}
+                                                {connected ? children : "Connect your wallet"}
                                             </div>
                                         ))
                                     }
