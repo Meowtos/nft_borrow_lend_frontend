@@ -51,7 +51,7 @@ export function Body() {
         setChosenCollection(collection)
         setDropdown(!dropdown); // Close the dropdown after selection
     };
-    if(!connected) return "connect wallet";
+    if (!connected) return "connect wallet";
     if (isLoading) return <Loading />
     return (
         <React.Fragment>
@@ -128,18 +128,23 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
     useEffect(() => {
         getOwnedTokensByCollection()
     }, [getOwnedTokensByCollection]);
-    if(isLoading) return <Loading />;
+    if (isLoading) return <Loading />;
     return (
         <React.Fragment>
             <div className="all-cards pt-4 grid-view" hidden={viewtype == 'grid' ? false : true}>
                 {
-                    tokens.map((token) => (
+                    tokens.map((token, index) => (
                         <div className="card border-0" key={token.token_data_id}>
-                            <Image src={`${token.token_icon_uri}`} className="card-img-top w-100" alt={token.token_name} width={150} height={150} />
-                            <div className="card-body ">
+                            <Image src={`${token.token_icon_uri}`} className="card-img-top w-100" alt={token.token_name} width={150} height={200} />
+                            {/* <Image src={`/media/nfts/${index+1}.jpeg`} className="card-img-top w-100" alt={token.token_name} width={150} height={200} /> */}
+                            <div className="card-body">
                                 <h4 className="card-title">{token.token_name}</h4>
-                                <p className="card-text">{token.token_description}</p>
-                                <button onClick={() => setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`} className="btn list-btn w-100 mt-3">List</button>
+                                {/* <p className="d-flex"><span>Collection:</span><span>{token.collection_name}</span></p> */}
+                                <p className="d-flex"><span>{token.collection_name}</span></p>
+                                <p className="d-flex"><span>Token Standard :</span><span>{token.token_standard}</span></p>
+
+                                <p className="description">{token.token_description}</p>
+                                <button onClick={() => setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`} className="btn list-btn w-100">List Asset</button>
                             </div>
                         </div>
                     ))
@@ -152,7 +157,7 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                         <tr>
                             <th>Token Name</th>
                             <th>Token Description</th>
-                            <th>Token Standard</th>
+                            <th className="text-center">Token Standard</th>
                             <th>Collection</th>
                             <th>Action</th>
                         </tr>
@@ -166,7 +171,7 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                                         <span className="fs-5">{token.token_name}</span>
                                     </td>
                                     <td>{token.token_description}</td>
-                                    <td>{token.token_standard}</td>
+                                    <td className="text-center">{token.token_standard}</td>
                                     <td>{token.collection_name}</td>
                                     <td>
                                         <button onClick={() => setChosenToken(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`}>List</button>

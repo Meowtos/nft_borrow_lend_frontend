@@ -5,7 +5,7 @@ const Header = () => {
     return (
         <>
             <section className="header py-3">
-                <div className="container">
+                <div className="container p-0">
                     <div className="row m-0">
                         <div className="col p-0">
                             <Link href={"/"}>

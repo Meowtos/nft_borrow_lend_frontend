@@ -52,69 +52,51 @@ export function Body() {
         fetchOffers()
     }, [fetchOffers])
     return (
-        <table className="table">
-            <thead>
-                <tr>
-                    <th>Amount</th>
-                    <th>Apr</th>
-                    <th className="text-end">Status</th>
-                    <th className="text-end">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    offers.length > 0 ? (
-                        offers.map((loan, index) => (
-                            <tr key={index}>
-                                <td>{loan.amount}</td>
-                                <td>{loan.apr}</td>
-                                <td className="text-end">
-                                    <p className="off-status accepted">{loan.status}</p>
-                                </td>
-                                <td className="text-end">
-                                    <button className="action-btn rounded" onClick={() => onBorrow(loan.object)}>Accept offer</button>
-                                </td>
+        <>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>Amount</th>
+                        <th>Apr</th>
+                        <th className="text-end">Status</th>
+                        <th className="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        offers.length > 0 ? (
+                            offers.map((loan, index) => (
+                                <tr key={index}>
+                                    <td>{loan.amount}</td>
+                                    <td>{loan.apr}</td>
+                                    <td className="text-end">
+                                        <p className="off-status accepted">{loan.status}</p>
+                                    </td>
+                                    <td className="text-end">
+                                        <button className="action-btn rounded" onClick={() => onBorrow(loan.object)}>Accept offer</button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={4} className="text-center"><p className="p-3">No offers</p></td>
                             </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan={4} className="text-center"><p className="p-3">No offers</p></td>
-                        </tr>
-                    )
-                }
-                <tr>
-                    <td>25 APT</td>
-                    <td>30%</td>
-                    <td className="text-end">
-                        <p className="off-status ended">ended</p>
-                    </td>
-                    <td className="text-end"><button className="action-btn rounded">Accept offer</button></td>
-                </tr>
-                <tr>
-                    <td>25 APT</td>
-                    <td>30%</td>
-                    <td className="text-end">
-                        <p className="off-status accepted">accepted</p>
-                    </td>
-                    <td className="text-end"><button className="action-btn rounded">Accept offer</button></td>
-                </tr>
-                <tr>
-                    <td>25 APT</td>
-                    <td>30%</td>
-                    <td className="text-end">
-                        <p className="off-status live">live</p>
-                    </td>
-                    <td className="text-end"><button className="action-btn rounded">Accept offer</button></td>
-                </tr>
-                <tr>
-                    <td>25 APT</td>
-                    <td>30%</td>
-                    <td className="text-end">
-                        <p className="off-status live">live</p>
-                    </td>
-                    <td className="text-end"><button className="action-btn rounded">Accept offer</button></td>
-                </tr>
-            </tbody>
-        </table>
+                        )
+                    }
+                    <tr>
+                        <td>25 APT</td>
+                        <td>30%</td>
+                        <td className="text-end">
+                            <p className="off-status ended">closed</p>
+                            {/* <p className="off-status accepted">accepted</p>
+                            <p className="off-status live">open</p> */}
+                        </td>
+                        <td className="text-end">
+                            <button className="action-btn rounded">Accept offer</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </>
     )
 }

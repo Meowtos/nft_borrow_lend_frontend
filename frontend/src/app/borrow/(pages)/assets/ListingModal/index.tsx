@@ -8,6 +8,11 @@ import { useFormik } from "formik";
 import Image from 'next/image'
 import { IoIosArrowDown } from 'react-icons/io'
 import { IoClose } from 'react-icons/io5'
+import { IoMdGlobe } from "react-icons/io";
+import { RiTwitterXLine } from "react-icons/ri";
+import { MdCollections } from "react-icons/md";
+import { MdOutlineToken } from "react-icons/md";
+
 import { MAX_LOCK_DURATION } from "@/utils/aptos";
 
 export const assetListingModalId = "assetListingModal";
@@ -72,11 +77,24 @@ export function ListingModal({ token }: ListingModalProps) {
                         {
                             token &&
                             <div className="row">
-                                <div className="col-lg-4 p-0">
-                                    <Image src={token.token_icon_uri ?? ""} className="w-100" alt={token.token_name} width={250} height={370} />
-                                    <h5>{token.token_name}</h5>
+                                <div className="col-lg-3 p-0">
+                                    <div className="asset-socials text-start">
+                                        <RiTwitterXLine className="token-sc-icon me-2"/>
+                                        <IoMdGlobe className="token-sc-icon"/>
+                                    </div>
+                                    <div className="nft">
+                                        <Image src={token.token_icon_uri ?? ""} className="asset-img" alt={token.token_name} width={150} height={200} />
+                                        {/* <Image src={`/media/nfts/1.jpeg`} className="asset-img" alt={token.token_name} width={150} height={200} /> */}
+                                    </div>
+                                    <div className="nft-details">
+                                        <h4 className="text-center">{token.token_name}</h4>
+                                        <p><MdCollections className="text-light"/> {token.collection_name}</p>
+                                        <p><MdOutlineToken className="text-light"/>{token.token_standard}</p>
+                                        <p className="desc">{token.token_description}</p>
+                                    </div>
+
                                 </div>
-                                <div className="col-lg-8 p-0 ps-5">
+                                <div className="col-lg-9 p-0 ps-5">
                                     <h3>Asset Listing</h3>
                                     <form className="asset-form pt-4" onSubmit={handleSubmit} autoComplete="off">
                                         <div className="form-group">
@@ -95,7 +113,7 @@ export function ListingModal({ token }: ListingModalProps) {
                                                             setDropdownToken(!dropdownToken)
                                                         }} key={fa.asset_type}>
                                                             <p>
-                                                                <Image src={fa.icon_uri} alt={fa.symbol} height={20} width={20} className="rounded-pill" />
+                                                                <Image src={fa.icon_uri} alt={fa.symbol} height={20} width={20} className="rounded-circle me-2" />
                                                                 {fa.symbol} ({fa.token_standard})</p>
                                                         </div>
                                                     ))}
@@ -114,6 +132,7 @@ export function ListingModal({ token }: ListingModalProps) {
                                                 <input type="submit" className="submit-btn" />
                                         }
                                     </form>
+                                    <p className="mt-4 notice"><strong>Notice:</strong> By selecting this NFT as collateral, you acknowledge that the NFT will be securely transferred and stored with us for the duration of the loan. You will not have access to this NFT until the loan is fully repaid.</p>
                                 </div>
                             </div>
                         }

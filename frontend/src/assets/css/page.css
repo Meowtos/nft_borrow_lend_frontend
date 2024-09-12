@@ -1,6 +1,9 @@
 /* ------------------------------------------------------- */
 /* Buttons */
 /* ------------------------------------------------------- */
+button, .submit-btn{
+    letter-spacing: 0.8px !important;
+}
 .connect-btn{
     padding: 16px 24px;
     background: var(--primary-1);
@@ -103,6 +106,9 @@
 /* ------------------------------------------------------- */
 /* Modals */
 /* ------------------------------------------------------- */
+.modal{
+    background: #00000099;
+}
 .wallet-modal .modal-header,
 .wallet-modal .modal-body {
     background-color: #000000ee;
@@ -366,10 +372,14 @@
     background: #0f0e10;
 }
 .content-header{
-    border-bottom: 1px solid #ffffff30;
+    /* border-bottom: 1px solid #ffffff30; */
     justify-content: space-between;
-    padding-bottom: 16px;
+    /* padding-bottom: 16px; */
     align-items: center;
+
+    background: #ffffff0d;
+    padding: 20px;
+    border-radius: 4px;
 }
 .content-header .collection{
     position: relative;
@@ -429,15 +439,38 @@
 .card{
     overflow: hidden;
 }
+.card .card-img-top{
+    object-fit: cover;
+}
 .card .card-body{
     background-color: #282828;
     border: unset;
-    color: #ffffff33;
+    /* color: #ffffff33; */
+    color: #ffffff90;
+    padding: 0px;
+    font-size: 14px;
 }
 .card .card-title{
     color: var(--light);
     text-transform: capitalize;
+    padding: 12px 16px;
+    background: #4e4e4e60;
+    font-size: 20px;
+    line-height: 24px;
 }
+.card-body .d-flex{
+    justify-content: space-between;
+    padding: 8px 16px;
+    color: #ffffffbb;
+}
+.card .description{
+    border-top: 1px solid #ffffff20;
+    color: #ffffff90;
+    padding: 16px;
+}
+
+
+
 
 /* .table thead{
     border-top:1px solid #E41F7B;
@@ -452,9 +485,8 @@
     font-weight: 500 !important;
 }
 .table td{
-    /* background: #000000; */
-    background: #060606;
-    /* color: var(--light); */
+    /* background: #060606; */
+    background: #101010;
     color: #ffffffcc;
     padding: 10px 8px;
     vertical-align: middle;
@@ -465,10 +497,75 @@
     position: absolute;
     right: 24px;
     top: 24px;
+    /* box-shadow: 0 0 15px #ffffff35; */
 }
 .modal-content.list-modal {
     padding: 48px;
-    background: #262626;
+    /* background: #262626; */
+    background: #141414;
+    z-index: 999999 !important;
+}
+.list-modal .col-lg-3{
+    border: 1px solid #ffffff01;
+    border-radius: 8px;
+    padding: 16px !important;
+    background: #ffffff10;
+}
+.asset-socials .token-sc-icon{
+    color: #ffffff99;
+    font-size: 12px;
+    cursor: pointer;
+}
+.asset-socials .token-sc-icon:hover{
+    color: var(--light) !important;
+}
+.asset-img{
+    border-radius: 8px;
+    object-fit: cover;
+    height: 100%;
+}
+
+.nft {
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 8px;
+    background: #ffffff10;
+}
+.asset-img{
+    width: 100%;
+}
+.nft-details{
+    color: #ffffffad;
+}
+.nft-details h4 {
+    padding: 14px 0px;
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 500;
+    color: var(--light);
+    text-transform: capitalize;
+}
+.nft-details p{
+    padding-top: 10px;
+}
+.nft-details p:nth-of-type(1){
+    padding-top: 14px;
+    border-top: 1px solid #ffffff33 !important;
+}
+.nft-details svg{
+    font-size: 23px;
+    background: var(--primary-2) !important;
+    padding: 4px;
+    margin-right: 8px;
+}
+.nft-details p.desc{
+    font-size: 14px;
+}
+
+.list-modal h3{
+    padding: 13px;
+    background-image: linear-gradient(45deg, #202020, transparent);
 }
 .asset-form{
     border: unset !important;
@@ -484,6 +581,7 @@
     font-size: 16px;
     line-height: 16px;
     font-weight: 500 !important;
+    border-radius: unset !important;
 }
 .asset-form input,
 .form-group{
@@ -514,10 +612,22 @@
     position: absolute;
     right: 0px;
 }
+.notice{
+    color: #ffffff66;
+}
+.notice strong{
+    color: #d40060;
+}
+
 .coll-btn .dd-icon{
     right: 16px;
     margin-top: 4px;
 }
+.loans-title{
+    background-image: linear-gradient(45deg, black, transparent);
+    padding: 14px;
+}
+
 
 
 
