@@ -2,28 +2,24 @@
 import React, { useMemo, useState } from "react";
 import { useApp } from "@/context/AppProvider";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { Token } from "@/types/Token";
 import { toast } from "sonner";
 import { useFormik } from "formik";
 import Image from 'next/image'
 import { IoIosArrowDown } from 'react-icons/io'
 import { IoClose } from 'react-icons/io5'
-import { IoMdGlobe } from "react-icons/io";
-import { RiTwitterXLine } from "react-icons/ri";
-import { MdCollections } from "react-icons/md";
-import { MdOutlineToken } from "react-icons/md";
-
-import { MAX_LOCK_DURATION } from "@/utils/aptos";
+import { APR_DENOMINATOR, aptos, getObjectAddressFromEvent, MAX_LOCK_DURATION } from "@/utils/aptos";
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
+import { IListingSchema } from "@/models/listing";
+import { ABI_ADDRESS } from "@/utils/env";
 
-export const assetListingModalId = "assetListingModal";
-interface ListingModalProps {
-    token: Token | null
+export const lendModalId = "lendModal";
+interface LendModalProps {
+    token: IListingSchema | null
 }
-export function ListingModal({ token }: ListingModalProps) {
+export function LendModal({ token }: LendModalProps) {
     const { assets } = useApp();
-    const { account } = useWallet();
+    const { account, signAndSubmitTransaction } = useWallet();
     const [dropdownToken, setDropdownToken] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
     const { values, handleSubmit, handleChange, setFieldValue, errors, touched } = useFormik({
@@ -34,42 +30,62 @@ export function ListingModal({ token }: ListingModalProps) {
             apr: ""
         },
         validationSchema: Yup.object({
-            amount: Yup.number().typeError("Amount must be a number").positive("Amount must be +ve"),
-            duration: Yup.number().min(1, "Minimum 1 day required").max(MAX_LOCK_DURATION, `Max ${MAX_LOCK_DURATION} day allowed`),
-            apr: Yup.number().positive("Apr must be +ve"),
+            coin: Yup.string().required("Coin is required"),
+            amount: Yup.number().typeError("Amount must be a number").positive("Amount must be +ve").required("Amount is required"),
+            duration: Yup.number().min(1, "Minimum 1 day required").max(MAX_LOCK_DURATION, `Max ${MAX_LOCK_DURATION} day allowed`).required(),
+            apr: Yup.number().positive("Apr must be +ve").required(),
         }),
         onSubmit: async (data) => {
             if (!account?.address || !token) return;
             setSubmitLoading(true)
-            const formData = {
-                ...data,
-                address: account.address,
-                collection_id: token.collection_id,
-                collection_name: token.collection_name,
-                token_data_id: token.token_data_id,
-                token_icon: token.token_icon_uri,
-                token_name: token.token_name,
-                token_standard: token.token_standard,
-                coin: data.coin !== "" ? data.coin : null,
+            try {
+                const coin = assets.find((asset) => asset.asset_type === data.coin);
+            if (!coin) {
+                throw new Error("No coin")
+            };
+            
+            const decimals = coin.decimals;
+            const apr = Number(data.apr) * APR_DENOMINATOR;
+            const amount = Number(data.amount) * Math.pow(10, decimals);
+            const typeArguments = [];
+            if(coin.token_standard === "v1"){
+                typeArguments.push(coin.asset_type)
             }
-            fetch("/api/listing", {
-                method: "POST", headers: {
-                    contentType: "application/json"
-                }, body: JSON.stringify(formData)
-            }).then((res) => {
-                if (!res.ok) {
-                    return res.json().then((error) => {
-                        throw new Error(error.message)
-                    })
+            const functionArguments = [
+                token.token_data_id,
+                amount,
+                data.duration,
+                apr,
+            ];
+            if(coin.token_standard === "v2"){
+                functionArguments.push(coin.asset_type);
+            };
+            const response = await signAndSubmitTransaction({
+                sender: account.address,
+                data: {
+                    function: `${ABI_ADDRESS}::nft_lending::${coin.token_standard === "v2" ? "offer_with_fa": "offer_with_coin"}`,
+                    typeArguments,
+                    functionArguments,
                 }
-                return res.json()
-            }).then(() => {
-                document.getElementById("closeAssetListingModal")?.click()
-                toast.success("Item listed")
-            }).catch((error) => {
-                toast.error(error.message)
+            });
+            toast("Waiting for the transaction", {
+                action: <a href="/somwhere">View Txn</a>
             })
-            setSubmitLoading(false)
+            await aptos.waitForTransaction({
+                transactionHash: response.hash
+            })
+            toast.success("Transaction succeed", {
+                action: <a href="/view">View Txn</a>
+            })
+            } catch (error) {
+                let errorMessage = `An unexpected error has occured`;
+                if(typeof error === "string"){
+                    errorMessage = error;
+                }
+                toast.error(errorMessage)
+            } finally {
+                setSubmitLoading(false)
+            }
         }
     })
     const chosenCoin = useMemo(() => {
@@ -79,32 +95,19 @@ export function ListingModal({ token }: ListingModalProps) {
     }, [assets, values.coin])
     return (
         <React.Fragment>
-            <div className="modal fade" id={assetListingModalId} tabIndex={-1} aria-labelledby={`${assetListingModalId}Label`} >
+            <div className="modal fade" id={lendModalId} tabIndex={-1} aria-labelledby={`${lendModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <IoClose type="button" className="text-light close-icon" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal" />
+                        <IoClose type="button" className="text-light close-icon" data-bs-dismiss="modal" aria-label="Close" id="closeLendModal" />
                         {
                             token &&
                             <div className="row">
-                                <div className="col-lg-3 p-0">
-                                    <div className="asset-socials text-start">
-                                        <RiTwitterXLine className="token-sc-icon me-2"/>
-                                        <IoMdGlobe className="token-sc-icon"/>
-                                    </div>
-                                    <div className="nft">
-                                        <Image src={token.token_icon_uri ?? ""} className="asset-img" alt={token.token_name} width={150} height={200} />
-                                        {/* <Image src={`/media/nfts/1.jpeg`} className="asset-img" alt={token.token_name} width={150} height={200} /> */}
-                                    </div>
-                                    <div className="nft-details">
-                                        <h4 className="text-center">{token.token_name}</h4>
-                                        <p><MdCollections className="text-light"/> {token.collection_name}</p>
-                                        <p><MdOutlineToken className="text-light"/>{token.token_standard}</p>
-                                        <p className="desc">{token.token_description}</p>
-                                    </div>
-
+                                <div className="col-lg-4 p-0">
+                                    <Image src={token.token_icon ?? ""} className="w-100" alt={token.token_name} width={250} height={370} />
+                                    <h5>{token.token_name}</h5>
                                 </div>
-                                <div className="col-lg-9 p-0 ps-5">
-                                    <h3>Asset Listing</h3>
+                                <div className="col-lg-8 p-0 ps-5">
+                                    <h3>Give Loan</h3>
                                     <form className="asset-form pt-4" onSubmit={handleSubmit} autoComplete="off">
                                         <div className="mb-3">
                                             <div className="form-group">
@@ -123,23 +126,17 @@ export function ListingModal({ token }: ListingModalProps) {
                                                         <p>Any Coin</p>
                                                     </div>
                                                     {
-                                                        chosenCoin ? chosenCoin.symbol : "Any"
-                                                    }
-                                                    <IoIosArrowDown className="dd-icon" />
+                                                        assets.map(fa => (
+                                                            <div className="coll-item" onClick={() => {
+                                                                setFieldValue("coin", fa.asset_type);
+                                                                setDropdownToken(!dropdownToken)
+                                                            }} key={fa.asset_type}>
+                                                                <p>
+                                                                    {/* <Image src={fa.icon_uri} alt={fa.symbol} height={20} width={20} className="rounded-pill" /> */}
+                                                                    {fa.symbol} ({fa.token_standard})</p>
+                                                            </div>
+                                                        ))}
                                                 </div>
-                                            </div>
-                                            <div className="coll-dropdown rounded select-dropdown" hidden={dropdownToken}>
-                                                {
-                                                    assets.map(fa => (
-                                                        <div className="coll-item" onClick={() => {
-                                                            setFieldValue("coin", fa.asset_type);
-                                                            setDropdownToken(!dropdownToken)
-                                                        }} key={fa.asset_type}>
-                                                            <p>
-                                                                <Image src={fa.icon_uri} alt={fa.symbol} height={20} width={20} className="rounded-circle me-2" />
-                                                                {fa.symbol} ({fa.token_standard})</p>
-                                                        </div>
-                                                    ))}
                                             </div>
                                             {errors.coin && touched.coin && <span className="text-danger">{errors.coin}</span>}
                                         </div>
@@ -163,7 +160,6 @@ export function ListingModal({ token }: ListingModalProps) {
                                                 <input type="submit" className="submit-btn" />
                                         }
                                     </form>
-                                    <p className="mt-4 notice"><strong>Notice:</strong> By selecting this NFT as collateral, you acknowledge that the NFT will be securely transferred and stored with us for the duration of the loan. You will not have access to this NFT until the loan is fully repaid.</p>
                                 </div>
                             </div>
                         }
