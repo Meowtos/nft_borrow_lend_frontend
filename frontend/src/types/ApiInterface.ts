@@ -7,6 +7,7 @@ export interface Listing extends IListingSchema {
 
 export interface Loan {
     _id: string;
+    forAddress: string;
     address: string;
     coin: string;
     amount: number;

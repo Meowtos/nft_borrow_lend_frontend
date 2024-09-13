@@ -1,15 +1,35 @@
 "use client"
 import { IListingSchema } from "@/models/listing"
 import Image from "next/image"
-import React, { useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { BsFillGridFill, BsList } from "react-icons/bs"
 import { LendModal, lendModalId } from "../LendModal"
 import { useApp } from "@/context/AppProvider"
-interface BodyProps {
-    tokensListing: IListingSchema[]
-}
-export function Body({ tokensListing }: BodyProps) {
-    const [view, setView] = useState("list")
+import { Listing } from "@/types/ApiInterface"
+import { useWallet } from "@aptos-labs/wallet-adapter-react"
+export function Body() {
+    const { account } = useWallet();
+    const [view, setView] = useState("list");
+    const [tokensListing, setTokensListing] = useState<Listing[]>([])
+
+    useEffect(()=>{
+        async function getTokensListing(){
+            try {
+                const res = await fetch(`/api/listing?status=open`);
+                if(res.ok){
+                    const response = await res.json();
+                    setTokensListing(response.data)
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        getTokensListing()
+    },[setTokensListing]);
+    const notMyListings = useMemo(()=>{
+        if(!account?.address) return tokensListing;
+        return tokensListing.filter((token) => token.address !== account.address)
+    },[tokensListing])
     return (
         <React.Fragment>
             <div className="content-header d-flex">
@@ -39,7 +59,7 @@ export function Body({ tokensListing }: BodyProps) {
                 </div>
             </div>
             <div className="content-body">
-                <TokenListings viewtype={view} tokens={tokensListing}/>
+                <TokenListings viewtype={view} tokens={notMyListings}/>
             </div>
         </React.Fragment>
     )

@@ -114,7 +114,7 @@ export function Body() {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan={4} className="text-center"><p className="p-3">No offers</p></td>
+                            <td colSpan={9} className="text-center"><p className="p-3">No offers</p></td>
                         </tr>
                     )
                 }

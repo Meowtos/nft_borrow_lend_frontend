@@ -1,5 +1,5 @@
-import { AptosConfig, NetworkToNetworkName, Aptos } from "@aptos-labs/ts-sdk";
-import { ABI_ADDRESS, NETWORK } from "./env";
+import { AptosConfig, NetworkToNetworkName, Aptos, TokenStandard } from "@aptos-labs/ts-sdk";
+import { NETWORK } from "./env";
 import { APTOS_V1, APTOS_V2, MEOW, SIMPU_COIN } from "./coins";
 const config = new AptosConfig({
     network: NetworkToNetworkName[NETWORK]
@@ -33,16 +33,27 @@ export const getFAMetadata = async () => {
     });
     return result;
 }
-// this function is specifically for nft lending events
-export const getObjectAddressFromEvent = async (hash: string, eventName: string, objKey: string) => {
-    const transaction = await aptos.getTransactionByHash({ transactionHash: hash });
-    const eventType = `${ABI_ADDRESS}::nft_lending_events::${eventName}`;
-    if (transaction.type === "user_transaction") {
-        const event = transaction.events.find((event) => event.type === eventType);
-        if (event) {
-            return event.data[objKey];
+
+export const getAssetBalance = async (accountAddr: string, asset_type: string, token_standard: TokenStandard) => {
+    if (token_standard === "v1") {
+        const coinType = asset_type as '`${string}::${string}::${string}`';
+        const result = await aptos.getAccountCoinAmount({ accountAddress: accountAddr, coinType });
+        return result;
+    } else {
+        const result = await aptos.getCurrentFungibleAssetBalances({
+            options: {
+              where: {
+                owner_address: {_eq: accountAddr},
+                asset_type: {_eq: asset_type}
+              }
+            }
+        });
+        if(result.length === 0){
+            return 0;
         }
-    }
-    // This wont happen, everything must be correct above
-    return "";
+        const primaryStore = result.find(store => store.is_primary === true);
+        return primaryStore ? primaryStore.amount : 0        
+    };
+    return 0;
 }
+

@@ -1,6 +1,6 @@
 "use client"
 import { Loan } from "@/types/ApiInterface";
-import { aptos, getObjectAddressFromEvent } from "@/utils/aptos";
+import { aptos } from "@/utils/aptos";
 import { ABI_ADDRESS } from "@/utils/env";
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
 import React, { useCallback, useEffect, useState } from "react";

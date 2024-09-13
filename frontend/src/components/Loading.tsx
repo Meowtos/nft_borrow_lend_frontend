@@ -1,7 +1,11 @@
 import Image from "next/image";
 
-export function Loading(){
-    return(
-        <Image src="/media/loading.gif" alt="loading" height={200} width={200}/>
+export function Loading() {
+    return (
+        <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status" style={{ height: "100px", width: "100px" }}>
+                <span className="visually-hidden">Loading...</span>
+            </div>
+        </div>
     )
 }

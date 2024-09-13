@@ -268,7 +268,7 @@ module nft_lending::nft_lending {
             amount,
             duration,
             apr,
-            start_timestamp,
+            start_timestamp: current_timestamp,
             extend_ref: object::generate_extend_ref(constructor_ref),
             delete_ref: object::generate_delete_ref(constructor_ref),
         });

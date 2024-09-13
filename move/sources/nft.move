@@ -10,11 +10,11 @@ module nft_lending::nft {
     struct ObjectController has key {
         app_extend_ref: object::ExtendRef,
     }
-    const APP_OBJECT_SEED: vector<u8> = b"NFT_LENDING";
-    const COLLECTION_NAME: vector<u8> = b"NFT Lending Test Collection";
-    const COLLECTION_DESCRIPTION: vector<u8> = b"NFT Lending Test Collection";
-    const COLLECTION_URI: vector<u8> = b"https://github.com/ajaythxkur";
-    const TOKEN_DESCRIPTION: vector<u8> = b"NFT Lending Test Token";
+    const APP_OBJECT_SEED: vector<u8> = b"space";
+    const COLLECTION_NAME: vector<u8> = b"For the ones who need space";
+    const COLLECTION_DESCRIPTION: vector<u8> = b"Space cadets to the moon";
+    const COLLECTION_URI: vector<u8> = b"https://img.freepik.com/premium-vector/vector-illustration-child-astronaut-cartoon-sitting-space-rock_472355-40.jpg";
+    const TOKEN_DESCRIPTION: vector<u8> = b"Wagmi";
 
     fun init_module(creator: &signer) {
         let constructor_ref = object::create_named_object(creator, APP_OBJECT_SEED);

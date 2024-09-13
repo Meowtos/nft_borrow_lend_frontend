@@ -31,7 +31,7 @@ export default function lendLayout({ children }: { children: React.ReactNode }) 
                     </div>
                 </div>
             </section>
-            <section className="lend-tabs py-100">
+            <section className="borrow-tabs py-100">
                 <div className="container">
                     <div className="row">
                         <div className="col">

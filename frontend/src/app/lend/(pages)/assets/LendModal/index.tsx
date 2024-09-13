@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useApp } from "@/context/AppProvider";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { toast } from "sonner";
@@ -7,7 +7,7 @@ import { useFormik } from "formik";
 import Image from 'next/image'
 import { IoIosArrowDown, IoMdGlobe } from 'react-icons/io'
 import { IoClose } from 'react-icons/io5'
-import { APR_DENOMINATOR, aptos, getObjectAddressFromEvent, MAX_LOCK_DURATION } from "@/utils/aptos";
+import { APR_DENOMINATOR, aptos, getAssetBalance, MAX_LOCK_DURATION } from "@/utils/aptos";
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
 import { IListingSchema } from "@/models/listing";
@@ -24,6 +24,7 @@ export function LendModal({ token }: LendModalProps) {
     const { account, signAndSubmitTransaction } = useWallet();
     const [dropdownToken, setDropdownToken] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
+    const [balance, setBalance] = useState(0)
     const { values, handleSubmit, handleChange, setFieldValue, errors, touched } = useFormik({
         initialValues: {
             coin: "",
@@ -126,6 +127,20 @@ export function LendModal({ token }: LendModalProps) {
             return assets.find((asset) => asset.asset_type === values.coin);
         }
     }, [assets, values.coin])
+    const getBalance = useCallback(async()=>{
+        if(!account?.address || !chosenCoin) {
+            return setBalance(0)
+        }
+        try {
+            const res = await getAssetBalance(account?.address, chosenCoin.asset_type, chosenCoin.token_standard);
+            setBalance(res / Math.pow(10, chosenCoin.decimals))
+        } catch (error) {
+            console.error(error)
+        }
+    },[chosenCoin, account?.address]);
+    useEffect(()=>{
+        getBalance()
+    },[getBalance])
     return (
         <React.Fragment>
             <div className="modal fade" id={lendModalId} tabIndex={-1} aria-labelledby={`${lendModalId}Label`} >
@@ -142,7 +157,6 @@ export function LendModal({ token }: LendModalProps) {
                                     </div>
                                     <div className="nft">
                                         <Image src={token.token_icon ?? ""} className="asset-img" alt={token.token_name} width={150} height={200} />
-                                        {/* <Image src={`/media/nfts/1.jpeg`} className="asset-img" alt={token.token_name} width={150} height={200} /> */}
                                     </div>
                                     <div className="nft-details">
                                         <h4 className="text-center">{token.token_name}</h4>
@@ -155,6 +169,7 @@ export function LendModal({ token }: LendModalProps) {
                                     <h3>Asset Listing</h3>
                                     <form className="asset-form pt-4" onSubmit={handleSubmit} autoComplete="off">
                                         <div className="mb-3">
+                                            Balance : {balance.toString()}
                                             <div className="form-group">
                                                 <div className="dropdown-btn select-field">
                                                     <button type="button" className="rounded text-start w-100" onClick={() => setDropdownToken(!dropdownToken)}>

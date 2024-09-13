@@ -5,7 +5,6 @@ module nft_lending::meow {
     use aptos_framework::object;
     use aptos_framework::primary_fungible_store;
     use std::string::utf8;
-    use aptos_framework::timestamp;
     use std::option;
 
     struct AssetManagement has key {
@@ -46,6 +45,7 @@ module nft_lending::meow {
         fungible_asset::deposit_with_ref(&asset_management.transfer_ref, to_wallet, fa);
     }
 
+    #[view]
     fun asset_address(): address {
         object::create_object_address(&@nft_lending, ASSET_SYMBOL)
     }

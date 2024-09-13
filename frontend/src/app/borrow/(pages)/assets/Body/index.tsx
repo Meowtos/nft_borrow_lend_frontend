@@ -51,7 +51,8 @@ export function Body() {
         setChosenCollection(collection)
         setDropdown(!dropdown); // Close the dropdown after selection
     };
-    // if (isLoading) return <Loading />
+    if (isLoading) return <Loading />;
+    if(userOwnedCollections.length === 0) return "No collections found"
     return (
         <React.Fragment>
             <div className="content-header d-flex">

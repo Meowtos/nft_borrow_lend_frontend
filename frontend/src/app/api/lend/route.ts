@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
         if(forAddress){
             condition.forAddress = forAddress;
         }
-        const data = await Loan.find(condition, "_id address coin amount duration apr offer_obj hash forListing status borrow_obj start_timestamp").populate("forListing");
+        const data = await Loan.find(condition, "_id address coin amount duration apr offer_obj hash forListing status borrow_obj start_timestamp forAddress").populate("forListing");
         return NextResponse.json({ message: "success", data }, { status: 200 });
     } catch (error: unknown) {
         let errorMessage = 'An unexpected error occurred';
