@@ -3,6 +3,7 @@ export type LoanStatus = "pending" | "cancelled" | "borrowed" | "repayed";
 export interface ILoanSchema {
     _id: string;
     address: string;
+    forAddress: string;
     forListing: Schema.Types.ObjectId; // For which Listing
     coin: string;
     amount: number;
@@ -19,6 +20,10 @@ const LoanSchema = new Schema<ILoanSchema>({
     address: {
         type: String,
         required: true
+    },
+    forAddress: {
+        type: String,
+        required: true,
     },
     forListing: {
         type: Schema.Types.ObjectId,

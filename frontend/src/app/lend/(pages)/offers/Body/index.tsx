@@ -8,19 +8,20 @@ import { useApp } from "@/context/AppProvider";
 import { ABI_ADDRESS } from "@/utils/env";
 import { toast } from "sonner";
 import { aptos } from "@/utils/aptos";
-export function Body(){
+import { ButtonLoading } from "@/components/ButtonLoading";
+export function Body() {
     const { account, signAndSubmitTransaction } = useWallet();
     const { getAssetByType } = useApp()
     const [loading, setLoading] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
     const [userOffers, setUserOffers] = useState<Loan[]>([])
-    const getUserLoanOffers = useCallback(async()=>{
-        if(!account?.address) return;
+    const getUserLoanOffers = useCallback(async () => {
+        if (!account?.address) return;
         setLoading(true)
         try {
             const res = await fetch(`/api/lend?address=${account.address}&status=pending`);
             const response = await res.json();
-            if(!res.ok){
+            if (!res.ok) {
                 throw new Error(response.message)
             }
             setUserOffers(response.data)
@@ -29,12 +30,12 @@ export function Body(){
         } finally {
             setLoading(false)
         }
-    },[account?.address]);
-    const onWithdrawOffer = async(offer: Loan) => {
-        if(!account) return;
+    }, [account?.address]);
+    const onWithdrawOffer = async (offer: Loan) => {
+        if (!account) return;
         try {
             const coin = getAssetByType(offer.coin);
-            if(!coin) return;
+            if (!coin) return;
             setSubmitLoading(true)
             const typeArguments = [];
             if (coin.token_standard === "v1") {
@@ -62,7 +63,7 @@ export function Body(){
             if (typeof error === "string") {
                 errorMessage = error;
             }
-            if(error instanceof Error){
+            if (error instanceof Error) {
                 errorMessage = error.message
             }
             toast.error(errorMessage)
@@ -70,47 +71,54 @@ export function Body(){
             setSubmitLoading(false)
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         getUserLoanOffers();
-    },[getUserLoanOffers]);
-    if(loading) return <Loading />;
+    }, [getUserLoanOffers]);
+    if (loading) return <Loading />;
     return (
         <table className="table">
-                <thead>
-                    <tr>
-                        <th>Token</th>
-                        <th>Collection</th>
-                        <th>Amount</th>
-                        <th>Duration in days</th>
-                        <th>APR %</th>
-                        <th className="text-end">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        userOffers.length > 0 ? (
-                            userOffers.map((offer, index) => (
-                                <tr key={index}>
-                                    <td>
-                                        <Image src={offer.forListing.token_icon} className="rounded me-2" alt={offer.forListing.token_name} width={37} height={37} />
-                                        <span>{offer.forListing.token_name}</span>
-                                    </td>
-                                    <td>{offer.forListing.collection_name}</td>
-                                    <td>{offer.amount} {getAssetByType(offer.coin)?.symbol}</td>
-                                    <td>{offer.duration}</td>
-                                    <td>{offer.apr}</td>
-                                    <td className="text-end">
-                                        <button className="action-btn rounded" onClick={() => onWithdrawOffer(offer)}>Cancel Offer</button>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan={4} className="text-center"><p className="p-3">No offers</p></td>
+            <thead>
+                <tr>
+                    <th>Token</th>
+                    <th>Collection</th>
+                    <th>Amount</th>
+                    <th>Duration in days</th>
+                    <th>APR %</th>
+                    <th className="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    userOffers.length > 0 ? (
+                        userOffers.map((offer, index) => (
+                            <tr key={index}>
+                                <td>
+                                    <Image src={offer.forListing.token_icon} className="rounded me-2" alt={offer.forListing.token_name} width={37} height={37} />
+                                    <span>{offer.forListing.token_name}</span>
+                                </td>
+                                <td>{offer.forListing.collection_name}</td>
+                                <td>{offer.amount} {getAssetByType(offer.coin)?.symbol}</td>
+                                <td>{offer.duration}</td>
+                                <td>{offer.apr}</td>
+                                <td className="text-end">
+                                    {
+                                        submitLoading
+                                            ?
+                                            <ButtonLoading className="action-btn rounded" />
+                                            :
+                                            <button className="action-btn rounded" onClick={() => onWithdrawOffer(offer)}>Cancel Offer</button>
+
+                                    }
+                                </td>
                             </tr>
-                        )
-                    }
-                </tbody>
-            </table>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan={4} className="text-center"><p className="p-3">No offers</p></td>
+                        </tr>
+                    )
+                }
+            </tbody>
+        </table>
     )
 }

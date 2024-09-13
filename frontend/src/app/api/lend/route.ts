@@ -19,6 +19,10 @@ export async function GET(req: NextRequest) {
         if(status){
             condition.status = status;
         }
+        const forAddress = req.nextUrl.searchParams.get("forAddress");
+        if(forAddress){
+            condition.forAddress = forAddress;
+        }
         const data = await Loan.find(condition, "_id address coin amount duration apr offer_obj hash forListing").populate("forListing");
         return NextResponse.json({ message: "success", data }, { status: 200 });
     } catch (error: unknown) {
@@ -44,6 +48,7 @@ export async function POST(req: NextRequest) {
         }
         const newLoan = new Loan({
             address: request.address,
+            forAddress: existListing.address,
             forListing: request.forListing,
             coin: request.coin,
             amount: request.amount,
