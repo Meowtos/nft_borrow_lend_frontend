@@ -1,20 +1,68 @@
 :root {
-  /* theme colors */
-  --light:#ffffff;
-  --black: #000000;
+
+  /* -------------------------------- */
+  /* dark theme */
+  /* -------------------------------- */
   --primary-1: #3E065F;
   --primary-2: #700B97;
   --primary-3: #8E05C2;
 
-  /* theme2 */
-  /* --primary-1: #3D0000;
-  --primary-2: #950101;
-  --primary-3: #FF0000; */
+  --light:#ffffff;
+  --light-bb: #ffffffbb;
+  --light-99: #ffffff99;
+  --light-90: #ffffff90;
+  --light-33: #ffffff33;
+  --light-20: #ffffff20;
+  --light-15: #ffffff15;
+  --light-10: #ffffff10;
 
-  /* theme3 */
-  /* --primary-1: #86003C;
-  --primary-2: #E41F7B;
-  --primary-3: #FF8BA0; */
+  /* --bg-1:#72727233;
+  --bg-2:#292929;
+  --bg-2:#6f6f6f40;
+  --bg-2:#0f0e10;
+  --bg-2:#ffffff0d;
+  --bg-2:#ffffff0f;
+  --bg-2:#282828;
+  --bg-2:#4e4e4e60;
+  --bg-2:#303030;
+  --bg-2:#101010;
+  --bg-2:#141414;
+  --bg-2:#ffffff10;
+  --bg-2:#3e3e3e;
+   */
+
+  --black: #000000;
+  --dark-99:#00000099;
+  --dark-ee:#000000ee;
+
+  --btn-text-light:#ffffff;
+
+  --sec-1:#86003C;
+  --sec-2:#E41F7B;
+  
+  --text-yellow: yellow;
+  --text-red: red;
+  --text-green: green;
+
+  /* -------------------------------- */
+  /* light theme */
+  /* -------------------------------- */
+  /* --primary-1: #E41F7B;
+  --primary-3: #8E05C2;
+
+  --black: #ffffff;
+  --dark-99:#ffffff99;
+  --dark-ee:#ffffffee;
+
+  --light:#000000;
+  --light-bb: #000000bb;
+  --light-99: #00000099;
+  --light-90: #00000090;
+  --light-33: #00000033;
+  --light-20: #00000020;
+  --light-15: #00000015;
+  --light-10: #00000010; */
+
 
 
 }
