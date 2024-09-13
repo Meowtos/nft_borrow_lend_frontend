@@ -11,7 +11,9 @@ export interface ILoanSchema {
     apr: number;
     status: LoanStatus;
     offer_obj: string;
-    hash: string; // creation tx hash
+    start_timestamp: number | null;
+    borrow_obj: string | null;
+    hash: string; 
     created_at: Date;
     updated_at: Date;
 }
@@ -45,6 +47,14 @@ const LoanSchema = new Schema<ILoanSchema>({
     apr: {
         type: Number,
         required: true,
+    },
+    start_timestamp: {
+        type: Number,
+        default: null
+    },
+    borrow_obj: {
+        type: String,
+        default: null
     },
     status: {
         type: String,

@@ -60,9 +60,9 @@ export function ListingModal({ token }: ListingModalProps) {
                     }, 
                     body: JSON.stringify(formData)
                 });
-                const _response = await res.json();
+                const response = await res.json();
                 if(!res.ok){
-                    throw new Error("Something went wrong!!")
+                    throw new Error(response.message)
                 }
                 document.getElementById("closeAssetListingModal")?.click();
             } catch (error: unknown) {

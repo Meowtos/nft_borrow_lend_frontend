@@ -13,7 +13,7 @@ export function Body() {
     const { getAssetByType } = useApp();
     const { account, signAndSubmitTransaction } = useWallet();
     const [offers, setOffers] = useState<Loan[]>([]);
-    const [selectedOffer, setSelectedOffer] = useState<Loan|null>(null)
+    const [selectedOffer, setSelectedOffer] = useState<Loan | null>(null)
     const fetchOffers = useCallback(async () => {
         if (!account?.address) return;
         const res = await fetch(`/api/lend?forAddress=${account.address}&status=pending`);
@@ -22,36 +22,65 @@ export function Body() {
             setOffers(response.data);
         }
     }, [account?.address]);
-    const onBorrow = async (object: string) => {
+    const onBorrow = async (offer: Loan) => {
         if (!account?.address) return;
-        const response = await signAndSubmitTransaction({
-            sender: account.address,
-            data: {
-                function: `${ABI_ADDRESS}::nft_lending::borrow`,
-                typeArguments: [],
-                functionArguments: [
-                    object
-                ]
+        try {
+            const coin = getAssetByType(offer.coin);
+            if(!coin) return;
+            const typeArguments = [];
+
+            if(coin.token_standard === "v1"){
+                typeArguments.push(coin.asset_type);
             }
-        });
-        await aptos.waitForTransaction({
-            transactionHash: response.hash
-        })
-        const borrowObject = await getObjectAddressFromEvent(response.hash, `BorrowEvent`, `borrow_object`);
-        fetch("/api/borrow", {
-            method: "POST",
-            headers: {
-                contentType: "application/json"
-            },
-            body: JSON.stringify({
-                object: borrowObject,
-                loan: object
-            })
-        }).then(() => {
-            toast.success("borrow success")
-        }).catch((error) => {
-            toast.error(error.message)
-        })
+            const functionArguments = [ 
+                offer.offer_obj,
+            ];
+            const response = await signAndSubmitTransaction({
+                sender: account.address,
+                data: {
+                    function: `${ABI_ADDRESS}::nft_lending::${coin.token_standard === "v1" ? "borrow_with_coin" : "borrow_with_fa"}`,
+                    typeArguments,
+                    functionArguments,
+                }
+            });
+            await aptos.waitForTransaction({
+                transactionHash: response.hash
+            });
+            const transaction = await aptos.getTransactionByHash({ transactionHash: response.hash });
+            const eventType = `${ABI_ADDRESS}::nft_lending::BorrowEvent`;
+            let borrowObj = "";
+            let borrowTimestamp = 0;
+            if (transaction.type === "user_transaction") {
+                const event = transaction.events.find((event) => event.type === eventType);
+                if (event) {
+                    borrowObj = event.data["object"];
+                    borrowTimestamp = event.data["timestamp"];
+                }
+            }
+            const res = await fetch(`/api/lend/accept/${offer._id}`, {
+                method: "PUT",
+                headers: {
+                    contentType: "application/json"
+                },
+                body: JSON.stringify({ 
+                    address: account.address,
+                    borrow_obj: borrowObj,
+                    start_timestamp: borrowTimestamp,
+                })
+            });
+            const apiRes = await res.json();
+            if (!res.ok) {
+                console.log(apiRes)
+                throw new Error(apiRes.message)
+            }
+            toast.success("Offer accepted")
+        } catch (error: unknown) {
+            let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
+            if(error instanceof Error){
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage)
+        }
     }
     useEffect(() => {
         fetchOffers()
@@ -83,7 +112,8 @@ export function Body() {
                                     <td>{offer.duration}</td>
                                     <td>{offer.apr}</td>
                                     <td className="text-end">
-                                        <button className="action-btn rounded" onClick={() => setSelectedOffer(offer)} data-bs-toggle="modal" data-bs-target={`#${acceptOfferModalId}`}>Accept Offer</button>
+                                        <button className="action-btn rounded" onClick={() => onBorrow(offer)} >Accept Offer</button>
+                                        {/* data-bs-toggle="modal" data-bs-target={`#${acceptOfferModalId}`} */}
                                     </td>
                                 </tr>
                             ))

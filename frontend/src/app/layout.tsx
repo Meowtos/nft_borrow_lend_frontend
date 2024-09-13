@@ -35,7 +35,7 @@ export default function RootLayout({
             <Footer />
           </WalletProvider>
         </AppProvider>
-        <Toaster theme="dark"/>
+        <Toaster theme="dark" className={font.className} position="bottom-left"/>
         <Bootstrap />
         <ProgressBar />
       </body>

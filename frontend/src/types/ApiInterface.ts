@@ -1,4 +1,5 @@
 import { IListingSchema } from "@/models/listing";
+import { LoanStatus } from "@/models/loan";
 
 export interface Listing extends IListingSchema {
 
@@ -13,5 +14,8 @@ export interface Loan {
     apr: number;
     offer_obj: string;
     hash: string; 
-    forListing: Listing,
+    forListing: Listing;
+    status: LoanStatus;
+    start_timestamp: number | null;
+    borrow_obj: string | null;
 }

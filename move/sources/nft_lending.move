@@ -70,6 +70,7 @@ module nft_lending::nft_lending {
     #[event]
     struct BorrowEvent has store, drop {
         object: address,
+        timestamp: u64,
     }
 
     // Errors
@@ -259,6 +260,7 @@ module nft_lending::nft_lending {
         object::delete(delete_ref);
         let constructor_ref = &object::create_object(address_of(account));
         let obj_signer = &object::generate_signer(constructor_ref);
+        let current_timestamp = timestamp::now_seconds();
         move_to(obj_signer, Borrow {
             user_addr: address_of(account),
             from_addr: by_addr,
@@ -266,7 +268,7 @@ module nft_lending::nft_lending {
             amount,
             duration,
             apr,
-            start_timestamp: timestamp::now_seconds(),
+            start_timestamp,
             extend_ref: object::generate_extend_ref(constructor_ref),
             delete_ref: object::generate_delete_ref(constructor_ref),
         });
@@ -274,6 +276,7 @@ module nft_lending::nft_lending {
         event::emit<BorrowEvent>(
             BorrowEvent {
                 object: object::address_from_constructor_ref(constructor_ref),
+                timestamp: current_timestamp,
             },
         );
         (obj_signer, amount)
