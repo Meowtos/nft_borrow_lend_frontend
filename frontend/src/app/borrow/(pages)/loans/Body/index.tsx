@@ -1,5 +1,4 @@
 "use client"
-import { Loading } from "@/components/Loading";
 import { Loan } from "@/types/ApiInterface";
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
 import { useCallback, useEffect, useState } from "react";
@@ -11,6 +10,7 @@ import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { toast } from "sonner";
 import { aptos } from "@/utils/aptos";
 import { interestPercentage } from "@/utils/math";
+import { Loading } from "@/components/Loading";
 export function Body() {
     const { account, signAndSubmitTransaction } = useWallet();
     const { getAssetByType } = useApp();
@@ -86,7 +86,7 @@ export function Body() {
     useEffect(() => {
         getLoans();
     }, [getLoans])
-    // if (loading) return <Loading />
+    if (loading) return <Loading />
     return (
         <>
             {/* Live/Current loans */}

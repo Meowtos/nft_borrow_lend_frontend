@@ -3,7 +3,7 @@ import React from "react"
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
-export default function lendLayout({ children }: { children: React.ReactNode }) {
+export default function LendLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const paths = [
         {

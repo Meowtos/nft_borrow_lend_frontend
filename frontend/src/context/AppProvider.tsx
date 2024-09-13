@@ -2,6 +2,7 @@
 
 import { FA } from "@/types/Fa";
 import { getFAMetadata } from "@/utils/aptos";
+import { TokenStandard } from "@aptos-labs/ts-sdk";
 import { createContext, useContext, useEffect, useState } from "react";
 type AppContextType = {
     assets: FA[],
@@ -26,7 +27,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
                     symbol: fa.symbol,
                     decimals: fa.decimals,
                     icon_uri: fa.icon_uri ?? "/aptos.png",
-                    token_standard: fa.token_standard
+                    token_standard: fa.token_standard as TokenStandard
                 })
             };
             setAssets(result);

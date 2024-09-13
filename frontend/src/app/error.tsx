@@ -20,14 +20,14 @@ export default function Error({
         <div className="row">
           <h2>Sorry, something went wrong</h2>
           <p>We are already on the issue</p>
-          {/* <button
+          <button
             onClick={
               // Attempt to recover by trying to re-render the segment
               () => reset()
             }
           >
             <BiRecycle />
-          </button> */}
+          </button>
         </div>
       </div>
     </section>

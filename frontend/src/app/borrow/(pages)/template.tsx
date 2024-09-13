@@ -6,17 +6,13 @@ import Link from "next/link";
 
 import {
     useWallet,
-    WalletReadyState,
-    Wallet,
-    isRedirectable,
-    WalletName,
 } from "@aptos-labs/wallet-adapter-react";
 
 
 export default function BorrowLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     // const { connected } = useWallet();
-    const { wallets, connected, disconnect, isLoading } = useWallet();
+    const { connected, isLoading } = useWallet();
     const paths = [
         {
             name: "My Assets",

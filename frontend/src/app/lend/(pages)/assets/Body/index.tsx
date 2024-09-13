@@ -29,7 +29,7 @@ export function Body() {
     const notMyListings = useMemo(()=>{
         if(!account?.address) return tokensListing;
         return tokensListing.filter((token) => token.address !== account.address)
-    },[tokensListing])
+    },[tokensListing, account?.address])
     return (
         <React.Fragment>
             <div className="content-header d-flex">
@@ -104,8 +104,8 @@ export function TokenListings({ viewtype, tokens }: TokenListingsProps){
             </thead>
             <tbody>
                 {
-                    tokens.map((token, index) => (
-                        <tr key={index}>
+                    tokens.map((token) => (
+                        <tr key={token.token_data_id}>
                             <td>
                                 <Image src={`${token.token_icon}`} className="rounded me-2" alt="nft" width={32} height={32} />
                                 <span className="fs-5">{token.token_name}</span>

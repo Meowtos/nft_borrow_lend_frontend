@@ -7,8 +7,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useApp } from "@/context/AppProvider";
 import Image from "next/image";
-import { ButtonLoading } from "@/components/ButtonLoading";
-import { AcceptModal, acceptOfferModalId } from "../AcceptModal";
+import { AcceptModal } from "../AcceptModal";
 export function Body() {
     const { getAssetByType } = useApp();
     const { account, signAndSubmitTransaction } = useWallet();
@@ -23,6 +22,7 @@ export function Body() {
         }
     }, [account?.address]);
     const onBorrow = async (offer: Loan) => {
+        setSelectedOffer(offer)
         if (!account?.address) return;
         try {
             const coin = getAssetByType(offer.coin);

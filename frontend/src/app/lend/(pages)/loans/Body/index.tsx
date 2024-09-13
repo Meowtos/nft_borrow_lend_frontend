@@ -1,19 +1,17 @@
 "use client"
 import { Loading } from "@/components/Loading";
 import { Loan } from "@/types/ApiInterface";
-import { aptos } from "@/utils/aptos";
-import { ABI_ADDRESS, NETWORK } from "@/utils/env";
+import { NETWORK } from "@/utils/env";
 import { shortenAddress } from "@/utils/shortenAddress";
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
 import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useEffect, useState } from "react";
-import { toast } from "sonner";
 import { useApp } from "@/context/AppProvider";
 import { interestPercentage } from "@/utils/math";
 export function Body() {
     const { getAssetByType } = useApp();
-    const { account, signAndSubmitTransaction } = useWallet();
+    const { account } = useWallet();
     const [loading, setLoading] = useState(true)
     const [activeLoans, setActiveLoans] = useState<Loan[]>([]);
     const [prevLoans, setPrevLoans] = useState<Loan[]>([])
@@ -37,7 +35,7 @@ export function Body() {
         }
     }, [account?.address])
     const onSteal = async(offer: Loan) => {
-        return
+        console.log(offer)
     }
     useEffect(() => {
         fetchLoans()
