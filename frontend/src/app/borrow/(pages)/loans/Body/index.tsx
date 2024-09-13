@@ -10,6 +10,7 @@ import Link from "next/link";
 import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { toast } from "sonner";
 import { aptos } from "@/utils/aptos";
+import { log } from "console";
 export function Body() {
     const { account, signAndSubmitTransaction } = useWallet();
     const { getAssetByType } = useApp();
@@ -138,7 +139,7 @@ export function Body() {
                         <th>APR</th>
                         <th>Duration</th>
                         <th>Loan Value</th>
-                        <th>Action</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
