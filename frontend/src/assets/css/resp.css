@@ -7,15 +7,16 @@
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* Styles for laptop screens */
 @media (min-width: 1280px) and (max-width: 1440px) {
-    .banner h1{
-        font-size: 56px;
-        width: 80%;
-        line-height: 64px;
-        color: var(--primary-3);
-        font-weight: 600;
-    }
-    .all-cards {
-      grid-template-columns: repeat(3, 1fr); 
+  .banner h1 {
+    font-size: 56px;
+    width: 80%;
+    line-height: 64px;
+    color: var(--primary-3);
+    font-weight: 600;
+  }
+
+  .all-cards {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -24,12 +25,13 @@
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* Styles for smaller laptops */
 @media (min-width: 1024px) and (max-width: 1280px) {
-  
+
   .container {
     max-width: 95% !important;
   }
+
   .all-cards {
-    grid-template-columns: repeat(3, 1fr); 
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -40,63 +42,90 @@
 /* ------------------------------------------- */
 /* Animations */
 /* ------------------------------------------- */
-  .scene {
-    width: 320px;
-    height: 320px;
-    transform-style: preserve-3d;
-    /* animation: rotate 20s infinite linear; */
-    animation: rotate 35s infinite linear;
-    position: relative;
+.scene {
+  width: 320px;
+  height: 320px;
+  transform-style: preserve-3d;
+  /* animation: rotate 20s infinite linear; */
+  animation: rotate 35s infinite linear;
+  position: relative;
+}
+
+.cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.85;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.front {
+  transform: rotateY(0deg) translateZ(200px);
+  background-image: url("/media/nfts/1.jpeg");
+}
+
+.right {
+  transform: rotateY(90deg) translateZ(200px);
+  background-image: url("/media/nfts/2.jpeg");
+}
+
+.back {
+  transform: rotateY(180deg) translateZ(200px);
+  background-image: url("/media/nfts/3.jpeg");
+}
+
+.left {
+  transform: rotateY(-90deg) translateZ(200px);
+  background-image: url("/media/nfts/4.jpeg");
+}
+
+.top {
+  transform: rotateX(90deg) translateZ(200px);
+  background-image: url("/media/nfts/5.jpeg");
+}
+
+.bottom {
+  transform: rotateX(-90deg) translateZ(200px);
+  background-image: url("/media/nfts/6.jpeg");
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateX(0) rotateY(0);
   }
-  
-  .cube {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
+
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
   }
-  
-  .face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    opacity: 0.85;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-  }
-  
-  .front {
-    transform: rotateY(0deg) translateZ(200px);
-    background-image: url("/media/nfts/1.jpeg");
-  }
-  .right {
-    transform: rotateY(90deg) translateZ(200px);
-    background-image: url("/media/nfts/2.jpeg");
-  }
-  .back {
-    transform: rotateY(180deg) translateZ(200px);
-    background-image: url("/media/nfts/3.jpeg");
-  }
-  .left {
-    transform: rotateY(-90deg) translateZ(200px);
-    background-image: url("/media/nfts/4.jpeg");
-  }
-  .top {
-    transform: rotateX(90deg) translateZ(200px);
-    background-image: url("/media/nfts/5.jpeg");
-  }
-  .bottom {
-    transform: rotateX(-90deg) translateZ(200px);
-    background-image: url("/media/nfts/6.jpeg");
-  }
-  
-  @keyframes rotate {
-    0% {
-      transform: rotateX(0) rotateY(0);
-    }
-    100% {
-      transform: rotateX(360deg) rotateY(360deg);
-    }
-  }
-  
+}
+
+
+/* ------------------------------------------- */
+/* Skeleton cel loading */
+/* ------------------------------------------- */
+
+
+.line {
+  float: left;
+  width: 100px;
+  height: 16px;
+  margin-top: 12px;
+  border-radius: 7px;
+  background-image: linear-gradient(90deg, #ffffff20 0px, #ffffff40 40px, #ffffff20 80px);
+  animation: shine-lines 3s linear infinite;
+}
+
+@keyframes shine-lines {
+  0% { background-position: -150px; }
+  50% { background-position: 150px; }
+  100% { background-position: 350px; }
+}

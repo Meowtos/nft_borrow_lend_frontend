@@ -32,7 +32,7 @@ export const WalletButtons = () => {
   }
 
   if (isLoading || !wallets || !wallets[0]) {
-    return <p>Loading...</p>;
+    return <button type="button" className="connect-btn">Connecting...</button>;
   }
 
   return <WalletList wallets={wallets as Wallet[]} />;

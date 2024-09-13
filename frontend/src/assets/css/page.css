@@ -274,6 +274,10 @@ button, .submit-btn{
     padding: 90px 0px 40px 0px;
     position: relative;
 }
+.footer a{
+    text-decoration: none;
+    color: inherit;
+}
 .footer p{
     color: #ffffff90;
 }
@@ -355,6 +359,7 @@ button, .submit-btn{
     transition: all 0.5s ease;
     text-align: left;
     border-bottom: 1px solid #ffffff33;
+    text-decoration: none;
 }
 .tab-btn:hover {
     background: var(--primary-1);

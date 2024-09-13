@@ -2,10 +2,21 @@
 import React from "react"
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+// import { useWallet } from "@aptos-labs/wallet-adapter-react";
+
+import {
+    useWallet,
+    WalletReadyState,
+    Wallet,
+    isRedirectable,
+    WalletName,
+} from "@aptos-labs/wallet-adapter-react";
+
+
 export default function BorrowLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
-    const { connected } = useWallet();
+    // const { connected } = useWallet();
+    const { wallets, connected, disconnect, isLoading } = useWallet();
     const paths = [
         {
             name: "My Assets",
@@ -40,20 +51,7 @@ export default function BorrowLayout({ children }: { children: React.ReactNode }
                                 <div className="nav flex-column nav-pills me-4 tab-btns" id="borrow-tabs" role="tablist" aria-orientation="vertical">
                                     {
                                         paths.map((path, index) => (
-                                            <Link href={`/borrow/${path.to}`} className={`tab-btn ${pathname === `/borrow/${path.to}` ? "active" : ""}`} key={`borrow-path-${index}`} scroll={false}>
-                                                {/* <button
-                                                    className="tab-btn"
-                                                    id={`borrow-${path.to}-tab`}
-                                                    data-bs-toggle="pill"
-                                                    data-bs-target={`#borrow-${path.to}`}
-                                                    type="button"
-                                                    role="tab"
-                                                    aria-controls={`borrow-${path.to}`}
-                                                    aria-selected="true"
-                                                > */}
-                                                    {path.name}
-                                                {/* </button> */}
-                                            </Link>
+                                            <Link href={`/borrow/${path.to}`} className={`tab-btn ${pathname === `/borrow/${path.to}` ? "active" : ""}`} key={`borrow-path-${index}`} scroll={false}>{path.name}</Link>
                                         ))
                                     }
                                 </div>
@@ -61,7 +59,28 @@ export default function BorrowLayout({ children }: { children: React.ReactNode }
                                     {
                                         paths.map((path, index) => (
                                             <div key={`borrow-content-${index}`} className={`tab-pane fade ${pathname === `/borrow/${path.to}` ? "show active" : ""}`} id={`borrow-${path.to}`} role="tabpanel" aria-labelledby={`borrow-${path}`}>
-                                                {connected ? children : "Connect your wallet"}
+                                                {
+                                                    connected ? (
+                                                        children
+                                                    ) : (
+                                                        <>
+                                                            <div className="cn-wallet text-center w-50 m-auto rounded">
+                                                                <h3>Connect Your Wallet First</h3>
+                                                                {isLoading ? (
+                                                                    <>
+                                                                        <button className="connect-btn mt-3 rounded">Connecting...</button>
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <button className="connect-btn mt-3 rounded" data-bs-toggle="modal" data-bs-target="#connectmodal">Connect wallet</button>
+                                                                    </>
+                                                                )
+                                                                
+                                                                }
+                                                            </div>
+                                                        </>
+                                                    )
+                                                }
                                             </div>
                                         ))
                                     }

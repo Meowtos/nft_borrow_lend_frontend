@@ -26,13 +26,13 @@ export function Body() {
         if (!account?.address) return;
         try {
             const coin = getAssetByType(offer.coin);
-            if(!coin) return;
+            if (!coin) return;
             const typeArguments = [];
 
-            if(coin.token_standard === "v1"){
+            if (coin.token_standard === "v1") {
                 typeArguments.push(coin.asset_type);
             }
-            const functionArguments = [ 
+            const functionArguments = [
                 offer.offer_obj,
             ];
             const response = await signAndSubmitTransaction({
@@ -62,7 +62,7 @@ export function Body() {
                 headers: {
                     contentType: "application/json"
                 },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                     address: account.address,
                     borrow_obj: borrowObj,
                     start_timestamp: borrowTimestamp,
@@ -76,7 +76,7 @@ export function Body() {
             toast.success("Offer accepted")
         } catch (error: unknown) {
             let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
-            if(error instanceof Error){
+            if(error instanceof Error) {
                 errorMessage = error.message;
             }
             toast.error(errorMessage)
@@ -85,6 +85,7 @@ export function Body() {
     useEffect(() => {
         fetchOffers()
     }, [fetchOffers])
+
     return (
         <React.Fragment>
             <table className="table">
@@ -93,8 +94,8 @@ export function Body() {
                         <th>Token</th>
                         <th>Collection</th>
                         <th>Amount</th>
-                        <th>Duration in days</th>
-                        <th>APR %</th>
+                        <th>Duration(days)</th>
+                        <th>APR(%)</th>
                         <th className="text-end">Action</th>
                     </tr>
                 </thead>

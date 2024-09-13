@@ -51,7 +51,7 @@ export function Body() {
         setChosenCollection(collection)
         setDropdown(!dropdown); // Close the dropdown after selection
     };
-    if (isLoading) return <Loading />
+    // if (isLoading) return <Loading />
     return (
         <React.Fragment>
             <div className="content-header d-flex">
@@ -127,29 +127,45 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
     useEffect(() => {
         getOwnedTokensByCollection()
     }, [getOwnedTokensByCollection]);
-    if (isLoading) return <Loading />;
+    // if (isLoading) return <Loading />;
     return (
         <React.Fragment>
+
+            {/* Grid View */}
             <div className="all-cards pt-4 grid-view" hidden={viewtype == 'grid' ? false : true}>
                 {
-                    tokens.map((token, index) => (
-                        <div className="card border-0" key={token.token_data_id}>
-                            <Image src={`${token.token_icon_uri}`} className="card-img-top w-100" alt={token.token_name} width={150} height={200} />
-                            {/* <Image src={`/media/nfts/${index+1}.jpeg`} className="card-img-top w-100" alt={token.token_name} width={150} height={200} /> */}
-                            <div className="card-body">
-                                <h4 className="card-title">{token.token_name}</h4>
-                                {/* <p className="d-flex"><span>Collection:</span><span>{token.collection_name}</span></p> */}
-                                <p className="d-flex"><span>{token.collection_name}</span></p>
-                                <p className="d-flex"><span>Token Standard :</span><span>{token.token_standard}</span></p>
-
-                                <p className="description">{token.token_description}</p>
-                                <button onClick={() => setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`} className="btn list-btn w-100">List Asset</button>
+                    isLoading ? (
+                        Array.from({ length: 5 }).map((_, index) => (
+                            <div className="card border-0 bg-dark" key={index}>
+                                <span className="line p-5 w-100 mt-0"></span>
+                                <div className="card-body pb-4">
+                                    <p className="px-3 pt-3"><span className="line"></span></p>
+                                    <p className="px-3 pt-3"><span className="line w-100"></span></p>
+                                    <p className="px-3 pt-3"><span className="line w-75"></span></p>
+                                    <p className="px-3 pt-3"><span className="line w-100"></span></p>
+                                </div>
                             </div>
-                        </div>
-                    ))
+                        ))
+                    ) : (
+                        tokens.map((token, index) => (
+                            <div className="card border-0 bg-dark text-light" key={token.token_data_id}>
+                                <Image src={`${token.token_icon_uri}`} className="card-img-top w-100" alt={token.token_name} width={150} height={200} />
+                                {/* <Image src={`/media/nfts/${index+1}.jpeg`} className="card-img-top w-100" alt={token.token_name} width={150} height={200} /> */}
+                                <div className="card-body">
+                                    <h4 className="card-title">{token.token_name}</h4>
+                                    <p className="d-flex"><span>{token.collection_name}</span></p>
+                                    <p className="d-flex"><span>Token Standard :</span><span>{token.token_standard}</span></p>
+
+                                    <p className="description">{token.token_description}</p>
+                                    <button onClick={() => setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`} className="btn list-btn w-100">List Asset</button>
+                                </div>
+                            </div>
+                        ))
+                    )
                 }
             </div>
 
+            {/* List View */}
             <div className="pt-4 list-view" hidden={viewtype == 'list' ? false : true}>
                 <table className="table">
                     <thead>
@@ -163,20 +179,40 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                     </thead>
                     <tbody>
                         {
-                            tokens.map((token, index) => (
-                                <tr key={index}>
-                                    <td>
-                                        <Image src={`${token.token_icon_uri}`} className="rounded me-2" alt="nft" width={32} height={32} />
-                                        <span className="fs-5">{token.token_name}</span>
-                                    </td>
-                                    <td>{token.token_description}</td>
-                                    <td className="text-center">{token.token_standard}</td>
-                                    <td>{token.collection_name}</td>
-                                    <td>
-                                        <button onClick={() => setChosenToken(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`}>List</button>
-                                    </td>
-                                </tr>
-                            ))
+                            isLoading ? (
+                                Array.from({ length: 5 }).map((_, index) => (
+                                    <tr key={index}>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                    </tr>
+                                ))
+                            ) : (
+                                tokens.length > 0 ? (
+                                    tokens.map((token, index) => (
+                                        <tr key={index}>
+                                            <td>
+                                                <Image src={`${token.token_icon_uri}`} className="rounded me-2" alt="nft" width={32} height={32} />
+                                                <span className="fs-5">{token.token_name}</span>
+                                            </td>
+                                            <td>{token.token_description}</td>
+                                            <td className="text-center">{token.token_standard}</td>
+                                            <td>{token.collection_name}</td>
+                                            <td>
+                                                <button onClick={() => setChosenToken(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`}>List</button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={6} className="text-center"><p className="p-3">No Current Loans</p></td>
+                                    </tr>
+                                )
+                            )
                         }
                     </tbody>
                 </table>
