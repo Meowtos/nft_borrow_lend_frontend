@@ -10,7 +10,7 @@ import { Bootstrap } from "@/context/Bootstrap";
 import { WalletProvider } from "@/context/WalletProvider";
 import { AppProvider } from "@/context/AppProvider";
 import { ProgressBar } from "@/context/ProgressBar";
-import Footer from "@/components/Footer";
+import Footer from "@/components/footer";
 import Header from "@/components/header";
 
 const font = League_Spartan({ subsets: ["latin"], weight: "400" })
