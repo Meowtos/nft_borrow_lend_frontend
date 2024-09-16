@@ -17,13 +17,21 @@ interface ThemeProviderProps {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [theme, setTheme] = useState<string>('dark');
+  const [theme, setTheme] = useState<string>('dark'); // Set dark theme as the initial default
 
   useEffect(() => {
-    // Load the saved theme from localStorage
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    setTheme(savedTheme);
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    // Load the saved theme from localStorage, or use system preference for dark mode
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme) {
+      setTheme(savedTheme);
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    } else {
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = prefersDark ? 'dark' : 'light';
+      setTheme(initialTheme);
+      document.documentElement.setAttribute('data-theme', initialTheme);
+    }
   }, []);
 
   const toggleTheme = () => {
