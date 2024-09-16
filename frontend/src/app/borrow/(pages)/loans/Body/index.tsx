@@ -10,6 +10,8 @@ import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { toast } from "sonner";
 import { aptos } from "@/utils/aptos";
 import { interestPercentage } from "@/utils/math";
+import { Clock } from "@/components/Clock";
+import { secInADay } from "@/utils/time";
 export function Body() {
     const { account, signAndSubmitTransaction } = useWallet();
     const { getAssetByType } = useApp();
@@ -98,7 +100,8 @@ export function Body() {
                         <th>Interest</th>
                         <th>APR</th>
                         <th>Duration</th>
-                        <th>Loan Value</th>
+                        <th>Countdown</th>
+                        <th>Loan</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -132,6 +135,7 @@ export function Body() {
                                         <td>{interestPercentage(item.apr, item.duration)}%</td>
                                         <td>{item.apr} %</td>
                                         <td>{item.duration} day/days</td>
+                                        <td>{item.start_timestamp ? <Clock timestamp={item.start_timestamp + item.duration * secInADay} /> : ""}</td>
                                         <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
                                         <td><button className="action-btn" onClick={() => onRepayLoan(item)}>Repay Loan</button></td>
                                     </tr>

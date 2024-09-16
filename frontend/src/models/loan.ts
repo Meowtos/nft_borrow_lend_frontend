@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose";
-export type LoanStatus = "pending" | "cancelled" | "borrowed" | "repayed";
+export type LoanStatus = "pending" | "cancelled" | "borrowed" | "repayed" | "grabbed";
 export interface ILoanSchema {
     _id: string;
     address: string;

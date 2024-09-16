@@ -6,8 +6,8 @@ import { faq, working } from "@/utils/constants";
 import Image from 'next/image'
 
 export const metadata = {
-  title: "Home - DeFi NFT Loans",
-  description: "Homepage of DeFi NFT Loans"
+  title: "Home - Wiz Protocol",
+  description: "Homepage of Wiz Protocol"
 }
 export default function Home() {
   return (

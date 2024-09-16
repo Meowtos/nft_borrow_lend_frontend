@@ -1,6 +1,6 @@
 import { Body } from "./Body"
 export const metadata = {
-    title: "Loans - DeFi NFT Loans",
+    title: "Loans - Wiz Protocol",
     description: "Loans Borrowed on assets"
 }
 export default function Page(){
