@@ -29,10 +29,10 @@ function Banner() {
             <h1>Unlock NFT Value with Instant Crypto Loans</h1>
             <p className="pt-3">Turn your NFTs into collateral and access cryptocurrency loans with ease. No need to sell—just lend your NFTs and get the liquidity you need in minutes.</p>
             <Link href={"/borrow/assets"}>
-              <button className="connect-btn mt-4">Get a loan now</button>
+              <button className="connect-btn banner-btn mt-4">Get a loan now</button>
             </Link>
             <Link href={"/lend/assets"}>
-              <button className="connect-btn mt-4 ms-3">I want to lend</button>
+              <button className="connect-btn banner-btn mt-4 ms-3">I want to lend</button>
             </Link>
           </div>
           <div className="col-12 col-lg-4">
