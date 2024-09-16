@@ -38,7 +38,7 @@ function Banner() {
               <button className="banner-btn mt-4 ms-4">I want to lend</button>
             </Link>
           </div>
-          <div className="col-12 col-lg-4">
+          <div className="col-12 col-lg-4 moving">
             <div className="scene">
               <div className="cube">
                 {
