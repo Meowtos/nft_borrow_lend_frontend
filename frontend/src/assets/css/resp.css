@@ -45,50 +45,83 @@
     padding-left: 20px !important;
     padding-right: 20px !important;
   }
-
-  .banner {
-    padding: 150px 0px;
-    height: unset;
+  .py-100{
+    padding: 60px 0px;
+  }
+  .row{
+    margin: 0px;
+  }
+  .col-12{
+    padding: 0px;
   }
 
+  h2{
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .banner {
+    padding: 150px 0px 80px 0px;
+    height: unset;
+  }
   .banner h1 {
     font-size: 36px;
     width: 100%;
     line-height: 48px;
   }
-
   .banner p {
     font-size: 16px;
     width: 100%;
   }
-  .scene, .cube {
-    width: 150px !important;
-    height: 150px !important;
+  .banner .banner-btn:last-child{
+    margin-left:0px !important
   }
-  /* .front {
-    transform: rotateY(0deg) translateZ(0px);
-    background-image: url("/media/nfts/1.jpeg");
+  .moving{
+    display: none;
   }
-  .back {
-    transform: rotateY(180deg) translateZ(00px);
-    background-image: url("/media/nfts/3.jpeg");
+  
+  .work-row {
+    padding-top: 80px;
+    grid-template-columns: repeat(1,1fr);
   }
-  .right {
-    transform: rotateY(90deg) translateZ(200px);
-    background-image: url("/media/nfts/2.jpeg");
+  .work-row .outer {
+    margin-top: 50px;
   }
-  .left {
-    transform: rotateY(-90deg) translateZ(200px);
-    background-image: url("/media/nfts/4.jpeg");
+  .work-row .outer:first-child {
+    margin-top: 0px;
   }
-  .top {
-    transform: rotateX(90deg) translateZ(200px);
-    background-image: url("/media/nfts/5.jpeg");
+  .outer {
+    padding: 0px 24px 0px 24px;
   }
-  .top {
-    transform: rotateX(90deg) translateZ(200px);
-    background-image: url("/media/nfts/5.jpeg");
-  } */
+  .main {
+    top: -36px;
+  }
+  .wcs-cards {
+    grid-template-columns: repeat(1, 1fr) !important;
+    padding-top: 40px;
+    gap: 32px;
+  }
+  .wcs-card {
+    transform: translate(5px, 5px);
+  }
+  .wcs-card .sr-no {
+    transform: skewX(-25deg);
+  }
+  .wcs-card:hover {
+    transform: translate(-5px,-5px);
+  }
+  .wcs-card:hover .sr-no {
+    transform: skewX(25deg);
+  }
+  .wcs-card:hover .sr-no h3 {
+    transform: skewX(-25deg);
+  }
+
+
+  
+  .accordion {
+    width: 100% !important;
+  }
 }
 
 
