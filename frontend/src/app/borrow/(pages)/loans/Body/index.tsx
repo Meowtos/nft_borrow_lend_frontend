@@ -86,7 +86,7 @@ export function Body() {
     useEffect(() => {
         getLoans();
     }, [getLoans])
-    if (loading) return <Loading />
+    // if (loading) return <Loading />
     return (
         <>
             {/* Live/Current loans */}
@@ -105,24 +105,44 @@ export function Body() {
                 </thead>
                 <tbody>
                     {
-                        activeLoans.map((item) => (
-                            <tr key={`borrowed -${item._id}`}>
-                                <td>
-                                    <Image src={item.forListing.token_icon} className="rounded me-2" alt={item.forListing.token_name} width={37} height={37} />
-                                    <span>{item.forListing.token_name}</span>
-                                </td>
-                                <td>
-                                    <Link href={`https://explorer.aptoslabs.com/account/${item.address}?network=${NETWORK}`} target="_blank">
-                                        {shortenAddress(item.address)}
-                                    </Link>
-                                </td>
-                                <td>{interestPercentage(item.apr, item.duration)}%</td>
-                                <td>{item.apr} %</td>
-                                <td>{item.duration} day/days</td>
-                                <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
-                                <td><button className="action-btn" onClick={()=>onRepayLoan(item)}>Repay Loan</button></td>
-                            </tr>
-                        ))
+                        loading ? (
+                            Array.from({ length: 5 }).map((_, index) => (
+                                <tr key={index}>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                </tr>
+                            ))
+                        ) : (
+                            activeLoans.length > 0 ? (
+                                activeLoans.map((item) => (
+                                    <tr key={`borrowed -${item._id}`}>
+                                        <td>
+                                            <Image src={item.forListing.token_icon} className="rounded me-2" alt={item.forListing.token_name} width={37} height={37} />
+                                            <span>{item.forListing.token_name}</span>
+                                        </td>
+                                        <td>
+                                            <Link href={`https://explorer.aptoslabs.com/account/${item.address}?network=${NETWORK}`} target="_blank">
+                                                {shortenAddress(item.address)}
+                                            </Link>
+                                        </td>
+                                        <td>{interestPercentage(item.apr, item.duration)}%</td>
+                                        <td>{item.apr} %</td>
+                                        <td>{item.duration} day/days</td>
+                                        <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
+                                        <td><button className="action-btn" onClick={() => onRepayLoan(item)}>Repay Loan</button></td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={6} className="text-center"><p className="p-3">No Current Loans</p></td>
+                                </tr>
+                            )
+                        )
                     }
                 </tbody>
             </table>
@@ -144,24 +164,44 @@ export function Body() {
                 </thead>
                 <tbody>
                     {
-                        prevLoans.map((item) => (
-                            <tr key={`borrowed -${item._id}`}>
-                                <td>
-                                    <Image src={item.forListing.token_icon} className="rounded me-2" alt={item.forListing.token_name} width={37} height={37} />
-                                    <span>{item.forListing.token_name}</span>
-                                </td>
-                                <td>
-                                    <Link href={`https://explorer.aptoslabs.com/account/${item.address}?network=${NETWORK}`} target="_blank">
-                                        {shortenAddress(item.address)}
-                                    </Link>
-                                </td>
-                                <td>{interestPercentage(item.apr, item.duration)}%</td>
-                                <td>{item.apr} %</td>
-                                <td>{item.duration} day/days</td>
-                                <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
-                                <td>{item.status}</td>
-                            </tr>
-                        ))
+                        loading ? (
+                            Array.from({ length: 5 }).map((_, index) => (
+                                <tr key={index}>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                </tr>
+                            ))
+                        ) : (
+                            prevLoans.length > 0 ? (
+                                prevLoans.map((item) => (
+                                    <tr key={`borrowed -${item._id}`}>
+                                        <td>
+                                            <Image src={item.forListing.token_icon} className="rounded me-2" alt={item.forListing.token_name} width={37} height={37} />
+                                            <span>{item.forListing.token_name}</span>
+                                        </td>
+                                        <td>
+                                            <Link href={`https://explorer.aptoslabs.com/account/${item.address}?network=${NETWORK}`} target="_blank">
+                                                {shortenAddress(item.address)}
+                                            </Link>
+                                        </td>
+                                        <td>{interestPercentage(item.apr, item.duration)}%</td>
+                                        <td>{item.apr} %</td>
+                                        <td>{item.duration} day/days</td>
+                                        <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
+                                        <td>{item.status}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={6} className="text-center"><p className="p-3">No Previous Loans</p></td>
+                                </tr>
+                            )
+                        )
                     }
                 </tbody>
             </table>
