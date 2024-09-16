@@ -35,6 +35,62 @@
   }
 }
 
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* Styles for mobiles */
+@media (min-width: 320px) and (max-width: 768px) {
+  .container {
+    max-width: 100% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .banner {
+    padding: 150px 0px;
+    height: unset;
+  }
+
+  .banner h1 {
+    font-size: 36px;
+    width: 100%;
+    line-height: 48px;
+  }
+
+  .banner p {
+    font-size: 16px;
+    width: 100%;
+  }
+  .scene, .cube {
+    width: 150px !important;
+    height: 150px !important;
+  }
+  /* .front {
+    transform: rotateY(0deg) translateZ(0px);
+    background-image: url("/media/nfts/1.jpeg");
+  }
+  .back {
+    transform: rotateY(180deg) translateZ(00px);
+    background-image: url("/media/nfts/3.jpeg");
+  }
+  .right {
+    transform: rotateY(90deg) translateZ(200px);
+    background-image: url("/media/nfts/2.jpeg");
+  }
+  .left {
+    transform: rotateY(-90deg) translateZ(200px);
+    background-image: url("/media/nfts/4.jpeg");
+  }
+  .top {
+    transform: rotateX(90deg) translateZ(200px);
+    background-image: url("/media/nfts/5.jpeg");
+  }
+  .top {
+    transform: rotateX(90deg) translateZ(200px);
+    background-image: url("/media/nfts/5.jpeg");
+  } */
+}
+
 
 
 
@@ -125,7 +181,15 @@
 }
 
 @keyframes shine-lines {
-  0% { background-position: -150px; }
-  50% { background-position: 150px; }
-  100% { background-position: 350px; }
+  0% {
+    background-position: -150px;
+  }
+
+  50% {
+    background-position: 150px;
+  }
+
+  100% {
+    background-position: 350px;
+  }
 }

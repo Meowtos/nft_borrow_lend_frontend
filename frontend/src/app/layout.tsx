@@ -13,6 +13,8 @@ import { ProgressBar } from "@/context/ProgressBar";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 
+import { ThemeProvider } from '@/context/themecontext';
+
 const font = League_Spartan({ subsets: ["latin"], weight: "400" })
 export const metadata: Metadata = {
   title: "DeFi NFT Loans",
@@ -25,6 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ThemeProvider>
     <html lang="en">
       <body className={`${font.className} container-fluid p-0`}>
         <AppProvider>
@@ -39,5 +42,6 @@ export default function RootLayout({
         <ProgressBar />
       </body>
     </html>
+    </ThemeProvider>
   );
 }

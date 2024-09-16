@@ -137,7 +137,7 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                 {
                     isLoading ? (
                         Array.from({ length: 5 }).map((_, index) => (
-                            <div className="card border-0 bg-dark" key={index}>
+                            <div className="card border-0" key={index}>
                                 <span className="line p-5 w-100 mt-0"></span>
                                 <div className="card-body pb-4">
                                     <p className="px-3 pt-3"><span className="line"></span></p>
@@ -149,7 +149,7 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                         ))
                     ) : (
                         tokens.map((token) => (
-                            <div className="card border-0 bg-dark text-light" key={token.token_data_id}>
+                            <div className="card border-0 text-light" key={token.token_data_id}>
                                 <Image src={`${token.token_icon_uri}`} className="card-img-top w-100" alt={token.token_name} width={150} height={200} />
                                 {/* <Image src={`/media/nfts/${index+1}.jpeg`} className="card-img-top w-100" alt={token.token_name} width={150} height={200} /> */}
                                 <div className="card-body">
