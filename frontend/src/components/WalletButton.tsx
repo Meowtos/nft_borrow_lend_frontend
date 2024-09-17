@@ -12,7 +12,6 @@ import React from "react";
 import { IoClose } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa";
 import { FaAward } from "react-icons/fa6";
-import { FaRegBell } from "react-icons/fa";
 import { RxExit } from "react-icons/rx";
 
 export const WalletButtons = () => {
@@ -22,7 +21,6 @@ export const WalletButtons = () => {
     return (
       <>
         <div className="connected">
-          <FaRegBell className="cn-icon" />
           <FaRegUser className="cn-icon" />
           <FaAward className="cn-icon" />
           <button onClick={disconnect} className="connect-btn rounded disconnect"><RxExit /> Disconnect</button>

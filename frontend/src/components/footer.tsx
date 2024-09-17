@@ -12,13 +12,14 @@ const Footer = () => {
             <section className="footer">
                 <div className="container">
                     <div className="row popped rounded">
-                        <div className="col-lg-3">
+                        <div className="col-lg-3 pe-5">
                             <Image src="/media/logo3.png" alt="logo" height={60} width={150} />
                             <p className='pt-3'>Unlock liquidity without selling your NFTs. Use them as collateral for secure, decentralized loans and retain ownership of your digital assets.</p>
                         </div>
                         <div className="col-lg-3">
                             <h4>Quick View</h4>
-                            <ul className='ft-list m-0 p-0 pt-3'>
+                            <p className="br"></p>
+                            <ul className='ft-list m-0 p-0'>
                                 {
                                     footerLinks.map((v, idx)=>(
                                         <Link href={v.path} key={`path-${idx}`}>
@@ -29,20 +30,22 @@ const Footer = () => {
                             </ul>
                         </div>
                         <div className="col-lg-3">
-                            <h4>Meet the Team</h4>
-                            <ul className='ft-list m-0 p-0 pt-3'>
+                            <h4>Meet The Team</h4>
+                            <p className="br"></p>
+                            <ul className='ft-list m-0 p-0'>
                                 {
                                     team.map((v,idx)=>(
                                         <Link href={v.github} target='_blank' key={`team-${idx}`}>
-                                            <li>{v.name}</li>
+                                            <li><Image src={v.profile} alt="profile" height={24} width={24} className='me-2 rounded-circle'/>{v.name}</li>
                                         </Link>
                                     ))
                                 }
                             </ul>
                         </div>
                         <div className="col-lg-3">
-                            <h4>Social</h4>
-                            <div className="social pt-3 d-flex gap-2">
+                            <h4>Socials</h4>
+                            <p className="br"></p>
+                            <div className="social d-flex gap-2">
                                 <Link href={discordLink} target='_blank'>
                                     <BsDiscord className='sc-icon' />
                                 </Link>
@@ -55,7 +58,7 @@ const Footer = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="row mt-4 pt-2">
+                    <div className="row mt-4 pt-2 ft-bottom">
                         <div className="col">
                             <p className="m-0">@copyright2024-DeFiNFTLoans</p>
                         </div>
