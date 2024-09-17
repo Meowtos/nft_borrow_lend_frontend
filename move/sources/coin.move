@@ -1,4 +1,5 @@
-module nft_lending::simpu_coin {
+// Remove module while going on mainnet
+module wiz::coin {
     use std::signer;
     use aptos_framework::coin::{Self, MintCapability, BurnCapability};
     use std::string::utf8;
@@ -8,10 +9,6 @@ module nft_lending::simpu_coin {
     struct CoinAbilities has key {
         mint_cap: MintCapability<SimpuCoin>,
         burn_cap: BurnCapability<SimpuCoin>,
-    }
-
-    struct FaucetManagement has key {
-        claim_timestamp: u64,
     }
 
     const FAUCET_LIMIT: u64 = 5000000; // 5 tokens
@@ -32,12 +29,12 @@ module nft_lending::simpu_coin {
     }
 
     fun mint_coins(to: address, amount: u64) acquires CoinAbilities {
-        let mint_cap = &borrow_global<CoinAbilities>(@nft_lending).mint_cap;
+        let mint_cap = &borrow_global<CoinAbilities>(@wiz).mint_cap;
         let coins = coin::mint<SimpuCoin>(amount, mint_cap);
         coin::deposit(to, coins);
     }
 
-    public entry fun take_coin_faucet(receiver: &signer) acquires CoinAbilities {
+    public entry fun faucet(receiver: &signer) acquires CoinAbilities {
         let receiver_addr = signer::address_of(receiver);
         if(!coin::is_account_registered<SimpuCoin>(receiver_addr)){
             coin::register<SimpuCoin>(receiver);
@@ -45,16 +42,24 @@ module nft_lending::simpu_coin {
         mint_coins(receiver_addr, FAUCET_LIMIT);
     }
 
-    // use aptos_framework::aptos_account;
+    #[view]
+    public fun balance(addr: address): u64 {
+        coin::balance<SimpuCoin>(addr)
+    }
 
-    // public fun mint_coins(receiver: address, amount: u64) acquires CoinAbilities {
-    //     let mint_cap = &borrow_global<CoinAbilities>(@my_module);
-    //     let coins = coin::mint<MyCoin>(amount, mint_cap);
-    //     aptos_account::deposit_coins(receiver, coins);
-    // }
+    #[test_only]
+    use aptos_framework::account;
 
-    // public fun take_and_give(sender: &signer, receiver: address, amount: u64) {
-    //     aptos_account::transfer_coins<MyCoin>(sender, receiver, amount);
-    // }
+    #[test_only]
+    public fun init_module_for_test(account: &signer) {
+        init_module(account);
+    }
 
+    #[test(admin=@wiz, user=@0x200)]
+    fun faucet_test(admin: &signer, user: &signer) acquires CoinAbilities {
+        init_module_for_test(admin);
+        account::create_account_for_test(signer::address_of(user));
+        faucet(user);
+        assert!(coin::balance<SimpuCoin>(signer::address_of(user)) == FAUCET_LIMIT, 0);
+    }
 }

@@ -1,4 +1,4 @@
-module nft_lending::nft_lending {
+module wiz::nft_lending {
     use std::signer::address_of;
     use aptos_framework::object::{Self, Object};
     use aptos_framework::fungible_asset::{Self, Metadata};
@@ -62,6 +62,12 @@ module nft_lending::nft_lending {
         delete_ref: object::DeleteRef,
     }
 
+    //
+    ////
+    // events
+    ////
+    //
+
     #[event]
     struct OfferEvent has store, drop {
         object: address,
@@ -73,7 +79,12 @@ module nft_lending::nft_lending {
         timestamp: u64,
     }
 
-    // Errors
+    //
+    ////
+    // errors
+    ////
+    //
+    
     const ELOAN_DURATION_LIMIT_EXCEED: u64 = 0;
     const EINSUFFICIENT_BALANCE: u64 = 1;
     const EOFFER_DOESNT_EXIST: u64 = 2;
@@ -88,7 +99,12 @@ module nft_lending::nft_lending {
     const EUNAUTHORIZED_ACTION: u64 = 11;
     const EREPAY_TIME_HAS_NOT_EXCEED: u64 = 12;
 
+    //
+    ////
     // constants
+    ////
+    //
+
     const APR_DENOMINATOR: u64 = 10000;
     const APP_OBJECT_SEED: vector<u8> = b"NFT LENDING APP";
 
@@ -101,7 +117,7 @@ module nft_lending::nft_lending {
     }
 
     fun get_app_signer_address(): address {
-        object::create_object_address(&@nft_lending, APP_OBJECT_SEED)
+        object::create_object_address(&@wiz, APP_OBJECT_SEED)
     }
 
     fun get_app_signer(): signer acquires AppSigner {
@@ -386,7 +402,11 @@ module nft_lending::nft_lending {
         object::delete(delete_ref);
     }
     
-    // // ==================== Helpers ====================
+     //
+    ////
+    // Helper functions
+    ////
+    //
     fun add_days_to_a_timestamp(days: u64, timestamp_in_secs: u64): u64 {
         let one_day_in_secs = 86400; 
         let additional_secs = days * one_day_in_secs;
@@ -397,4 +417,295 @@ module nft_lending::nft_lending {
         let percent_amount = (amount * percent_interest) / APR_DENOMINATOR;
         (percent_amount / 100) + amount
     }
+
+    //
+    ////
+    // Tests
+    ////
+    //
+    #[test_only]
+    use wiz::fa;
+
+    #[test_only]
+    use wiz::coin as wiz_coin;
+
+    #[test_only]
+    use wiz::digital_asset;
+
+    #[test_only]
+    use std::string::utf8;
+
+    #[test_only]
+    use std::vector;
+    
+    #[test_only]
+    public fun init_module_for_test(account: &signer) {
+        init_module(account);
+    }
+
+    #[test_only]
+    fun setup(admin: &signer){
+        init_module_for_test(admin);
+        fa::init_module_for_test(admin);
+        wiz_coin::init_module_for_test(admin);
+        digital_asset::init_module_for_test(admin);
+    }
+
+    #[test_only]
+    fun dummy_object(addr: address): Object<object::ObjectCore> {
+        let constructor_ref = &object::create_object(addr);
+        object::object_from_constructor_ref(constructor_ref)
+    }
+
+    #[test_only]
+    public fun make_offer_with_fa_for_test(account: &signer, token: Object<object::ObjectCore>, metadata: Object<Metadata>): Object<object::ObjectCore> {
+        offer_with_fa(
+            account,
+            token,
+            200000000, 
+            1,
+            30 * APR_DENOMINATOR,
+            metadata
+        );
+        let events = event::emitted_events<OfferEvent>();
+        let current_event = vector::borrow(&events, 0);
+        object::address_to_object<object::ObjectCore>(current_event.object)
+    }
+
+    #[test_only]
+    public fun make_offer_with_coin_for_test<CoinType>(account: &signer, token: Object<object::ObjectCore>): Object<object::ObjectCore> acquires AppSigner {
+        offer_with_coin<CoinType>(
+            account,
+            token,
+            2000000, // 2 coins
+            1,
+            30 * APR_DENOMINATOR
+        );
+        let events = event::emitted_events<OfferEvent>();
+        let current_event = vector::borrow(&events, 0);
+        object::address_to_object<object::ObjectCore>(current_event.object)
+    }
+
+    #[test(admin=@wiz, user=@0xCAFE)]
+    fun make_offer_with_fa_test(admin: &signer, user: &signer) {
+        setup(admin);
+        fa::faucet(user);
+        let metadata = fa::asset_metadata(fa::asset_address());
+        offer_with_fa(
+            user,
+            dummy_object(address_of(user)),
+            200000000, // 2 fa
+            1,
+            30 * APR_DENOMINATOR,
+            metadata
+        );
+        assert!(fa::balance(address_of(user)) == 300000000, 0);
+    }
+
+    #[test_only]
+    public fun borrow_with_fa_for_test(account: &signer, offer: Object<object::ObjectCore>): Object<object::ObjectCore> acquires AppSigner, MetadataInfo, Offer {
+        borrow_with_fa(
+            account,
+            offer
+        );
+        let events = event::emitted_events<BorrowEvent>();
+        let current_event = vector::borrow(&events, 0);
+        object::address_to_object<object::ObjectCore>(current_event.object)
+    }
+
+    #[test_only]
+    public fun borrow_with_coin_for_test<CoinType>(account: &signer, offer: Object<object::ObjectCore>): Object<object::ObjectCore> acquires AppSigner, CoinTypeInfo, Offer {
+        borrow_with_coin<CoinType>(
+            account,
+            offer
+        );
+        let events = event::emitted_events<BorrowEvent>();
+        let current_event = vector::borrow(&events, 0);
+        object::address_to_object<object::ObjectCore>(current_event.object)
+    }
+
+    #[test(admin=@wiz, user=@0xCAFE)]
+    fun make_offer_with_coin_test(admin: &signer, user: &signer)
+    acquires AppSigner
+    {
+        setup(admin);
+        account::create_account_for_test(address_of(user));
+        wiz_coin::faucet(user);
+        offer_with_coin<wiz_coin::SimpuCoin>(
+            user,
+            dummy_object(address_of(user)),
+            2000000, // 2 coins
+            1,
+            30 * APR_DENOMINATOR
+        );
+        assert!(wiz_coin::balance(address_of(user)) == 3000000, 0);
+    }
+
+    #[test(admin=@wiz, alice=@0x100, bob=@0x200, aptos_framework=@0x1)]
+    fun borrow_with_fa_test(admin: &signer, alice: &signer, bob: &signer, aptos_framework: &signer) acquires Offer, AppSigner, MetadataInfo {
+        timestamp::set_time_has_started_for_testing(aptos_framework);
+        setup(admin);
+        // Faucet to alice
+        fa::faucet(alice);
+        let metadata = fa::asset_metadata(fa::asset_address());
+        // NFT to bob
+        digital_asset::mint(
+            bob,
+            utf8(b"Name"),
+            utf8(b"uri"),
+        );
+        let token_addr = digital_asset::get_token_address(utf8(b"Name"));
+        let token =  object::address_to_object(token_addr);
+        let offer = make_offer_with_fa_for_test(
+           alice,
+           token,
+           metadata
+        );
+        borrow_with_fa(bob, offer);
+        assert!(!object::is_owner(token, address_of(bob)), 4);
+        assert!(fa::balance(address_of(bob)) == 200000000, 0)
+    }
+
+    #[test(admin=@wiz, alice=@0x100, bob=@0x200, aptos_framework=@0x1)]
+    fun borrow_with_coin_test(admin: &signer, alice: &signer, bob: &signer, aptos_framework: &signer) acquires Offer, AppSigner, CoinTypeInfo {
+        timestamp::set_time_has_started_for_testing(aptos_framework);
+        setup(admin);
+        // Faucet to alice
+        account::create_account_for_test(address_of(alice));
+        account::create_account_for_test(address_of(bob));
+        wiz_coin::faucet(alice);
+        // NFT to bob
+        digital_asset::mint(
+            bob,
+            utf8(b"Name"),
+            utf8(b"uri"),
+        );
+        let token_addr = digital_asset::get_token_address(utf8(b"Name"));
+        let token = object::address_to_object(token_addr);
+        let offer = make_offer_with_coin_for_test<wiz_coin::SimpuCoin>(
+           alice,
+           token,
+        );
+        borrow_with_coin<wiz_coin::SimpuCoin>(bob, offer);
+        assert!(!object::is_owner(token, address_of(bob)), 4);
+        assert!(wiz_coin::balance(address_of(bob)) == 2000000, 0)
+    }
+
+    #[test_only]
+    public fun repay_with_fa_for_test(account: &signer, borrow: Object<object::ObjectCore>) acquires Borrow, MetadataInfo {
+        repay_with_fa(
+            account,
+            borrow,
+        );
+    }
+
+    #[test_only]
+    public fun repay_with_coin_for_test<CoinType>(account: &signer, borrow: Object<object::ObjectCore>) acquires Borrow, CoinTypeInfo {
+        repay_with_coin<CoinType>(
+            account,
+            borrow,
+        );
+    }
+
+    #[test(admin=@wiz, alice=@0x100, bob=@0x200, aptos_framework=@0x1)]
+    fun repay_with_fa_test(admin: &signer, alice: &signer, bob: &signer, aptos_framework: &signer) acquires Borrow, Offer, MetadataInfo, AppSigner{
+        timestamp::set_time_has_started_for_testing(aptos_framework);
+        setup(admin);
+        // Faucet to alice
+        fa::faucet(alice);
+        let metadata = fa::asset_metadata(fa::asset_address());
+        // NFT to bob
+        digital_asset::mint(
+            bob,
+            utf8(b"Name"),
+            utf8(b"uri"),
+        );
+        let token_addr = digital_asset::get_token_address(utf8(b"Name"));
+        let token = object::address_to_object(token_addr);
+        let offer = make_offer_with_fa_for_test(
+           alice,
+           token,
+           metadata
+        );
+        let borrow = borrow_with_fa_for_test(bob, offer);
+        assert!(fa::balance(address_of(bob)) == 200000000, 0);
+        assert!(!object::is_owner(token, address_of(bob)), 4);
+        fa::faucet(bob); // bob gets 5 more coin to pay back interest
+        repay_with_fa_for_test(bob, borrow);
+        let repay_amount = amount_with_intrest(200000000, 30 * APR_DENOMINATOR, 1);
+        assert!(fa::balance(address_of(alice)) == repay_amount + 300000000, 1);
+        assert!(fa::balance(address_of(bob)) == 500000000 - repay_amount + 200000000, 2);
+        assert!(object::is_owner(token, address_of(bob)), 3);
+    }
+
+    #[test(admin=@wiz, alice=@0x100, bob=@0x200, aptos_framework=@0x1)]
+    fun repay_with_coin_test(admin: &signer, alice: &signer, bob: &signer, aptos_framework: &signer) acquires Borrow, Offer, AppSigner, CoinTypeInfo {
+        timestamp::set_time_has_started_for_testing(aptos_framework);
+        setup(admin);
+        // Faucet to alice
+        account::create_account_for_test(address_of(alice));
+        account::create_account_for_test(address_of(bob));
+        wiz_coin::faucet(alice);
+        // NFT to bob
+        digital_asset::mint(
+            bob,
+            utf8(b"Name"),
+            utf8(b"uri"),
+        );
+        let token_addr = digital_asset::get_token_address(utf8(b"Name"));
+        let token = object::address_to_object(token_addr);
+        let offer = make_offer_with_coin_for_test<wiz_coin::SimpuCoin>(
+           alice,
+           token,
+        );
+        let borrow = borrow_with_coin_for_test<wiz_coin::SimpuCoin>(bob, offer);
+        assert!(!object::is_owner(token, address_of(bob)), 4);
+        assert!(wiz_coin::balance(address_of(bob)) == 2000000, 0);
+        // fund bob for interest payment
+        wiz_coin::faucet(bob);
+        repay_with_coin_for_test<wiz_coin::SimpuCoin>(bob, borrow);
+        let repay_amount = amount_with_intrest(2000000, 30 * APR_DENOMINATOR, 1);
+        assert!(wiz_coin::balance(address_of(alice)) == repay_amount + 3000000, 1);
+        assert!(wiz_coin::balance(address_of(bob)) == 5000000 - repay_amount + 2000000, 2);
+        assert!(object::is_owner(token, address_of(bob)), 3);
+    }
+
+    #[test_only]
+    public fun grab_for_test(account: &signer, borrow: Object<object::ObjectCore>) acquires Borrow {
+        grab(
+            account,
+            borrow,
+        );
+    }
+
+    // if user fails to repay amount in time
+    #[test(admin=@wiz, alice=@0x100, bob=@0x200, aptos_framework=@0x1)]
+    fun grab_test(admin: &signer, alice: &signer, bob: &signer, aptos_framework: &signer) acquires Borrow, Offer, AppSigner, CoinTypeInfo {
+        timestamp::set_time_has_started_for_testing(aptos_framework);
+        setup(admin);
+        // Faucet to alice
+        account::create_account_for_test(address_of(alice));
+        account::create_account_for_test(address_of(bob));
+        wiz_coin::faucet(alice);
+        // NFT to bob
+        digital_asset::mint(
+            bob,
+            utf8(b"Name"),
+            utf8(b"uri"),
+        );
+        let token_addr = digital_asset::get_token_address(utf8(b"Name"));
+        let token = object::address_to_object(token_addr);
+        let offer = make_offer_with_coin_for_test<wiz_coin::SimpuCoin>(
+           alice,
+           token,
+        );
+        let borrow = borrow_with_coin_for_test<wiz_coin::SimpuCoin>(bob, offer);
+        assert!(!object::is_owner(token, address_of(bob)), 4);
+        assert!(wiz_coin::balance(address_of(bob)) == 2000000, 0);
+        timestamp::fast_forward_seconds(86401);
+        // bob failed to make the payment
+        grab_for_test(alice, borrow);
+        assert!(object::is_owner(token, address_of(alice)), 5);
+    }
+
 }
