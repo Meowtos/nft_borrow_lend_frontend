@@ -1,10 +1,12 @@
 'use client'
 import Image from 'next/image'
 import { chooseUs } from '@/utils/constants'
+import { useTheme } from '@/context/themecontext'
 export function WhyChooseUs() {
+    const {theme} = useTheme();
     return (
         <>
-            <section className="why-choose-us py-100">
+            <section className={`why-choose-us py-100 ${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
                 <div className="container">
                     <h2 className="text-center">Why Choose Us?</h2>
                     <div className="row wcs-cards">

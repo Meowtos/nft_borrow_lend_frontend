@@ -42,8 +42,8 @@ export default function BorrowLayout({ children }: { children: React.ReactNode }
             <section className="borrow-tabs py-100">
                 <div className="container">
                     <div className="row">
-                        <div className="col">
-                            <div className="d-flex">
+                        <div className="col d-flex box-main">
+                            {/* <div className="d-flex"> */}
                                 <div className="nav flex-column nav-pills me-4 tab-btns" id="borrow-tabs" role="tablist" aria-orientation="vertical">
                                     {
                                         paths.map((path, index) => (
@@ -81,7 +81,7 @@ export default function BorrowLayout({ children }: { children: React.ReactNode }
                                         ))
                                     }
                                 </div>
-                            </div>
+                            {/* </div> */}
                         </div>
                     </div>
                 </div>

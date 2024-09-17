@@ -92,122 +92,126 @@ export function Body() {
         <>
             {/* Live/Current loans */}
             <h4 className="loans-title">Current Loans</h4>
-            <table className="table mt-3">
-                <thead>
-                    <tr>
-                        <th>Asset</th>
-                        <th>Lender</th>
-                        <th>Interest</th>
-                        <th>APR</th>
-                        <th>Duration</th>
-                        <th>Countdown</th>
-                        <th>Loan</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        loading ? (
-                            Array.from({ length: 5 }).map((_, index) => (
-                                <tr key={index}>
-                                    <td className="text-center"><span className="line"></span></td>
-                                    <td className="text-center"><span className="line"></span></td>
-                                    <td className="text-center"><span className="line"></span></td>
-                                    <td className="text-center"><span className="line"></span></td>
-                                    <td className="text-center"><span className="line"></span></td>
-                                    <td className="text-center"><span className="line"></span></td>
-                                    <td className="text-center"><span className="line"></span></td>
-                                </tr>
-                            ))
-                        ) : (
-                            activeLoans.length > 0 ? (
-                                activeLoans.map((item) => (
-                                    <tr key={`borrowed -${item._id}`}>
-                                        <td>
-                                            <Image src={item.forListing.token_icon} className="rounded me-2" alt={item.forListing.token_name} width={37} height={37} />
-                                            <span>{item.forListing.token_name}</span>
-                                        </td>
-                                        <td>
-                                            <Link href={`https://explorer.aptoslabs.com/account/${item.address}?network=${NETWORK}`} target="_blank">
-                                                {shortenAddress(item.address)}
-                                            </Link>
-                                        </td>
-                                        <td>{interestPercentage(item.apr, item.duration)}%</td>
-                                        <td>{item.apr} %</td>
-                                        <td>{item.duration} day/days</td>
-                                        <td>{item.start_timestamp ? <Clock timestamp={item.start_timestamp + item.duration * secInADay} /> : ""}</td>
-                                        <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
-                                        <td><button className="action-btn" onClick={() => onRepayLoan(item)}>Repay Loan</button></td>
+            <div className="overflow-auto">
+                <table className="table mt-3">
+                    <thead>
+                        <tr>
+                            <th>Asset</th>
+                            <th>Lender</th>
+                            <th>Interest</th>
+                            <th>APR</th>
+                            <th>Duration</th>
+                            <th>Countdown</th>
+                            <th>Loan</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            loading ? (
+                                Array.from({ length: 5 }).map((_, index) => (
+                                    <tr key={index}>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
                                     </tr>
                                 ))
                             ) : (
-                                <tr>
-                                    <td colSpan={6} className="text-center"><p className="p-3">No Current Loans</p></td>
-                                </tr>
+                                activeLoans.length > 0 ? (
+                                    activeLoans.map((item) => (
+                                        <tr key={`borrowed -${item._id}`}>
+                                            <td>
+                                                <Image src={item.forListing.token_icon} className="rounded me-2" alt={item.forListing.token_name} width={37} height={37} />
+                                                <span>{item.forListing.token_name}</span>
+                                            </td>
+                                            <td>
+                                                <Link href={`https://explorer.aptoslabs.com/account/${item.address}?network=${NETWORK}`} target="_blank">
+                                                    {shortenAddress(item.address)}
+                                                </Link>
+                                            </td>
+                                            <td>{interestPercentage(item.apr, item.duration)}%</td>
+                                            <td>{item.apr} %</td>
+                                            <td>{item.duration} day/days</td>
+                                            <td>{item.start_timestamp ? <Clock timestamp={item.start_timestamp + item.duration * secInADay} /> : ""}</td>
+                                            <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
+                                            <td><button className="action-btn" onClick={() => onRepayLoan(item)}>Repay Loan</button></td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={6} className="text-center"><p className="p-3">No Current Loans</p></td>
+                                    </tr>
+                                )
                             )
-                        )
-                    }
-                </tbody>
-            </table>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
 
             {/* Previous Loans */}
             <h4 className="mt-5 loans-title">Previous Loans</h4>
-            <table className="table mt-3">
-                <thead>
-                    <tr>
-                        <th>Asset</th>
-                        <th>Lender</th>
-                        <th>Interest</th>
-                        <th>APR</th>
-                        <th>Duration</th>
-                        <th>Loan Value</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        loading ? (
-                            Array.from({ length: 5 }).map((_, index) => (
-                                <tr key={index}>
-                                    <td className="text-center"><span className="line"></span></td>
-                                    <td className="text-center"><span className="line"></span></td>
-                                    <td className="text-center"><span className="line"></span></td>
-                                    <td className="text-center"><span className="line"></span></td>
-                                    <td className="text-center"><span className="line"></span></td>
-                                    <td className="text-center"><span className="line"></span></td>
-                                    <td className="text-center"><span className="line"></span></td>
-                                </tr>
-                            ))
-                        ) : (
-                            prevLoans.length > 0 ? (
-                                prevLoans.map((item) => (
-                                    <tr key={`borrowed -${item._id}`}>
-                                        <td>
-                                            <Image src={item.forListing.token_icon} className="rounded me-2" alt={item.forListing.token_name} width={37} height={37} />
-                                            <span>{item.forListing.token_name}</span>
-                                        </td>
-                                        <td>
-                                            <Link href={`https://explorer.aptoslabs.com/account/${item.address}?network=${NETWORK}`} target="_blank">
-                                                {shortenAddress(item.address)}
-                                            </Link>
-                                        </td>
-                                        <td>{interestPercentage(item.apr, item.duration)}%</td>
-                                        <td>{item.apr} %</td>
-                                        <td>{item.duration} day/days</td>
-                                        <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
-                                        <td>{item.status}</td>
+            <div className="overflow-auto">
+                <table className="table mt-3">
+                    <thead>
+                        <tr>
+                            <th>Asset</th>
+                            <th>Lender</th>
+                            <th>Interest</th>
+                            <th>APR</th>
+                            <th>Duration</th>
+                            <th>Loan Value</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            loading ? (
+                                Array.from({ length: 5 }).map((_, index) => (
+                                    <tr key={index}>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
                                     </tr>
                                 ))
                             ) : (
-                                <tr>
-                                    <td colSpan={6} className="text-center"><p className="p-3">No Previous Loans</p></td>
-                                </tr>
+                                prevLoans.length > 0 ? (
+                                    prevLoans.map((item) => (
+                                        <tr key={`borrowed -${item._id}`}>
+                                            <td>
+                                                <Image src={item.forListing.token_icon} className="rounded me-2" alt={item.forListing.token_name} width={37} height={37} />
+                                                <span>{item.forListing.token_name}</span>
+                                            </td>
+                                            <td>
+                                                <Link href={`https://explorer.aptoslabs.com/account/${item.address}?network=${NETWORK}`} target="_blank">
+                                                    {shortenAddress(item.address)}
+                                                </Link>
+                                            </td>
+                                            <td>{interestPercentage(item.apr, item.duration)}%</td>
+                                            <td>{item.apr} %</td>
+                                            <td>{item.duration} day/days</td>
+                                            <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
+                                            <td>{item.status}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={6} className="text-center"><p className="p-3">No Previous Loans</p></td>
+                                    </tr>
+                                )
                             )
-                        )
-                    }
-                </tbody>
-            </table>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </>
     )
 }

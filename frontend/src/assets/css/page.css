@@ -47,7 +47,7 @@ button,
 
 .action-btn {
     background: var(--sec-1);
-    color: var(--light);
+    color: var(--btn-text-light);
     padding: 10px 18px;
     border: unset;
     font-size: 14px;
@@ -57,12 +57,12 @@ button,
 
 .action-btn:hover {
     background: var(--sec-2);
-    color: var(--light);
+    color: var(--btn-text-light);
 }
 
 .submit-btn {
     background-color: var(--sec-1) !important;
-    color: var(--light) !important;
+    color: var(--btn-text-light) !important;
     width: 30%;
     margin-left: auto;
     padding: 16px 24px !important;
@@ -79,7 +79,7 @@ button,
 .grid-view .list-btn {
     padding: 12px 24px;
     background: var(--sec-1);
-    color: var(--light);
+    color: var(--btn-text-light);
     transition: all 0.5s ease;
 }
 
@@ -135,6 +135,7 @@ button,
 /* ------------------------------------------------------- */
 .modal {
     background: var(--bgdark-99);
+    z-index: 999999999;
 }
 
 .wallet-modal .modal-header,
@@ -224,7 +225,7 @@ button,
 
 /* How it works */
 .about{
-    padding: 80px 0px;
+    padding: 100px 0px;
 }
 .work-row {
     display: grid;
