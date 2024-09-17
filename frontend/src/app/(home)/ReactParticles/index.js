@@ -1,6 +1,6 @@
 "use client"
 import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { loadSlim } from "@tsparticles/slim";
 import { useTheme } from '@/context/themecontext';
 // import { config as ParticlesConfig } from "./config"; 
