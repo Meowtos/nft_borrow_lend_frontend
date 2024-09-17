@@ -1,16 +1,16 @@
 [package]
-name = "nft-lending"
+name = "wizards-fi"
 version = "1.0.0"
 authors = []
 
 [addresses]
-nft_lending="_"
+wiz="_"
 
 [dev-addresses]
-nft_lending="0x100"
+wiz="0x100"
 
 [dependencies]
 AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", rev = "main", subdir = "aptos-move/framework/aptos-framework"}
 AptosTokenObjects = {git = "https://github.com/aptos-labs/aptos-core.git", rev = "main", subdir = "aptos-move/framework/aptos-token-objects"}
-
+AptosToken = { git = "https://github.com/aptos-labs/aptos-core.git", rev = "main", subdir = "aptos-move/framework/aptos-token" }
 [dev-dependencies]

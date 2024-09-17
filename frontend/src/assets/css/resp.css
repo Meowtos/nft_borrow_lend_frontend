@@ -46,7 +46,7 @@
     padding-right: 20px !important;
   }
   .py-100{
-    padding: 60px 0px;
+    padding: 48px 0px;
   }
   .row{
     margin: 0px;
@@ -58,6 +58,16 @@
   h2{
     font-size: 32px;
     line-height: 40px;
+  }
+  /* header */
+  .logo img{
+    width: 100%;
+    height: unset;
+  }
+  .header .connect-btn{
+    padding: 14px 14px;
+    font-size: 13px;
+    line-height: 13px;
   }
 
   .banner {
@@ -73,6 +83,9 @@
     font-size: 16px;
     width: 100%;
   }
+  .banner .banner-btn:first-child{
+    margin-right:24px !important;
+  }
   .banner .banner-btn:last-child{
     margin-left:0px !important
   }
@@ -80,9 +93,25 @@
     display: none;
   }
   
+  .about {
+    padding: 48px 0px;
+  }
   .work-row {
-    padding-top: 80px;
-    grid-template-columns: repeat(1,1fr);
+    /* grid-template-columns: repeat(1,1fr); */
+    padding: 0px;
+    padding-top: 40px;
+    background: transparent !important;
+    display: flex;
+   gap: 20px;
+    flex-direction: column;
+
+  }
+  .work-row>div{
+    grid-column: 1 !important;
+  }
+  .work-row div:nth-child(3) {
+    grid-row: unset;
+    position: unset;
   }
   .work-row .outer {
     margin-top: 50px;
@@ -118,9 +147,107 @@
   }
 
 
-  
+  .faqs {
+    padding: 48px 0px 100px 0px;
+  }
+  .faqs .accordion {
+    padding: 0px;
+    background: transparent;
+    margin-top: 40px !important;
+  }
   .accordion {
     width: 100% !important;
+  }
+  .accordion-button {
+    padding: 24px;
+  }
+  .accordion-body {
+    padding: 24px;
+    padding-top: 0px;
+  }
+
+  .footer h4{
+    margin-top: 32px !important;
+  }
+  .ft-list, .social {
+    padding-top: 24px !important;
+  }
+  .ft-list li {
+    margin-top: 8px;
+  }
+  .footer .popped {
+    padding: 48px 16px;
+  }
+  .ft-bottom{
+    flex-direction: column;
+  }
+  .ft-bottom .col{
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  .ft-bottom .col:last-child{
+    padding-top: 16px;
+  }
+  .ft-bottom>.col p{
+    text-align:center !important
+  }
+
+
+  /* Innner Pages */
+  .inner-banner {
+    padding: 151px 0px 60px 0px;
+  }
+  .inner-banner p{
+    width: 100% !important;
+  }
+  .borrow-tabs{
+    padding: 48px 0px 100px 0px;
+  }
+  .borrow-tabs .box-main{
+    flex-direction: column;
+  }
+  .tab-btns, .tab-content{
+    width: 100%;
+    padding: 40px 20px;
+  }
+  .borrow-tabs .tab-content{
+    margin-top: 24px;
+    padding: 40px 20px;
+  }
+  .cn-wallet {
+    padding: 20px;
+    background: #202020ab;
+    width: 100% !important;
+  }
+  .content-header {
+    justify-content: start;
+    padding: 20px;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .all-cards {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .list-view{
+    overflow: auto;
+  }
+  .table{
+    width: max-content;
+  }
+
+  /* modal */
+  .modal-content.list-modal {
+    padding: 24px; 
+  }
+  .list-modal .ps-5{
+    padding-left:0px !important;
+    margin-top: 24px;
+  }
+  .list-modal .close-icon {
+    position: relative;
+    margin-left: auto;
+    right: -10px;
+    top: -13px;
   }
 }
 

@@ -1,5 +1,5 @@
-// test collection for nft lending
-module nft_lending::nft {
+// Remove module while going on mainnet
+module wiz::digital_asset {
     use std::signer::address_of;
     use aptos_token_objects::token;
     use aptos_token_objects::collection;
@@ -10,8 +10,8 @@ module nft_lending::nft {
     struct ObjectController has key {
         app_extend_ref: object::ExtendRef,
     }
-    const APP_OBJECT_SEED: vector<u8> = b"space";
-    const COLLECTION_NAME: vector<u8> = b"For the ones who need space";
+    const APP_OBJECT_SEED: vector<u8> = b"SPACY";
+    const COLLECTION_NAME: vector<u8> = b"Space";
     const COLLECTION_DESCRIPTION: vector<u8> = b"Space cadets to the moon";
     const COLLECTION_URI: vector<u8> = b"https://img.freepik.com/premium-vector/vector-illustration-child-astronaut-cartoon-sitting-space-rock_472355-40.jpg";
     const TOKEN_DESCRIPTION: vector<u8> = b"Wagmi";
@@ -52,7 +52,7 @@ module nft_lending::nft {
 
 
     fun get_app_signer_addr(): address {
-        object::create_object_address(&@nft_lending, APP_OBJECT_SEED)
+        object::create_object_address(&@wiz, APP_OBJECT_SEED)
     }
 
     fun get_app_signer(): signer acquires ObjectController {
@@ -60,11 +60,22 @@ module nft_lending::nft {
     }
 
     #[view]
-    public fun get_token_address(creator_addr: address, token_name: String): address {
+    public fun get_token_address(token_name: String): address {
         token::create_token_address(
-            &creator_addr,
+            &get_app_signer_addr(),
             &utf8(COLLECTION_NAME),
             &token_name
         )
+    }
+
+    #[test_only]
+    public fun init_module_for_test(account: &signer) {
+        init_module(account);
+    }
+
+    #[test(admin=@wiz, user=@0xCAFE)]
+    fun mint_nft_test(admin: &signer, user: &signer) acquires ObjectController {
+        init_module_for_test(admin);
+        mint(user, utf8(b"Token name"), utf8(b"Token uri"));
     }
 } 

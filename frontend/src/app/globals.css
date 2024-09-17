@@ -18,6 +18,8 @@
   --light-33: #ffffff33;
   --light-20: #ffffff20;
 
+  --txt-light:#ffffff;
+
   --bg-tabs: #0f0e10;
   --bg-28: #282828;
   --bg-14: #141414;
@@ -43,19 +45,19 @@
 /* -------------------------------- */
 [data-theme="light"] {
   /* Primary Colors */
-  --primary-1: #EAD9FF;
-  --primary-2: #D9A6FF;
-  --primary-3: #D6A7FF;
+  --primary-1: #E41F7B; 
+  /* --primary-2: #D9A6FF;
+  --primary-3: #D6A7FF;  */
 
   /* Secondary Colors */
-  --sec-1: #F7BDC3;
-  --sec-2: #F8C6D2;
+  /* --sec-1: #F7BDC3;
+  --sec-2: #F8C6D2; */
 
   /* Light Backgrounds */
   --light: #000000;
   --light-bb: #000000bb;
   --light-99: #00000099;
-  --light-90: #00000090;
+  /* --light-90: #00000090; */
   --light-66: #00000066;
   --light-33: #00000033;
   --light-20: #00000020;
@@ -77,28 +79,42 @@
   --bgdark-99: #FFFFFF99;
 
   /* Dark Text */
-  --dark: #FFFFFF;
+  --dark: #fafafa;
   --dark-99: #FFFFFF99;
   --dark-ee: #FFFFFFee;
+}
 
-  /* Button Text */
-  --btn-text-light: #000000;
+/* light */
+.light-theme.about, .light-theme.faqs {background: #f3f3f3;}
+.light-theme .work-row, .light-theme .accordion, .light-theme .wcs-card {
+  /* background: #dbdbdb; */
+  box-shadow: 0px 0px 20px 2px #00000020;
+  background: var(--bgdark);
+}
+.light-theme .wcs-card{
+  background: var(--bgdark);
+}
+
+.dark-theme.about, .dark-theme.faqs {background: #0c0c0c;}
+.dark-theme .work-row, .dark-theme .accordion {
+  background: #1e1e1e;
+}
+
+.light-theme .outer{
+  background: var(--bgdark);
+  box-shadow: 0px 0px 20px 2px #00000020;
+  border-radius: 8px;
+}
+.light-theme .main{
+  background: #ededed;
 }
 
 
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  scroll-behavior: smooth !important;
-}
 
+/* Theme */
+*{box-sizing: border-box;padding: 0;margin: 0;}
+html, body {max-width: 100vw;overflow-x: hidden;scroll-behavior: smooth !important;}
 body {background-color: var(--dark);color: var(--light);}
 .container {max-width: 80% !important;}
 
@@ -122,58 +138,19 @@ h2 {font-size: 48px;font-weight: 600;line-height: 56px;}
   z-index: 1;
 }
 
-.header,
-.banner,
-.footer,
-.about,
-.faqs,
-.why-choose-us {
+.header,.banner,.footer,.about,.faqs,.why-choose-us {
   position: relative;
   z-index: 2;
 }
 
-
-/* CSS */
 .banner-content a {
   text-decoration: none;
 }
-
-/* ------------------------------------------------------------ */
-/* ------------------------------------------------------------ */
-/* ------------------------------------------------------------ */
-.banner-btn {
-  background-color: var(--sec-2);
-  border: unset;
-  color: var(--light);
-  font-size: 16px;
-  line-height: 16px;
-  padding: 16px 24px !important;
-  position: relative;
-  touch-action: manipulation;
-  transition: all 0.5s ease;
-}
-
-.banner-btn:after {
-  background-color: var(--sec-1);
-  content: "";
-  display: block;
-  height: 48px;
-  left: 0;
-  width: 100%;
-  position: absolute;
-  top: 0px;
-  transform: translate(8px, 8px);
-  transition: transform .3s ease-out;
-  z-index: -1;
-}
-
-.banner-btn:hover:after {
-  transform: translate(0, 0);
-}
-
-.banner-btn:active,
-.banner-btn:hover {
-  background-color: var(--sec-1);
+.br {
+  width: 50px;
+  padding: 2px;
+  background: var(--sec-2);
+  margin-top: 8px;
 }
 
 
@@ -186,23 +163,57 @@ h2 {font-size: 48px;font-weight: 600;line-height: 56px;}
 
 
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
 
-/* body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-} */
 
-/* @media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+
+
+
+
+
+
+/* nft-collection */
+/* .coll-slider {
+  padding: 120px 0px 110px 0px;
+}
+
+.nft-coll {
+  background: var(--bg-28);
+  overflow: hidden;
+}
+
+.coll-details {
+  padding: 0px 16px 18px 16px;
+}
+
+.coll-title {
+  font-size: 20px !important;
+  text-transform: capitalize;
+  font-weight: 600;
+  border-bottom: 2px dashed var(--primary-3);
+  padding: 16px 0px;
+}
+
+.coll-details h6 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 14px;
+}
+
+.coll-details p {
+  color: var(--light-99);
+  font-size: 14px;
+  line-height: 14px;
+  padding-top: 8px;
+}
+
+.swiper-pagination {
+  position: relative !important;
+  padding-top: 24px;
+  bottom: unset !important;
+}
+
+.swiper-pagination-bullet {
+  background-color: var(--light) !important;
+  height: 11px !important;
+  width: 11px !important;
 } */

@@ -17,12 +17,14 @@ export const footerLinks = [
 ]
 export const team = [
     {
-        name: "ajaythxkur aka Sen7e",
-        github: "https://github.com/ajaythxkur"
+        name: "Ajaythxkur aka Sen7e",
+        github: "https://github.com/ajaythxkur",
+        profile: '/media/nfts/5.jpeg'
     },
     {
-        name: "ajaykumar aka Devil",
-        github: "https://github.com/Devil02070"
+        name: "AjayKumar aka Devil",
+        github: "https://github.com/Devil02070",
+        profile: '/media/nfts/2.jpeg'
     }
 ];
 
@@ -69,5 +71,50 @@ export const working = [
     {
         heading: "Default Option",
         description: "If you choose not to repay the loan, the NFT is transferred to the lender. There&apos;s no risk of additional fees or credit score impact—only the ownership of the NFT is transferred."
+    }
+]
+
+export const chooseUs =[
+    {
+        sr_no: '01',
+        title: 'Secure NFT Lending',
+        imgurl: '/media/nfts/2.jpeg',
+        imgurl_active: '/media/nfts/3.jpeg',
+        description: 'We ensure top-notch security for both NFT owners and lenders, leveraging the Aptos blockchain to safeguard all transactions.',
+    },
+    {
+        sr_no: '02',
+        title: 'Fast & Low-Cost Deals',
+        imgurl: '/media/nfts/4.jpeg',
+        imgurl_active: '/media/nfts/5.jpeg',
+        description: 'Enjoy minimal gas fees and rapid transactions on Aptos, delivering a smooth and cost-effective lending experience.',
+    },
+    {
+        sr_no: '03',
+        title: 'Verified Smart Contracts',
+        imgurl: '/media/nfts/4.jpeg',
+        imgurl_active: '/media/nfts/5.jpeg',
+        description: 'Our platform uses transparent smart contracts that ensure fairness, trust, and complete verification in every lending process.',
+    },
+    {
+        sr_no: '04',
+        title: 'Community-Driven',
+        imgurl: '/media/nfts/4.jpeg',
+        imgurl_active: '/media/nfts/5.jpeg',
+        description: 'We engage actively with our community to drive innovation, ensuring the platform evolves to meet users’ growing needs.',
+    },
+    {
+        sr_no: '05',
+        title: 'Flexible Loan Options',
+        imgurl: '/media/nfts/4.jpeg',
+        imgurl_active: '/media/nfts/5.jpeg',
+        description: 'Flexible lending terms empower users to customize loan agreements, maximizing the potential value of their digital assets.',
+    },
+    {
+        sr_no: '06',
+        title: 'Trustless & Decentralized',
+        imgurl: '/media/nfts/4.jpeg',
+        imgurl_active: '/media/nfts/5.jpeg',
+        description: 'Our decentralized lending platform eliminates intermediaries, guaranteeing full control of your assets throughout the process.',
     }
 ]
