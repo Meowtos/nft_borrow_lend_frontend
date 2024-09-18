@@ -2,20 +2,98 @@
 
 import { Loan } from "@/types/ApiInterface";
 import Image from "next/image";
-import { IoClose } from "react-icons/io5";
+import { IoCheckmark, IoClose } from "react-icons/io5";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
-
-export const acceptOfferModalId = "acceptOffeModal";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { useApp } from "@/context/AppProvider";
+import { ABI_ADDRESS } from "@/utils/env";
+import { aptos } from "@/utils/aptos";
+import { toast } from "sonner";
+import { useState } from "react";
+import { explorerUrl } from "@/utils/constants";
+export const acceptOfferModalId = "acceptOfferModal";
 interface AcceptModalProps {
     offer: Loan | null
 }
 export function AcceptModal({ offer }: AcceptModalProps) {
+    const { getAssetByType } = useApp();
+    const { account, signAndSubmitTransaction } = useWallet();
+    const [loading, setLoading] = useState(false);
+    const onBorrow = async (offer: Loan) => {
+        if (!account?.address) return;
+        try {
+            const coin = getAssetByType(offer.coin);
+            if (!coin) return;
+            const typeArguments = [];
+
+            if (coin.token_standard === "v1") {
+                typeArguments.push(coin.asset_type);
+            }
+            const functionArguments = [
+                offer.offer_obj,
+            ];
+            setLoading(true)
+            const response = await signAndSubmitTransaction({
+                sender: account.address,
+                data: {
+                    function: `${ABI_ADDRESS}::nft_lending::${coin.token_standard === "v1" ? "borrow_with_coin" : "borrow_with_fa"}`,
+                    typeArguments,
+                    functionArguments,
+                }
+            });
+            await aptos.waitForTransaction({
+                transactionHash: response.hash
+            });
+            const transaction = await aptos.getTransactionByHash({ transactionHash: response.hash });
+            const eventType = `${ABI_ADDRESS}::nft_lending::BorrowEvent`;
+            let borrowObj = "";
+            let borrowTimestamp = 0;
+            if (transaction.type === "user_transaction") {
+                const event = transaction.events.find((event) => event.type === eventType);
+                if (event) {
+                    borrowObj = event.data["object"];
+                    borrowTimestamp = event.data["timestamp"];
+                }
+            }
+            const res = await fetch(`/api/lend/accept/${offer._id}`, {
+                method: "PUT",
+                headers: {
+                    contentType: "application/json"
+                },
+                body: JSON.stringify({
+                    address: account.address,
+                    borrow_obj: borrowObj,
+                    start_timestamp: borrowTimestamp,
+                })
+            });
+            const apiRes = await res.json();
+            if (!res.ok) {
+                console.log(apiRes)
+                throw new Error(apiRes.message)
+            }
+            document.getElementById("closeAcceptOfferModal")?.click();
+            toast.success("Offer accepted", {
+                action: <a href={`${explorerUrl}/txn/${response.hash}`} target="_blank">View Txn</a>,
+                icon: <IoCheckmark />
+            })
+        } catch (error: unknown) {
+            let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
+            if (error instanceof Error) {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage)
+        } finally {
+            setLoading(false)
+        }
+    }
     return (
         <>
-            <div className="modal fade" id={acceptOfferModalId} tabIndex={-1} aria-labelledby={`${acceptOfferModalId}Label`} >
+            <div className="modal fade" id={acceptOfferModalId} tabIndex={-1} aria-labelledby={`${acceptOfferModalId}Label`} aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <IoClose type="button" className="text-light close-icon" data-bs-dismiss="modal" aria-label="Close" id="closeacceptOfferModal" />
+                        <button type="button" id="closeAcceptOfferModal" data-bs-dismiss="modal" aria-label="Close">
+                            <IoClose className="text-light close-icon" />
+                        </button>
                         {
                             offer &&
                             <div className="row">
@@ -32,6 +110,13 @@ export function AcceptModal({ offer }: AcceptModalProps) {
                                 <div className="col-lg-9 p-0 ps-5">
                                     <h3>Asset Offer Accept</h3>
                                     <p className="mt-4 notice"><strong>Notice:</strong> By selecting this NFT as collateral, you acknowledge that the NFT will be securely transferred and stored with us for the duration of the loan. You will not have access to this NFT until the loan is fully repaid.</p>
+                                    {
+                                        !loading
+                                            ?
+                                            <button className="action-btn rounded" onClick={() => onBorrow(offer)}>Accept the offer</button>
+                                            :
+                                            <button className="action-btn rounded">Loading...</button>
+                                    }
                                 </div>
                             </div>
                         }

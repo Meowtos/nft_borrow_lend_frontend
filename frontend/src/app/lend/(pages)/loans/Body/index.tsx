@@ -1,7 +1,7 @@
 "use client"
 import { Loading } from "@/components/Loading";
 import { Loan } from "@/types/ApiInterface";
-import { ABI_ADDRESS, NETWORK } from "@/utils/env";
+import { NETWORK } from "@/utils/env";
 import { shortenAddress } from "@/utils/shortenAddress";
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
 import Image from "next/image";
@@ -11,14 +11,14 @@ import { useApp } from "@/context/AppProvider";
 import { interestPercentage } from "@/utils/math";
 import { Clock } from "@/components/Clock";
 import { secInADay } from "@/utils/time";
-import { aptos } from "@/utils/aptos";
-import { toast } from "sonner";
+import { GrabModal, grabModalId } from "../GrabModal";
 export function Body() {
     const { getAssetByType } = useApp();
-    const { account, signAndSubmitTransaction } = useWallet();
+    const { account } = useWallet();
     const [loading, setLoading] = useState(true)
     const [activeLoans, setActiveLoans] = useState<Loan[]>([]);
     const [prevLoans, setPrevLoans] = useState<Loan[]>([])
+    const [grabOffer, setGrabOffer] = useState<Loan|null>(null)
     const fetchLoans = useCallback(async () => {
         if (!account?.address) return;
         try {
@@ -38,45 +38,6 @@ export function Body() {
             setLoading(false)
         }
     }, [account?.address])
-    const onGrab = async(offer: Loan) => {
-        if (!account?.address || !offer.borrow_obj) return;
-        try {
-            const functionArguments = [
-                offer.borrow_obj
-            ];
-            const response = await signAndSubmitTransaction({
-                sender: account.address,
-                data: {
-                    function: `${ABI_ADDRESS}::nft_lending::grab`,
-                    typeArguments:[],
-                    functionArguments
-                },
-            });
-            await aptos.waitForTransaction({
-                transactionHash: response.hash
-            })
-            const res = await fetch(`/api/lend/grab/${offer._id}`, {
-                method: "PUT",
-                headers: {
-                    contentType: "application/json"
-                },
-                body: JSON.stringify({ address: account.address })
-            });
-            const apiRes = await res.json();
-            if (!res.ok) {
-                throw new Error(apiRes.message)
-            }
-            toast.success("NFT Grabbed")
-        } catch (error) {
-            let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
-            if (error instanceof Error) {
-                errorMessage = error.message;
-            }
-            toast.error(errorMessage)
-        } finally {
-
-        }
-    }
     useEffect(() => {
         fetchLoans()
     }, [fetchLoans]);
@@ -116,7 +77,7 @@ export function Body() {
                                 <td>{item.start_timestamp ? <Clock timestamp={item.start_timestamp + item.duration * secInADay} /> : ""}</td>
                                 <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
                                 <td>
-                                    <button className="action-btn" onClick={()=>onGrab(item)}>Get NFT</button>
+                                    <button className="action-btn" data-bs-toggle="modal" data-bs-target={`${grabModalId}`} onClick={()=>setGrabOffer(item)}>Get NFT</button>
                                 </td>
                             </tr>
                         ))
@@ -159,6 +120,7 @@ export function Body() {
                     }
                 </tbody>
             </table>
+            <GrabModal offer={grabOffer} />
         </React.Fragment>
 
     )

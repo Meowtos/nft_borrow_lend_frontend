@@ -128,7 +128,6 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
     useEffect(() => {
         getOwnedTokensByCollection()
     }, [getOwnedTokensByCollection]);
-    // if (isLoading) return <Loading />;
     return (
         <React.Fragment>
 

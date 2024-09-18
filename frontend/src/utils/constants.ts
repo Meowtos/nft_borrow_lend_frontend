@@ -1,3 +1,4 @@
+export const explorerUrl = "https://explorer.aptoslabs.com" 
 export const discordLink = "https://discord.gg/tFQMPWSQ5z";
 export const twitterLnk ="";
 export const gmail = "definftloans@gmailcom";
@@ -16,8 +17,12 @@ export const menu =[
         url: "/lend/assets"
     },
     {
-        name: "Faq's",
-        url: "/#faq"
+        name: "Faucet",
+        url: "/faucet"
+    },
+    {
+        name: "Mint NFT",
+        url: "/nft-mint"
     },
 ]
 

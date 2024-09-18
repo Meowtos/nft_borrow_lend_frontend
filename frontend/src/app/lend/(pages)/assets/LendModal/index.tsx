@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useFormik } from "formik";
 import Image from 'next/image'
 import { IoIosArrowDown, IoMdGlobe } from 'react-icons/io'
-import { IoClose } from 'react-icons/io5'
+import { IoCheckmark, IoClose } from 'react-icons/io5'
 import { APR_DENOMINATOR, aptos, getAssetBalance, MAX_LOCK_DURATION } from "@/utils/aptos";
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
@@ -14,6 +14,7 @@ import { IListingSchema } from "@/models/listing";
 import { ABI_ADDRESS } from "@/utils/env";
 import { RiTwitterXLine } from "react-icons/ri";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
+import { explorerUrl } from "@/utils/constants";
 
 export const lendModalId = "lendModal";
 interface LendModalProps {
@@ -100,20 +101,21 @@ export function LendModal({ token }: LendModalProps) {
                     })
                 });
                 const apiRes = await res.json();
-                if(!res.ok){
+                if (!res.ok) {
                     throw new Error(apiRes.message)
                 }
                 document.getElementById("closeLendModal")?.click();
                 toast.success("Transaction succeed", {
-                    action: <a href="/view">View Txn</a>
+                    action: <a href={`${explorerUrl}/txn/${response.hash}`} target="_blank">View Txn</a>,
+                    icon: <IoCheckmark />
                 })
-                
+
             } catch (error: unknown) {
                 let errorMessage = `An unexpected error has occured`;
                 if (typeof error === "string") {
                     errorMessage = error;
                 }
-                if(error instanceof Error){
+                if (error instanceof Error) {
                     errorMessage = error.message
                 }
                 toast.error(errorMessage)
@@ -127,8 +129,8 @@ export function LendModal({ token }: LendModalProps) {
             return assets.find((asset) => asset.asset_type === values.coin);
         }
     }, [assets, values.coin])
-    const getBalance = useCallback(async()=>{
-        if(!account?.address || !chosenCoin) {
+    const getBalance = useCallback(async () => {
+        if (!account?.address || !chosenCoin) {
             return setBalance(0)
         }
         try {
@@ -137,16 +139,18 @@ export function LendModal({ token }: LendModalProps) {
         } catch (error) {
             console.error(error)
         }
-    },[chosenCoin, account?.address]);
-    useEffect(()=>{
+    }, [chosenCoin, account?.address]);
+    useEffect(() => {
         getBalance()
-    },[getBalance])
+    }, [getBalance])
     return (
         <React.Fragment>
             <div className="modal fade" id={lendModalId} tabIndex={-1} aria-labelledby={`${lendModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <IoClose type="button" className="text-light close-icon" data-bs-dismiss="modal" aria-label="Close" id="closeLendModal" />
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeLendModal">
+                            <IoClose className="text-light close-icon" />
+                        </button>
                         {
                             token &&
                             <div className="row">
