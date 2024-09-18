@@ -17,8 +17,12 @@ export const menu =[
         url: "/lend/assets"
     },
     {
-        name: "Faq's",
-        url: "/#faq"
+        name: "Faucet",
+        url: "/faucet"
+    },
+    {
+        name: "Mint NFT",
+        url: "/nft-mint"
     },
 ]
 
