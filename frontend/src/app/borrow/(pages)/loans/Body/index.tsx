@@ -6,18 +6,18 @@ import { useApp } from "@/context/AppProvider";
 import { shortenAddress } from "@/utils/shortenAddress";
 import Image from "next/image";
 import Link from "next/link";
-import { ABI_ADDRESS, NETWORK } from "@/utils/env";
-import { toast } from "sonner";
-import { aptos } from "@/utils/aptos";
+import { NETWORK } from "@/utils/env";
 import { interestPercentage } from "@/utils/math";
 import { Clock } from "@/components/Clock";
 import { secInADay } from "@/utils/time";
+import { RepayModal, repayModalId } from "../RepayModal";
 export function Body() {
-    const { account, signAndSubmitTransaction } = useWallet();
+    const { account } = useWallet();
     const { getAssetByType } = useApp();
     const [loading, setLoading] = useState(true);
     const [activeLoans, setActiveLoans] = useState<Loan[]>([]);
     const [prevLoans, setPrevLoans] = useState<Loan[]>([])
+    const [repayOffer, setRepayOffer] = useState<Loan|null>(null)
     const getLoans = useCallback(async () => {
         if (!account?.address) return;
         setLoading(true)
@@ -38,51 +38,7 @@ export function Body() {
             setLoading(false)
         }
     }, [account?.address])
-    const onRepayLoan = async (offer: Loan) => {
-        if (!account?.address || !offer.borrow_obj) return;
-        try {
-            const coin = getAssetByType(offer.coin);
-            if (!coin) return;
-            const typeArguments = [];
-            if (coin.token_standard === "v1") {
-                typeArguments.push(coin.asset_type)
-            }
-            const functionArguments = [
-                offer.borrow_obj
-            ];
-            const response = await signAndSubmitTransaction({
-                sender: account.address,
-                data: {
-                    function: `${ABI_ADDRESS}::nft_lending::${coin.token_standard === "v1" ? "repay_with_coin" : "repay_with_fa"}`,
-                    typeArguments,
-                    functionArguments
-                },
-            });
-            await aptos.waitForTransaction({
-                transactionHash: response.hash
-            })
-            const res = await fetch(`/api/lend/repay/${offer._id}`, {
-                method: "PUT",
-                headers: {
-                    contentType: "application/json"
-                },
-                body: JSON.stringify({ address: account.address })
-            });
-            const apiRes = await res.json();
-            if (!res.ok) {
-                throw new Error(apiRes.message)
-            }
-            toast.success("Loan repayed")
-        } catch (error) {
-            let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
-            if (error instanceof Error) {
-                errorMessage = error.message;
-            }
-            toast.error(errorMessage)
-        } finally {
-
-        }
-    }
+   
 
     useEffect(() => {
         getLoans();
@@ -109,8 +65,9 @@ export function Body() {
                     <tbody>
                         {
                             loading ? (
-                                Array.from({ length: 5 }).map((_, index) => (
+                                Array.from({ length: 3 }).map((_, index) => (
                                     <tr key={index}>
+                                        <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
@@ -138,12 +95,12 @@ export function Body() {
                                             <td>{item.duration} day/days</td>
                                             <td>{item.start_timestamp ? <Clock timestamp={item.start_timestamp + item.duration * secInADay} /> : ""}</td>
                                             <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
-                                            <td><button className="action-btn" onClick={() => onRepayLoan(item)}>Repay Loan</button></td>
+                                            <td><button className="action-btn" onClick={() => setRepayOffer(item)} data-bs-toggle="modal" data-bs-target={`#${repayModalId}`}>Repay Loan</button></td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={6} className="text-center"><p className="p-3">No Current Loans</p></td>
+                                        <td colSpan={9} className="text-center"><p className="p-3">No Current Loans</p></td>
                                     </tr>
                                 )
                             )
@@ -212,6 +169,7 @@ export function Body() {
                     </tbody>
                 </table>
             </div>
+            <RepayModal offer={repayOffer}/>
         </>
     )
 }

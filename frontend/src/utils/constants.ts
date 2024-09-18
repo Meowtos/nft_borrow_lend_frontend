@@ -1,3 +1,4 @@
+export const explorerUrl = "https://explorer.aptoslabs.com" 
 export const discordLink = "https://discord.gg/tFQMPWSQ5z";
 export const twitterLnk ="";
 export const gmail = "definftloans@gmailcom";

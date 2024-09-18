@@ -18,6 +18,7 @@ module wiz::token {
         move_to(obj_signer, ObjectController {
             app_extend_ref: object::generate_extend_ref(constructor_ref),
         });
+        create_nft_collection(obj_signer);
     }
     fun create_nft_collection(creator: &signer){
         // This means that the supply of the token will not be tracked.
@@ -67,7 +68,7 @@ module wiz::token {
             vector<vector<u8>>[b""],
             vector<String>[utf8(b"address")],
         );
-        token::mint_token(account, token_data_id, 1);
+        // token::mint_token(account, token_data_id, 1);
     }
 
     #[view]
@@ -78,6 +79,11 @@ module wiz::token {
             token_name,
         )
     }
+    #[test_only]
+    use std::signer::address_of;
+
+    #[test_only]
+    use aptos_framework::account;
 
     #[test_only]
     public fun init_module_for_test(account: &signer) {
@@ -85,10 +91,10 @@ module wiz::token {
     }
     // TODO
     #[test(admin=@wiz, user=@0xCAFE)]
-    public fun mint_token_test(admin: &signer, _user: &signer)
-    // acquires ObjectController
+    public fun mint_token_test(admin: &signer, user: &signer)
+    acquires ObjectController
     {
         init_module_for_test(admin);
-        // mint_token(user, utf8(b"Token name"), utf8(b"Token uri"));
+        mint_token(user, utf8(b"Token name"), utf8(b"Token uri"));
     }
 }
