@@ -4,9 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 // import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
-import {
-    useWallet,
-} from "@aptos-labs/wallet-adapter-react";
+import {useWallet } from "@aptos-labs/wallet-adapter-react";
 
 
 export default function BorrowLayout({ children }: { children: React.ReactNode }) {

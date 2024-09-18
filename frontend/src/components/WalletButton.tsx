@@ -10,19 +10,14 @@ import {
 import Image from "next/image";
 import React from "react";
 import { IoClose } from "react-icons/io5";
-import { FaRegUser } from "react-icons/fa";
-import { FaAward } from "react-icons/fa6";
 import { RxExit } from "react-icons/rx";
 
 export const WalletButtons = () => {
   const { wallets, connected, disconnect, isLoading } = useWallet();
-
   if (connected) {
     return (
       <>
-        <div className="connected">
-          <FaRegUser className="cn-icon" />
-          <FaAward className="cn-icon" />
+        <div className="connected d-flex align-center">
           <button onClick={disconnect} className="connect-btn rounded disconnect"><RxExit /> Disconnect</button>
         </div>
       </>

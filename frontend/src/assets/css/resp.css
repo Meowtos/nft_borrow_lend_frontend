@@ -61,13 +61,23 @@
   }
   /* header */
   .logo img{
-    width: 100%;
+    /* width: 100%; */
+    width: 70%;
     height: unset;
   }
-  .header .connect-btn{
+  /* .header .connect-btn{
     padding: 14px 14px;
     font-size: 13px;
     line-height: 13px;
+  } */
+   .header{
+    padding: 14px 0px !important;
+   }
+  .header .connect-btn {
+    padding: 10px 10px;
+    font-size: 12px;
+    line-height: 12px;
+    border-radius: 8px;
   }
 
   .banner {
@@ -249,6 +259,53 @@
     right: -10px;
     top: -13px;
   }
+}
+@media(max-width:768px){
+  .menu-large{display: none !important;}
+  .menu-mobile{
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+  }
+  .toggle-btn, .menu-close{
+    font-size: 26px;
+  }
+  .toggle-menu {
+    position: absolute;
+    right: 0px;
+    background: var(--dark) !important;
+    width: 64%;
+    padding: 40px 0px;
+    height: 100vh;
+    top: 0px;
+    transition: all 0.5s ease;
+    transform: translate(100%, 0%);
+    box-shadow: 0px 0px 20px 2px #00000020;
+  }
+  .toggle-menu.active{
+    transform: translate(0%, 0%);
+  }
+  .menu-close{
+    position: absolute;
+    right: 16px;
+    top: 16px;
+  }
+  .toggle-menu ul{
+    border-top: 2px solid var(--sec-2);
+    margin-top: 16px !important;
+  }
+  .toggle-menu ul li{
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--light-20);
+    font-size: 18px;
+  }
+  .theme-mode {
+    width: 100%;
+    margin-top: 20px;
+    font-size: 32px;
+  }
+
 }
 
 
