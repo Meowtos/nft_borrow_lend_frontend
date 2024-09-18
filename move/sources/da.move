@@ -10,14 +10,13 @@ module wiz::digital_asset {
     struct ObjectController has key {
         app_extend_ref: object::ExtendRef,
     }
-    const APP_OBJECT_SEED: vector<u8> = b"SPACY";
-    const COLLECTION_NAME: vector<u8> = b"Space";
+    const COLLECTION_NAME: vector<u8> = b"Space Boys";
     const COLLECTION_DESCRIPTION: vector<u8> = b"Space cadets to the moon";
     const COLLECTION_URI: vector<u8> = b"https://img.freepik.com/premium-vector/vector-illustration-child-astronaut-cartoon-sitting-space-rock_472355-40.jpg";
     const TOKEN_DESCRIPTION: vector<u8> = b"Wagmi";
 
     fun init_module(creator: &signer) {
-        let constructor_ref = object::create_named_object(creator, APP_OBJECT_SEED);
+        let constructor_ref = object::create_named_object(creator, COLLECTION_NAME);
         let app_signer = &object::generate_signer(&constructor_ref);
         move_to(app_signer, ObjectController {
             app_extend_ref: object::generate_extend_ref(&constructor_ref),
@@ -52,7 +51,7 @@ module wiz::digital_asset {
 
 
     fun get_app_signer_addr(): address {
-        object::create_object_address(&@wiz, APP_OBJECT_SEED)
+        object::create_object_address(&@wiz, COLLECTION_NAME)
     }
 
     fun get_app_signer(): signer acquires ObjectController {
