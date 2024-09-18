@@ -16,7 +16,7 @@ const Header = () => {
     const { theme, toggleTheme } = useTheme();
     const { connected } = useWallet();
     const [soon, setSoon] = useState(true);
-    const [mobileMenu, setMobileMenu] = useState(true)
+    const [mobileMenu, setMobileMenu] = useState(false)
     return (
         <>
             <section className={`header py-3 ${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
