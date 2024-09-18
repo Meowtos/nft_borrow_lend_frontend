@@ -1,5 +1,5 @@
 // Remove module while going on mainnet
-module wiz::token {
+module wiz::aptos_wizards {
     use aptos_framework::object;
     use aptos_token::token;
     use std::string::{utf8, String};
@@ -18,7 +18,7 @@ module wiz::token {
         move_to(obj_signer, ObjectController {
             app_extend_ref: object::generate_extend_ref(constructor_ref),
         });
-        create_nft_collection(obj_signer);
+        // create_nft_collection(obj_signer);
     }
     fun create_nft_collection(creator: &signer){
         // This means that the supply of the token will not be tracked.
@@ -68,7 +68,7 @@ module wiz::token {
             vector<vector<u8>>[b""],
             vector<String>[utf8(b"address")],
         );
-        // token::mint_token(account, token_data_id, 1);
+        token::mint_token(account, token_data_id, 1);
     }
 
     #[view]
