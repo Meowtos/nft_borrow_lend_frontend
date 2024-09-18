@@ -85,9 +85,8 @@
 }
 
 /* light */
-.light-theme.about, .light-theme.faqs {background: #f3f3f3;}
+.light-theme.about, .light-theme.faqs, .header.light-theme {background: #f3f3f3;}
 .light-theme .work-row, .light-theme .accordion, .light-theme .wcs-card {
-  /* background: #dbdbdb; */
   box-shadow: 0px 0px 20px 2px #00000020;
   background: var(--bgdark);
 }
@@ -108,7 +107,11 @@
 .light-theme .main{
   background: #ededed;
 }
-
+@media(max-width:768px){
+  .light-theme .work-row,.light-theme .accordion{
+    box-shadow: unset;
+  }
+}
 
 
 

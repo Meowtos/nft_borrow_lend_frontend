@@ -162,7 +162,7 @@ button,
 /* Header */
 /* ------------------------------------------------------- */
 .header {
-    border-bottom: 1px solid var(--primary-1);
+    border-bottom: 2px solid var(--primary-1);
     background: var(--bgdark);
     position: fixed;
     width: 100%;
@@ -186,6 +186,27 @@ button,
     color: var(--primary-3) !important;
 }
 
+.nav-menu{
+    list-style-type: none;
+    font-size: 18px;
+    line-height: 20px;
+    gap: 32px;
+}
+.nav-menu a{
+    color: var(--light);
+    text-decoration: none;
+    transition: all 0.5s ease;
+}
+.nav-menu li:hover, .nav-menu a.active{
+    color: var(--sec-2);
+}
+
+.soon{
+    position: absolute;
+    background: var(--bg-28);
+    color: var(--light);
+    padding: 6px 24px;
+}
 /* ------------------------------------------------------- */
 /* Home */
 /* ------------------------------------------------------- */

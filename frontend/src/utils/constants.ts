@@ -1,6 +1,26 @@
 export const discordLink = "https://discord.gg/tFQMPWSQ5z";
 export const twitterLnk ="";
 export const gmail = "definftloans@gmailcom";
+
+export const menu =[
+    {
+        name: "Home",
+        url: "/",
+    },
+    {
+        name: "Borrow Loan",
+        url: "/borrow/assets"
+    },
+    {
+        name: "Lend Nft",
+        url: "/lend/assets"
+    },
+    {
+        name: "Faq's",
+        url: "/#faq"
+    },
+]
+
 export const footerLinks = [
     {
         heading: "Lend Nft",
@@ -54,23 +74,23 @@ export const faq = [
 export const working = [
     {
         heading: "Select Your NFT",
-        description: "Begin by connecting your wallet and selecting the NFT you&apos;d like to use as collateral. Whether it&apos;s a valuable piece of digital art or a sought-after collectible, your NFT holds the key to unlocking crypto liquidity."
+        description: "Begin by connecting your wallet and selecting the NFT you want to use as collateral. Whether it's a valuable piece of digital art or a sought-after collectible, your NFT holds the key to unlocking crypto liquidity."
     },
     {
-        heading: "Get Instant Valuation",
-        description: "Our platform instantly evaluates the market value of your NFT based on recent sales and market trends. This ensures you receive a fair and transparent loan offer in exchange for your asset."
+        heading: "Submit for Valuation",
+        description: "Submit your NFT for a valuation review. Users who want to lend will view the NFT and make an offer based on its potential, ensuring you receive a fair and competitive loan proposal."
     },
     {
         heading: "Receive Crypto Loan",
-        description: "Once you accept the loan terms, your NFT is held securely in escrow, and the cryptocurrency loan is transferred directly to your wallet. You can now use the crypto for any purpose while your NFT is safely stored."
+        description: "Once you accept the loan terms, your NFT is securely placed in escrow, and the agreed cryptocurrency amount is sent directly to your wallet. You can use the crypto for any purpose while your NFT is safely stored."
     },
     {
         heading: "Repay the Loan",
-        description: "Repay the loan amount plus interest at any time. Once the loan is repaid, your NFT is immediately released from escrow and returned to your wallet."
+        description: "Repay the loan amount plus any interest at any time. After the loan is repaid in full, your NFT is released from escrow and transferred back to your wallet, ensuring your ownership is restored immediately."
     },
     {
         heading: "Default Option",
-        description: "If you choose not to repay the loan, the NFT is transferred to the lender. There&apos;s no risk of additional fees or credit score impact—only the ownership of the NFT is transferred."
+        description: "If you choose not to repay the loan, the NFT is transferred to the lender. There's no risk of additional fees or credit score impact—only the ownership of your NFT is transferred to settle the loan."
     }
 ]
 
