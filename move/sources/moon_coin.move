@@ -1,23 +1,20 @@
-// Remove module while going on mainnet
-module wiz::coin {
+module my_addrx::moon_coin {
     use std::signer;
     use aptos_framework::coin::{Self, MintCapability, BurnCapability};
     use std::string::utf8;
 
-    struct SimpuCoin has key {}
+    struct MoonCoin has key {}
 
     struct CoinAbilities has key {
-        mint_cap: MintCapability<SimpuCoin>,
-        burn_cap: BurnCapability<SimpuCoin>,
+        mint_cap: MintCapability<MoonCoin>,
+        burn_cap: BurnCapability<MoonCoin>,
     }
 
-    const FAUCET_LIMIT: u64 = 5000000; // 5 tokens
-
     fun init_module(creator: &signer){
-        let (burn_cap, freeze_cap, mint_cap) = coin::initialize<SimpuCoin>(
+        let (burn_cap, freeze_cap, mint_cap) = coin::initialize<MoonCoin>(
             creator,
-            utf8(b"Simpu coin"),
-            utf8(b"SIMPU"),
+            utf8(b"Moon on Aptos"),
+            utf8(b"MOON"),
             6,
             true // total supply should be tracked?? (bool)
         );
@@ -29,22 +26,22 @@ module wiz::coin {
     }
 
     fun mint_coins(to: address, amount: u64) acquires CoinAbilities {
-        let mint_cap = &borrow_global<CoinAbilities>(@wiz).mint_cap;
-        let coins = coin::mint<SimpuCoin>(amount, mint_cap);
+        let mint_cap = &borrow_global<CoinAbilities>(@my_addrx).mint_cap;
+        let coins = coin::mint<MoonCoin>(amount, mint_cap);
         coin::deposit(to, coins);
     }
 
     public entry fun faucet(receiver: &signer) acquires CoinAbilities {
         let receiver_addr = signer::address_of(receiver);
-        if(!coin::is_account_registered<SimpuCoin>(receiver_addr)){
-            coin::register<SimpuCoin>(receiver);
+        if(!coin::is_account_registered<MoonCoin>(receiver_addr)){
+            coin::register<MoonCoin>(receiver);
         };
-        mint_coins(receiver_addr, FAUCET_LIMIT);
+        mint_coins(receiver_addr, 10_000_000);
     }
 
     #[view]
     public fun balance(addr: address): u64 {
-        coin::balance<SimpuCoin>(addr)
+        coin::balance<MoonCoin>(addr)
     }
 
     #[test_only]
@@ -55,11 +52,11 @@ module wiz::coin {
         init_module(account);
     }
 
-    #[test(admin=@wiz, user=@0x200)]
+    #[test(admin=@my_addrx, user=@0x200)]
     fun faucet_test(admin: &signer, user: &signer) acquires CoinAbilities {
         init_module_for_test(admin);
         account::create_account_for_test(signer::address_of(user));
         faucet(user);
-        assert!(coin::balance<SimpuCoin>(signer::address_of(user)) == FAUCET_LIMIT, 0);
+        assert!(coin::balance<MoonCoin>(signer::address_of(user)) == 10_000_000, 0);
     }
 }

@@ -1,15 +1,16 @@
 "use client"
 import React, { useState } from "react"
-import { FA, COIN } from "@/utils/coins"
+import { punk_coin, moon_coin } from "@/utils/coins"
 import { toast } from "sonner";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { ABI_ADDRESS } from "@/utils/env";
 import { aptos } from "@/utils/aptos";
 import { explorerUrl } from "@/utils/constants";
 import { useTheme } from "@/context/themecontext";
+import { IoCheckmark } from "react-icons/io5";
 export function Body() {
     const { account, signAndSubmitTransaction } = useWallet();
-    const [coin, setCoin] = useState(FA);
+    const [coin, setCoin] = useState(punk_coin);
     const [loading, setLoading] = useState(false);
     const {theme} = useTheme();
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -17,11 +18,11 @@ export function Body() {
         try {
             if (!account?.address) return;
             setLoading(true);
-            if (coin === COIN) {
+            if (coin === moon_coin) {
                 const response = await signAndSubmitTransaction({
                     sender: account.address,
                     data: {
-                        function: `${ABI_ADDRESS}::coin::faucet`,
+                        function: `${ABI_ADDRESS}::moon_coin::faucet`,
                         typeArguments: [],
                         functionArguments: []
                     }
@@ -33,11 +34,11 @@ export function Body() {
                     action: <a href={`${explorerUrl}/txn/${response.hash}`}>View Txn</a>
                 })
             }
-            if (coin === FA) {
+            if (coin === punk_coin) {
                 const response = await signAndSubmitTransaction({
                     sender: account.address,
                     data: {
-                        function: `${ABI_ADDRESS}::fa::faucet`,
+                        function: `${ABI_ADDRESS}::punk_coin::faucet`,
                         typeArguments: [],
                         functionArguments: []
                     }
@@ -46,7 +47,8 @@ export function Body() {
                     transactionHash: response.hash
                 });
                 toast.success("Transaction succeedd", {
-                    action: <a href={`${explorerUrl}/txn/${response.hash}`}>View Txn</a>
+                    action: <a href={`${explorerUrl}/txn/${response.hash}`}>View Txn</a>,
+                    icon: <IoCheckmark />
                 })
             }
         } catch (error) {
@@ -69,8 +71,8 @@ export function Body() {
                             <p className="text-center mt-3">Quickly receive test tokens by selecting your desired coin. Tokens will be automatically sent to your connected wallet without needing to enter any additional details.</p>
                             <form onSubmit={onSubmit} className="mt-4">
                                 <select className="form-select select-coin" name="coin" value={coin} onChange={(e) => setCoin(e.target.value)} required >
-                                    <option value={FA}>MEOW</option>
-                                    <option value={COIN}>SIMPU COIN</option>
+                                    <option value={punk_coin}>Aptos Punk</option>
+                                    <option value={moon_coin}>Moon Coin</option>
                                 </select>
                                 <div className="text-center">
                                     {

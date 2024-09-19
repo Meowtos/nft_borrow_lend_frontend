@@ -1,5 +1,4 @@
-// Remove module while going on mainnet
-module wiz::digital_asset {
+module my_addrx::cars_collection {
     use std::signer::address_of;
     use aptos_token_objects::token;
     use aptos_token_objects::collection;
@@ -10,10 +9,10 @@ module wiz::digital_asset {
     struct ObjectController has key {
         app_extend_ref: object::ExtendRef,
     }
-    const COLLECTION_NAME: vector<u8> = b"Space Boys";
-    const COLLECTION_DESCRIPTION: vector<u8> = b"Space cadets to the moon";
-    const COLLECTION_URI: vector<u8> = b"https://img.freepik.com/premium-vector/vector-illustration-child-astronaut-cartoon-sitting-space-rock_472355-40.jpg";
-    const TOKEN_DESCRIPTION: vector<u8> = b"Wagmi";
+    const COLLECTION_NAME: vector<u8> = b"Aptos Cars";
+    const COLLECTION_DESCRIPTION: vector<u8> = b"Flex your favorite cars by minting an NFT";
+    const COLLECTION_URI: vector<u8> = b"https://img.freepik.com/premium-photo/lego-car-with-blue-car-top-word-car-side_811279-104257.jpg";
+    const TOKEN_DESCRIPTION: vector<u8> = b"Top on speed";
 
     fun init_module(creator: &signer) {
         let constructor_ref = object::create_named_object(creator, COLLECTION_NAME);
@@ -51,7 +50,7 @@ module wiz::digital_asset {
 
 
     fun get_app_signer_addr(): address {
-        object::create_object_address(&@wiz, COLLECTION_NAME)
+        object::create_object_address(&@my_addrx, COLLECTION_NAME)
     }
 
     fun get_app_signer(): signer acquires ObjectController {
@@ -72,7 +71,7 @@ module wiz::digital_asset {
         init_module(account);
     }
 
-    #[test(admin=@wiz, user=@0xCAFE)]
+    #[test(admin=@my_addrx, user=@0xCAFE)]
     fun mint_nft_test(admin: &signer, user: &signer) acquires ObjectController {
         init_module_for_test(admin);
         mint(user, utf8(b"Token name"), utf8(b"Token uri"));
