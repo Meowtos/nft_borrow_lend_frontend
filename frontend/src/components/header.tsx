@@ -29,8 +29,8 @@ const Header = () => {
                             </Link>
                         </div>
 
-                        {/* menu large screen */}
                         <div className="col-7 col-lg-8 p-0 d-flex align-center justify-content-end menu-large">
+                            {/* menu large screen */}
                             <div className="menu d-flex align-center">
                                 <ul className='d-flex m-0 p-0 nav-menu me-4'>
                                     {
@@ -40,7 +40,6 @@ const Header = () => {
                                     }
                                 </ul>
                                 <VscColorMode className={`${theme} me-3 theme-mode`} onClick={toggleTheme} />
-                                <DiscordNotification />
                                 {
                                     connected ? (
                                         <div className="rewards" id="rewards">
@@ -50,7 +49,10 @@ const Header = () => {
                                     ) : (' ')
                                 }
                             </div>
+                            <DiscordNotification />
                             <WalletButtons />
+
+                            {/* Mobile Menu */}
                             <div className="menu-mobile">
                                 <RxHamburgerMenu className='toggle-btn' onClick={() => setMobileMenu(!mobileMenu)} />
                                 <div className={`toggle-menu ${mobileMenu ? 'active' : ' '}`}>
@@ -66,23 +68,6 @@ const Header = () => {
                                 </div>
                             </div>
                         </div>
-
-                        {/* Mobile Menu */}
-                        {/* <div className="col-7 col-lg-8 p-0 menu-mobile d-none">
-                            <WalletButtons />
-                            <RxHamburgerMenu className='toggle-btn' onClick={() => setMobileMenu(!mobileMenu)} />
-                            <div className={`toggle-menu ${mobileMenu ? 'active' : ' '}`}>
-                                <IoClose className="menu-close" onClick={() => setMobileMenu(!mobileMenu)} />
-                                <ul className='m-0 p-0 nav-menu'>
-                                    {
-                                        menu.map((y, idx) => (
-                                            <Link href={y.url} key={idx} className={`${y.name === 'Home' ? 'active' : ''}`} onClick={() => setMobileMenu(!mobileMenu)}><li>{y.name}</li></Link>
-                                        ))
-                                    }
-                                </ul>
-                                <VscColorMode className={`${theme} me-3 theme-mode`} onClick={toggleTheme} />
-                            </div>
-                        </div> */}
                     </div>
                 </div>
             </section >

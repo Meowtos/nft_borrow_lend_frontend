@@ -49,6 +49,8 @@
 [data-theme="light"] {
   /* Primary Colors */
   --primary-1: #E41F7B; 
+  --sec-1: #86003C;
+  --sec-2: #E41F7B;
 
   /* Light Backgrounds */
   --light: #000000;
@@ -96,6 +98,9 @@
 }
 .light-theme .main, .light-theme .list-modal{
   background: #ededed !important;
+}
+.light-theme .outer:hover .main{
+  background-color: var(--sec-1) !important;
 }
 @media(max-width:768px){
   .light-theme .work-row, .light-theme .accordion{

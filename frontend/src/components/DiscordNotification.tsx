@@ -7,6 +7,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, DISCORD_REDIRECT_URI } from "@/utils/env";
 const DISCORD_OAUTH_URI = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&response_type=code&redirect_uri=${DISCORD_REDIRECT_URI}&scope=identify`
+import { FaDiscord } from "react-icons/fa";
 export function DiscordNotification() {
     const router = useRouter()
     const { account } = useWallet();
@@ -126,13 +127,14 @@ export function DiscordNotification() {
     if (!account?.address) return null;
     return (
         <div className="dropdown">
-            <button disabled={loading || isVerifying} className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                discord
+            <button disabled={loading || isVerifying} className="btn connect-btn dropdown-toggle border-0 p-2 rounded-circle me-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <FaDiscord />
             </button>
-            <ul className="dropdown-menu">
-                <li>
+            {/* <FaDiscord type="button" disabled={loading || isVerifying} className="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"/> */}
+            <ul className="dropdown-menu p-0">
+                <li className="border-0">
                     {
-                        (!user || !user.discordId) && <Link href={DISCORD_OAUTH_URI} className="btn btn-primary">Subscribe to notification</Link>
+                        (!user || !user.discordId) && <Link href={DISCORD_OAUTH_URI} className="btn connect-btn m-0 w-100 border-0">Subscribe to notification</Link>
                     }
                     {
                         user && user.discordId

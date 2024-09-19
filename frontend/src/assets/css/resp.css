@@ -313,15 +313,20 @@
   } */
   .list-view th:nth-child(2),.list-view td:nth-child(2),
   .list-view th:nth-child(3),.list-view td:nth-child(3),
-  .list-view th:nth-child(4),.list-view td:nth-child(4)
+  .list-view th:nth-child(4),.list-view td:nth-child(4),
+  .list-view.lend th:nth-child(5),.list-view.lend td:nth-child(5),
+  .list-view.lend th:nth-child(6),.list-view.lend td:nth-child(6)
+
   {
     display: none;
   }
   .list-view .table{
     width: 100%;
   }
-  .list-view th:nth-child(5),.list-view td:nth-child(5){
-    text-align: end;
+  .list-view th:nth-child(5),.list-view td:nth-child(5),
+  .list-view.lend th:nth-child(7),.list-view.lend td:nth-child(7)
+  {
+    text-align: end !important;
   }
   .ts-mobile{
     display:inline-block !important

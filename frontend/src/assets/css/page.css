@@ -209,6 +209,9 @@ button,
     color: var(--light);
     padding: 6px 24px;
 }
+.header .dropdown-toggle::after {
+    display: none !important;
+}
 /* ------------------------------------------------------- */
 /* Home */
 /* ------------------------------------------------------- */

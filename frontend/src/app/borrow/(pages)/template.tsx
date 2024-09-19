@@ -88,7 +88,6 @@ export default function BorrowLayout({ children }: { children: React.ReactNode }
                                             ) : (
                                                 <button className="connect-btn mt-3 rounded" data-bs-toggle="modal" data-bs-target="#connectmodal">Connect wallet</button>
                                             )
-
                                             }
                                         </div>
                                     )
