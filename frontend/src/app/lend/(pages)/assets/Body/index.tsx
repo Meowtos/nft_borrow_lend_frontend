@@ -119,8 +119,8 @@ export function TokenListings({ viewtype, tokens }: TokenListingsProps) {
                                             <Image src={`${token.token_icon}`} className="rounded me-2" alt="nft" width={32} height={32} />
                                             <span className="fs-5">{token.token_name} </span>
                                             <span className="d-none ts-mobile">(V2)</span><br />
-                                            <p className="d-none ts-mobile">{token.collection_name}</p><br />
-                                            <p className="d-none ts-mobile">{token.apr}</p>
+                                            <p className="d-none ts-mobile pt-2">{token.collection_name}</p><br />
+                                            <p className="d-none ts-mobile">{token.apr}%</p>
                                         </td>
                                         <td>{token.token_standard}</td>
                                         <td>{token.collection_name}</td>
@@ -129,8 +129,8 @@ export function TokenListings({ viewtype, tokens }: TokenListingsProps) {
                                         <td>{token.apr}</td>
                                         <td>
                                             <button onClick={() => setChosenToken(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${lendModalId}`}>Lend</button>
-                                            <p className="d-none ts-mobile">{token.amount} {token.coin ? getAssetByType(token.coin)?.symbol : ""}</p><br />
-                                            <p className="d-none ts-mobile">{token.duration}</p>
+                                            <p className="d-none ts-mobile pt-2">{token.amount} {token.coin ? getAssetByType(token.coin)?.symbol : ""}</p><br />
+                                            <p className="d-none ts-mobile">{token.duration}D</p>
                                         </td>
                                     </tr>
                                 ))
