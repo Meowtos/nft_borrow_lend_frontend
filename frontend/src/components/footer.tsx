@@ -60,7 +60,7 @@ const Footer = () => {
                     </div>
                     <div className="row mt-4 pt-2 ft-bottom">
                         <div className="col">
-                            <p className="m-0">@copyright2024-DeFiNFTLoans</p>
+                            <p className="m-0">@Copyright 2024 Wizards-fi</p>
                         </div>
                         <div className="col d-flex justify-content-end">
                             <p className="m-0 text-end"><span>Privacy Policy</span> | <span>Terms and conditions</span></p>

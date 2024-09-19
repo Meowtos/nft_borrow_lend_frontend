@@ -17,9 +17,10 @@ import { ButtonLoading } from "@/components/ButtonLoading";
 
 export const assetListingModalId = "assetListingModal";
 interface ListingModalProps {
-    token: Token | null
+    token: Token | null;
+    getUserListings: () => Promise<void>
 }
-export function ListingModal({ token }: ListingModalProps) {
+export function ListingModal({ token, getUserListings }: ListingModalProps) {
     const { assets } = useApp();
     const { account } = useWallet();
     const [dropdownToken, setDropdownToken] = useState(true);
@@ -52,22 +53,24 @@ export function ListingModal({ token }: ListingModalProps) {
                     coin: data.coin !== "" ? data.coin : null,
                 }
                 const res = await fetch("/api/listing", {
-                    method: "POST", 
+                    method: "POST",
                     headers: {
                         contentType: "application/json"
-                    }, 
+                    },
                     body: JSON.stringify(formData)
                 });
                 const response = await res.json();
-                if(!res.ok){
+                if (!res.ok) {
                     throw new Error(response.message)
                 }
                 document.getElementById("closeAssetListingModal")?.click();
+                toast.success("Item listed successfully")
+                await getUserListings()
             } catch (error: unknown) {
                 let errorMessage = 'An unexpected error occurred';
                 if (error instanceof Error) {
                     errorMessage = error.message;
-                } 
+                }
                 toast.error(errorMessage);
             } finally {
                 setSubmitLoading(false)
@@ -84,21 +87,20 @@ export function ListingModal({ token }: ListingModalProps) {
             <div className="modal fade" id={assetListingModalId} tabIndex={-1} aria-labelledby={`${assetListingModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        {/* <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal"> */}
-                        <IoClose  className="text-light close-icon" type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal" />
-                        {/* </button> */}
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal">
+                            <IoClose className="text-light close-icon" />
+                        </button>
                         {
                             token &&
                             <div className="row">
                                 <div className="col-lg-3 p-0">
                                     <div className="nft">
                                         <Image src={token.token_icon_uri ?? ""} className="asset-img" alt={token.token_name} width={150} height={200} />
-                                        {/* <Image src={`/media/nfts/1.jpeg`} className="asset-img" alt={token.token_name} width={150} height={200} /> */}
                                     </div>
                                     <div className="nft-details">
                                         <h4 className="text-center">{token.token_name}</h4>
-                                        <p><MdCollections className="text-light"/> {token.collection_name}</p>
-                                        <p><MdOutlineToken className="text-light"/>{token.token_standard}</p>
+                                        <p><MdCollections className="text-light" /> {token.collection_name}</p>
+                                        <p><MdOutlineToken className="text-light" />{token.token_standard}</p>
                                         <p className="desc">{token.token_description}</p>
                                     </div>
 
@@ -115,20 +117,14 @@ export function ListingModal({ token }: ListingModalProps) {
                                                         }
                                                         <IoIosArrowDown className="dd-icon" /></button>
                                                 </div>
-                                                <div className="coll-dropdown rounded select-dropdown" hidden={dropdownToken}>
-                                                    <div className="coll-item" onClick={() => {
-                                                        setFieldValue("coin", "");
-                                                        setDropdownToken(!dropdownToken)
-                                                    }}>
-                                                        <p>Any Coin</p>
-                                                    </div>
-                                                    {
-                                                        chosenCoin ? chosenCoin.symbol : "Any"
-                                                    }
-                                                    <IoIosArrowDown className="dd-icon" />
-                                                </div>
                                             </div>
                                             <div className="coll-dropdown rounded select-dropdown" hidden={dropdownToken}>
+                                                <div className="coll-item" onClick={() => {
+                                                    setFieldValue("coin", "");
+                                                    setDropdownToken(!dropdownToken)
+                                                }}>
+                                                    <p>Any Coin</p>
+                                                </div>
                                                 {
                                                     assets.map(fa => (
                                                         <div className="coll-item" onClick={() => {
@@ -136,7 +132,6 @@ export function ListingModal({ token }: ListingModalProps) {
                                                             setDropdownToken(!dropdownToken)
                                                         }} key={fa.asset_type}>
                                                             <p>
-                                                                {/* <Image src={fa.icon_uri} alt={fa.symbol} height={20} width={20} className="rounded-circle me-2" /> */}
                                                                 {fa.symbol}</p>
                                                         </div>
                                                     ))}

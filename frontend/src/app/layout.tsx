@@ -17,7 +17,7 @@ import { ThemeProvider } from '@/context/themecontext';
 
 const font = League_Spartan({ subsets: ["latin"], weight: "400" })
 export const metadata: Metadata = {
-  title: "Wiz Protocol",
+  title: "Wizards Fi",
   description: "Get tokens in loan by lending your nfts",
 };
 

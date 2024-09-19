@@ -459,32 +459,32 @@
 
 .front {
   transform: rotateY(0deg) translateZ(200px);
-  background-image: url("/media/nfts/1.jpeg");
+  background-image: url("https://pbs.twimg.com/profile_images/1608213505227759621/sqqbCVLU_400x400.jpg");
 }
 
 .right {
   transform: rotateY(90deg) translateZ(200px);
-  background-image: url("/media/nfts/2.jpeg");
+  background-image: url("https://pbs.twimg.com/profile_images/1617566565884477462/T3ik8G9u_400x400.jpg");
 }
 
 .back {
   transform: rotateY(180deg) translateZ(200px);
-  background-image: url("/media/nfts/3.jpeg");
+  background-image: url("https://pbs.twimg.com/profile_images/1752282443997184000/vaX0-w0U_400x400.jpg");
 }
 
 .left {
   transform: rotateY(-90deg) translateZ(200px);
-  background-image: url("/media/nfts/4.jpeg");
+  background-image: url("https://pbs.twimg.com/profile_images/1777718397574242304/RoTGEIuc_400x400.jpg");
 }
 
 .top {
   transform: rotateX(90deg) translateZ(200px);
-  background-image: url("/media/nfts/5.jpeg");
+  background-image: url("https://pbs.twimg.com/profile_images/1712116455691399168/JWyqyBZc_400x400.jpg");
 }
 
 .bottom {
   transform: rotateX(-90deg) translateZ(200px);
-  background-image: url("/media/nfts/6.jpeg");
+  background-image: url("https://pbs.twimg.com/profile_images/1620089935977136128/PsJ400AV_400x400.jpg");
 }
 
 @keyframes rotate {
