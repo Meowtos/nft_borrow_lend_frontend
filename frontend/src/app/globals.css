@@ -132,6 +132,9 @@ h2 {font-size: 48px;font-weight: 600;line-height: 56px;}
 
 
 /* Pages */
+.menu-large .menu-mobile{
+  display: none;
+}
 #particles-bg {
   position: absolute;
   top: 0;

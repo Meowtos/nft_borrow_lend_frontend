@@ -261,7 +261,9 @@
   }
 }
 @media(max-width:768px){
-  .menu-large{display: none !important;}
+  /* .menu-large{display: none !important;} */
+  .menu-large .menu{display: none !important;}
+  .menu-large .connect-btn{margin-right: 12px;}
   .menu-mobile{
     display: flex !important;
     align-items: center;
@@ -385,8 +387,6 @@
 /* ------------------------------------------- */
 /* Skeleton cel loading */
 /* ------------------------------------------- */
-
-
 .line {
   float: left;
   width: 100px;
