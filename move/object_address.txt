@@ -1,21 +1,17 @@
-CONTRACT_OBJECT_ADDR=0xb066b68cc807db44e2aa09bfa4153a26d64e6c7a49f18966e5f23d2239aca1e8
-
-PUBLISHER_PROFILE=default
-PUBLISHER_ADDR=0x$(aptos config show-profiles --profile=$PUBLISHER_PROFILE | grep 'account' | sed -n 's/.*"account": \"\(.*\)\".*/\1/p')
+(testnet)
+CONTRACT_OBJECT_ADDR=0x0df2d8c1299373f59982a3820c48b20b32b675ed970666e8d4315e49c26d9ce9
 
 aptos move upgrade-object-package \
     --object-address $CONTRACT_OBJECT_ADDR \
-    --named-addresses wiz=$CONTRACT_OBJECT_ADDR\
+    --named-addresses my_addrx=$CONTRACT_OBJECT_ADDR\
     --profile $PUBLISHER_PROFILE \
     --assume-yes --skip-fetch-latest-git-deps 
 
 aptos move create-object-and-publish-package \
-    --address-name wiz \
-    --named-addresses wiz=$PUBLISHER_ADDR\
+    --address-name my_addrx \
+    --named-addresses my_addrx=$PUBLISHER_ADDR\
     --profile $PUBLISHER_PROFILE \
     --assume-yes --skip-fetch-latest-git-deps 
 
-aptos move compile --dev --skip-fetch-latest-git-deps
-aptos move test --skip-fetch-latest-git-deps
-aptos move publish --named-addresses my_addr=default --skip-fetch-latest-git-deps --included-artifacts none
+aptos move publish --named-addresses my_addrx=default --skip-fetch-latest-git-deps --included-artifacts none
 

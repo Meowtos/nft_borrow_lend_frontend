@@ -1,5 +1,4 @@
-// Remove module while going on mainnet
-module wiz::fa {
+module my_addrx::punk_coin {
     use std::signer;
     use aptos_framework::fungible_asset::{Self, MintRef, TransferRef, Metadata};
     use aptos_framework::object;
@@ -12,10 +11,9 @@ module wiz::fa {
         transfer_ref: TransferRef,
     }
 
-    const ASSET_SYMBOL: vector<u8> = b"MEOW";
-    const ASSET_NAME: vector<u8> = b"Meow Meow";
-    const ASSET_ICON_URI: vector<u8> = b"https://yt3.googleusercontent.com/ytc/AIdro_kwV3SXYI2QnFZNe8vCvFYBzi0_JUec5VwBv0bLV6LxUjw=s160-c-k-c0x00ffffff-no-rj";
-    const FAUCET_LIMIT: u64 = 500000000; // 5 tokens
+    const ASSET_SYMBOL: vector<u8> = b"APT_PUNK";
+    const ASSET_NAME: vector<u8> = b"Aptos Punk";
+    const ASSET_ICON_URI: vector<u8> = b"https://img.freepik.com/premium-psd/pixel-art-boy-character-with-sunglasses-isolated-transparent-background-game-character_401927-2106.jpg";
 
     fun init_module(creator: &signer){
         let constructor_ref = object::create_named_object(creator, ASSET_SYMBOL);
@@ -26,7 +24,7 @@ module wiz::fa {
             utf8(ASSET_SYMBOL),
             8,
             utf8(ASSET_ICON_URI),
-            utf8(b"https://github.com/ajaythxkur/nft_lending"), // project uri
+            utf8(b"https://github.com/ajaythxkur/@my_addrx_protocol"), // project uri
         );
         let obj_signer = &object::generate_signer(&constructor_ref);
         move_to(
@@ -45,9 +43,14 @@ module wiz::fa {
         fungible_asset::deposit_with_ref(&asset_management.transfer_ref, to_wallet, fa);
     }
 
+    public entry fun faucet(user: &signer) acquires AssetManagement {
+        let user_addr = signer::address_of(user);
+        mint(user_addr, 1_000_000_000);
+    }
+
     #[view]
     public fun asset_address(): address {
-        object::create_object_address(&@wiz, ASSET_SYMBOL)
+        object::create_object_address(&@my_addrx, ASSET_SYMBOL)
     }
     #[view]
     public fun asset_metadata(addr: address): object::Object<Metadata> {
@@ -58,21 +61,16 @@ module wiz::fa {
         primary_fungible_store::balance(addr, asset_metadata(asset_address()))
     }
 
-    public entry fun faucet(user: &signer) acquires AssetManagement {
-        let user_addr = signer::address_of(user);
-        mint(user_addr, FAUCET_LIMIT);
-    }
-
     #[test_only]
     public fun init_module_for_test(account: &signer) {
         init_module(account);
     }
 
-    #[test(admin=@wiz, user=@0x200)]
+    #[test(admin=@my_addrx, user=@0x200)]
     fun faucet_test(admin: &signer, user: &signer) acquires AssetManagement {
         init_module_for_test(admin);
         faucet(user);
         let metadata = asset_metadata(asset_address());
-        assert!(primary_fungible_store::balance(signer::address_of(user), metadata) == FAUCET_LIMIT, 0);
+        assert!(primary_fungible_store::balance(signer::address_of(user), metadata) == 1_000_000_000, 0);
     }
 }

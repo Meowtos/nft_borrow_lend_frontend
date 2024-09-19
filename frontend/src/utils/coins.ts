@@ -1,3 +1,3 @@
-export const APTOS = "0x000000000000000000000000000000000000000000000000000000000000000a";
-export const FA = "0x46ea8c67e6cd1fcf833382e6795f39b67af37a4cd1d31bec3dc7b89c8c3bd4cd";
-export const COIN = "0x7931108db38b4b9d9fdd7da930c7af54c55a9932eff8396b201b234f6a8affef::coin::SimpuCoin";
+export const aptos = "0x1::aptos_coin::AptosCoin";
+export const punk_coin = "0xb96483fdac5d44cc28b6e8aeef113b35ff394f2a42fb4d46c5711e41dfe2e6e6";
+export const moon_coin = "0xdf2d8c1299373f59982a3820c48b20b32b675ed970666e8d4315e49c26d9ce9::moon_coin::MoonCoin";

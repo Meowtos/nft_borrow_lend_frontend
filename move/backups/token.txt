@@ -1,5 +1,5 @@
 // Remove module while going on mainnet
-module wiz::aptos_wizards {
+module wiz::token {
     use aptos_framework::object;
     use aptos_token::token;
     use std::string::{utf8, String};

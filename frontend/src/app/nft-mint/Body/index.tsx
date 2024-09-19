@@ -23,7 +23,7 @@ export function Body() {
                 const response = await signAndSubmitTransaction({
                     sender: account.address,
                     data: {
-                        function: `${ABI_ADDRESS}::digital_asset::mint`,
+                        function: `${ABI_ADDRESS}::cars_collection::mint`,
                         typeArguments: [],
                         functionArguments: [name, uri]
                     }
@@ -56,10 +56,9 @@ export function Body() {
                             <h3 className="text-center mb-4">NFT Mint Request</h3>
                             <form onSubmit={onSubmit} className="mint-form">
                                 <div className="mb-3">
-                                    <label htmlFor="token" className="form-label">Select Collection Type:</label>
+                                    <label htmlFor="token" className="form-label">Select Collection:</label>
                                     <select className="form-select select-coin" name="token" value={token} onChange={(e)=>setToken(e.target.value)} required>
-                                        <option value="v2">V2</option>
-                                        <option value="v1">V1</option>
+                                        <option value="v2">Cars on Aptos</option>
                                     </select>
                                 </div>
                                 <div className="mb-3">
