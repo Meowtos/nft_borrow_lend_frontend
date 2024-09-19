@@ -4,14 +4,14 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "./globals.css";
 import "@/assets/css/page.css";
 import "@/assets/css/resp.css";
-
+import dynamic from "next/dynamic";
 import { Toaster } from "sonner";
 import { Bootstrap } from "@/context/Bootstrap";
 import { WalletProvider } from "@/context/WalletProvider";
 import { AppProvider } from "@/context/AppProvider";
 import { ProgressBar } from "@/context/ProgressBar";
 import Footer from "@/components/footer";
-import Header from "@/components/header";
+const Header = dynamic(()=>import("@/components/header"), { ssr: false })
 
 import { ThemeProvider } from '@/context/themecontext';
 
