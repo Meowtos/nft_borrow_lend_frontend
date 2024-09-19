@@ -33,11 +33,14 @@
   --bgdark-ee: #000000ee;
   --bgdark-99: #00000099;
 
+ 
   --dark: #000000;
   --dark-99: #00000099;
   --dark-ee: #000000ee;
 
   --btn-text-light: #ffffff;
+  --darkmain: #000000;
+  --darkmain--99: #00000099;
 }
 
 /* -------------------------------- */
@@ -46,18 +49,11 @@
 [data-theme="light"] {
   /* Primary Colors */
   --primary-1: #E41F7B; 
-  /* --primary-2: #D9A6FF;
-  --primary-3: #D6A7FF;  */
-
-  /* Secondary Colors */
-  /* --sec-1: #F7BDC3;
-  --sec-2: #F8C6D2; */
 
   /* Light Backgrounds */
   --light: #000000;
   --light-bb: #000000bb;
   --light-99: #00000099;
-  /* --light-90: #00000090; */
   --light-66: #00000066;
   --light-33: #00000033;
   --light-20: #00000020;
@@ -93,24 +89,24 @@
 .light-theme .wcs-card{
   background: var(--bgdark);
 }
-
-.dark-theme.about, .dark-theme.faqs {background: #0c0c0c;}
-.dark-theme .work-row, .dark-theme .accordion {
-  background: #1e1e1e;
-}
-
 .light-theme .outer{
   background: var(--bgdark);
   box-shadow: 0px 0px 20px 2px #00000020;
   border-radius: 8px;
 }
-.light-theme .main{
-  background: #ededed;
+.light-theme .main, .light-theme .list-modal{
+  background: #ededed !important;
 }
 @media(max-width:768px){
-  .light-theme .work-row,.light-theme .accordion{
+  .light-theme .work-row, .light-theme .accordion{
     box-shadow: unset;
   }
+}
+
+/* dark */
+.dark-theme.about, .dark-theme.faqs {background: #0c0c0c;}
+.dark-theme .work-row, .dark-theme .accordion {
+  background: #1e1e1e;
 }
 
 
@@ -126,7 +122,7 @@ h1,h2,h3,h4,h5,h6,p {margin: 0px;}
 h2 {font-size: 48px;font-weight: 600;line-height: 56px;}
 .col {padding: 0px}
 .py-100 {padding: 100px 0px;}
-.cn-wallet {padding: 48px;background: #202020ab;}
+.cn-wallet {padding: 48px;background: var(--bg-28);}
 .align-center{align-items: center;}
 .theme-mode{cursor: pointer;}
 

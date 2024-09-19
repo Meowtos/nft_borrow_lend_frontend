@@ -86,17 +86,13 @@ export function ListingModal({ token }: ListingModalProps) {
             <div className="modal fade" id={assetListingModalId} tabIndex={-1} aria-labelledby={`${assetListingModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal">
-                        <IoClose  className="text-light close-icon" />
-                        </button>
+                        {/* <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal"> */}
+                        <IoClose  className="text-light close-icon" type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal" />
+                        {/* </button> */}
                         {
                             token &&
                             <div className="row">
                                 <div className="col-lg-3 p-0">
-                                    <div className="asset-socials text-start">
-                                        <RiTwitterXLine className="token-sc-icon me-2"/>
-                                        <IoMdGlobe className="token-sc-icon"/>
-                                    </div>
                                     <div className="nft">
                                         <Image src={token.token_icon_uri ?? ""} className="asset-img" alt={token.token_name} width={150} height={200} />
                                         {/* <Image src={`/media/nfts/1.jpeg`} className="asset-img" alt={token.token_name} width={150} height={200} /> */}
