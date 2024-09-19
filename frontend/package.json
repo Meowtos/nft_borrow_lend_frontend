@@ -17,7 +17,7 @@
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",
     "mongoose": "^8.6.1",
-    "next": "14.2.8",
+    "next": "^14.2.12",
     "next-nprogress-bar": "^2.3.13",
     "petra-plugin-wallet-adapter": "^0.4.5",
     "react": "^18",

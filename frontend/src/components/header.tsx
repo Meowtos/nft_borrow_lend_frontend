@@ -11,6 +11,7 @@ import { IoClose } from 'react-icons/io5'
 import { useTheme } from '@/context/themecontext';
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { menu } from '@/utils/constants'
+import { DiscordNotification } from './DiscordNotification';
 
 const Header = () => {
     const { theme, toggleTheme } = useTheme();
@@ -39,6 +40,7 @@ const Header = () => {
                                     }
                                 </ul>
                                 <VscColorMode className={`${theme} me-3 theme-mode`} onClick={toggleTheme} />
+                                <DiscordNotification />
                                 {
                                     connected ? (
                                         <div className="rewards" id="rewards">
