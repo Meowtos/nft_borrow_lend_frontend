@@ -9,7 +9,6 @@ import { IoIosArrowDown } from 'react-icons/io'
 import { IoClose } from 'react-icons/io5'
 import { MdCollections } from "react-icons/md";
 import { MdOutlineToken } from "react-icons/md";
-
 import { MAX_LOCK_DURATION } from "@/utils/aptos";
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
