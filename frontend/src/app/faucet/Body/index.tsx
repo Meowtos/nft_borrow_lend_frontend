@@ -6,16 +6,18 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { ABI_ADDRESS } from "@/utils/env";
 import { aptos } from "@/utils/aptos";
 import { explorerUrl } from "@/utils/constants";
+import { useTheme } from "@/context/themecontext";
 export function Body() {
     const { account, signAndSubmitTransaction } = useWallet();
     const [coin, setCoin] = useState(FA);
     const [loading, setLoading] = useState(false);
+    const {theme} = useTheme();
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            if(!account?.address) return;
+            if (!account?.address) return;
             setLoading(true);
-            if(coin === COIN){
+            if (coin === COIN) {
                 const response = await signAndSubmitTransaction({
                     sender: account.address,
                     data: {
@@ -31,7 +33,7 @@ export function Body() {
                     action: <a href={`${explorerUrl}/txn/${response.hash}`}>View Txn</a>
                 })
             }
-            if(coin === FA){
+            if (coin === FA) {
                 const response = await signAndSubmitTransaction({
                     sender: account.address,
                     data: {
@@ -58,28 +60,25 @@ export function Body() {
         }
     }
     return (
-        <section className="inner-banner">
-            <div className="container mt-5">
+        <section className={`inner-banner ${theme == 'light' ? 'light-theme' : 'dark-theme'}`}>
+            <div className="container">
                 <div className="row justify-content-center">
-                    <div className="col-lg-6 col-md-8">
-                        <div className="card shadow-lg p-4">
-                            <h3 className="text-center mb-4 text-white">Faucet Request</h3>
-                            <h3 className="text-center mb-4 text-white">Some description</h3>
-                            <form onSubmit={onSubmit}>
-                                <div className="mb-3">
-                                    <label htmlFor="coin" className="form-label">Select coin</label>
-                                    <select className="form-select" name="coin" value={coin} onChange={(e)=>setCoin(e.target.value)} required >
-                                        <option value={FA}>MEOW</option>
-                                        <option value={COIN}>SIMPU COIN</option>
-                                    </select>
-                                </div>
-                                <div className="d-grid gap-2">
+                    <div className="col-12 col-lg-6 col-md-8">
+                        <div className="card faucet">
+                            <h3 className="text-center">Get Your Test Tokens</h3>
+                            <p className="text-center mt-3">Quickly receive test tokens by selecting your desired coin. Tokens will be automatically sent to your connected wallet without needing to enter any additional details.</p>
+                            <form onSubmit={onSubmit} className="mt-4">
+                                <select className="form-select select-coin" name="coin" value={coin} onChange={(e) => setCoin(e.target.value)} required >
+                                    <option value={FA}>MEOW</option>
+                                    <option value={COIN}>SIMPU COIN</option>
+                                </select>
+                                <div className="text-center">
                                     {
                                         loading
                                             ?
-                                            <button type="button" className="btn btn-primary" disabled>Loading</button>
+                                            <button type="button" className="btn connect-btn mt-4" disabled>Loading</button>
                                             :
-                                            <button type="submit" className="btn btn-primary">Request Token</button>
+                                            <button type="submit" className="btn connect-btn mt-4">Request Token</button>
 
                                     }
                                 </div>

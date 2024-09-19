@@ -1,8 +1,7 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useApp } from "@/context/AppProvider";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { Token } from "@/types/Token";
 import { toast } from "sonner";
 import { useFormik } from "formik";
 import Image from 'next/image'
@@ -14,16 +13,18 @@ import { MdOutlineToken } from "react-icons/md";
 import { MAX_LOCK_DURATION } from "@/utils/aptos";
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
-
-export const assetListingModalId = "assetListingModal";
-interface ListingModalProps {
-    token: Token | null
+import { Listing } from "@/types/ApiInterface";
+export const updateListingModalId = "updateListingModal";
+interface UpdateListingModalProps {
+    token: Listing | null;
+    getUserListings: () => Promise<void>
 }
-export function ListingModal({ token }: ListingModalProps) {
+export function UpdateListingModal({ token, getUserListings }: UpdateListingModalProps) {
     const { assets } = useApp();
     const { account } = useWallet();
     const [dropdownToken, setDropdownToken] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
+    const [isRemoving, setIsRemoving] = useState(false)
     const { values, handleSubmit, handleChange, setFieldValue, errors, touched } = useFormik({
         initialValues: {
             coin: "",
@@ -41,18 +42,13 @@ export function ListingModal({ token }: ListingModalProps) {
             setSubmitLoading(true)
             try {
                 const formData = {
-                    ...data,
-                    address: account.address,
-                    collection_id: token.collection_id,
-                    collection_name: token.collection_name,
-                    token_data_id: token.token_data_id,
-                    token_icon: token.token_icon_uri,
-                    token_name: token.token_name,
-                    token_standard: token.token_standard,
-                    coin: data.coin !== "" ? data.coin : null,
+                    coin: data.coin,
+                    amount: data.amount,
+                    duration: data.duration,
+                    apr: data.apr,
                 }
-                const res = await fetch("/api/listing", {
-                    method: "POST", 
+                const res = await fetch(`/api/listing/${token._id}`, {
+                    method: "PUT", 
                     headers: {
                         contentType: "application/json"
                     }, 
@@ -62,7 +58,9 @@ export function ListingModal({ token }: ListingModalProps) {
                 if(!res.ok){
                     throw new Error(response.message)
                 }
-                document.getElementById("closeAssetListingModal")?.click();
+                document.getElementById("closeUpdateListingModal")?.click();
+                toast.success("Item updated successfully")
+                await getUserListings()
             } catch (error: unknown) {
                 let errorMessage = 'An unexpected error occurred';
                 if (error instanceof Error) {
@@ -79,27 +77,57 @@ export function ListingModal({ token }: ListingModalProps) {
             return assets.find((asset) => asset.asset_type === values.coin);
         }
     }, [assets, values.coin])
+    const onRemoveListing = async() => {
+        if(!account?.address || !token) return;
+        try {
+            setIsRemoving(true);
+            const res = await fetch(`/api/listing/${token._id}?address=${account.address}`, {
+                method: "DELETE",
+            });
+            const response = await res.json();
+            if(!res.ok){
+                throw new Error(response.message)
+            }
+            document.getElementById("closeUpdateListingModal")?.click();
+            toast.success("Item removed successfully")
+            await getUserListings()
+        } catch (error) {
+            let errorMessage = 'An unexpected error occurred';
+            if (error instanceof Error) {
+                errorMessage = error.message;
+            } 
+            toast.error(errorMessage);
+        } finally {
+            setIsRemoving(false)
+        }
+    }
+    useEffect(()=>{
+        if(token){
+            setFieldValue("coin", token.coin ?? "");
+            setFieldValue("amount", token.amount ?? "");
+            setFieldValue("duration", token.duration ?? "");
+            setFieldValue("apr", token.apr ?? "");
+        }
+    },[setFieldValue, token])
     return (
         <React.Fragment>
-            <div className="modal fade" id={assetListingModalId} tabIndex={-1} aria-labelledby={`${assetListingModalId}Label`} >
+            <div className="modal fade" id={updateListingModalId} tabIndex={-1} aria-labelledby={`${updateListingModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        {/* <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal"> */}
-                        <IoClose  className="text-light close-icon" type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal" />
-                        {/* </button> */}
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeUpdateListingModal">
+                            <IoClose  className="text-light close-icon" />
+                        </button>
                         {
                             token &&
                             <div className="row">
                                 <div className="col-lg-3 p-0">
                                     <div className="nft">
-                                        <Image src={token.token_icon_uri ?? ""} className="asset-img" alt={token.token_name} width={150} height={200} />
-                                        {/* <Image src={`/media/nfts/1.jpeg`} className="asset-img" alt={token.token_name} width={150} height={200} /> */}
+                                        <Image src={token.token_icon ?? ""} className="asset-img" alt={token.token_name} width={150} height={200} />
                                     </div>
                                     <div className="nft-details">
                                         <h4 className="text-center">{token.token_name}</h4>
                                         <p><MdCollections className="text-light"/> {token.collection_name}</p>
                                         <p><MdOutlineToken className="text-light"/>{token.token_standard}</p>
-                                        <p className="desc">{token.token_description}</p>
                                     </div>
 
                                 </div>
@@ -115,29 +143,22 @@ export function ListingModal({ token }: ListingModalProps) {
                                                         }
                                                         <IoIosArrowDown className="dd-icon" /></button>
                                                 </div>
-                                                <div className="coll-dropdown rounded select-dropdown" hidden={dropdownToken}>
-                                                    <div className="coll-item" onClick={() => {
+                                               
+                                            </div>
+                                            <div className="coll-dropdown rounded select-dropdown" hidden={dropdownToken}>
+                                            <div className="coll-item" onClick={() => {
                                                         setFieldValue("coin", "");
                                                         setDropdownToken(!dropdownToken)
                                                     }}>
                                                         <p>Any Coin</p>
                                                     </div>
-                                                    {
-                                                        chosenCoin ? chosenCoin.symbol : "Any"
-                                                    }
-                                                    <IoIosArrowDown className="dd-icon" />
-                                                </div>
-                                            </div>
-                                            <div className="coll-dropdown rounded select-dropdown" hidden={dropdownToken}>
                                                 {
                                                     assets.map(fa => (
                                                         <div className="coll-item" onClick={() => {
                                                             setFieldValue("coin", fa.asset_type);
                                                             setDropdownToken(!dropdownToken)
                                                         }} key={fa.asset_type}>
-                                                            <p>
-                                                                {/* <Image src={fa.icon_uri} alt={fa.symbol} height={20} width={20} className="rounded-circle me-2" /> */}
-                                                                {fa.symbol}</p>
+                                                            <p>{fa.symbol}</p>
                                                         </div>
                                                     ))}
                                             </div>
@@ -162,6 +183,7 @@ export function ListingModal({ token }: ListingModalProps) {
                                                 :
                                                 <input type="submit" className="submit-btn" />
                                         }
+                                        <button className="btn btn-danger" type="button" onClick={onRemoveListing} disabled={isRemoving}>Remove Listing</button>
                                     </form>
                                     <p className="mt-4 notice"><strong>Notice:</strong> By selecting this NFT as collateral, you acknowledge that the NFT will be securely transferred and stored with us for the duration of the loan. You will not have access to this NFT until the loan is fully repaid.</p>
                                 </div>

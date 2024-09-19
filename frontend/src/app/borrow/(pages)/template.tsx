@@ -3,9 +3,11 @@ import React from "react"
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { useTheme } from "@/context/themecontext";
 export default function BorrowLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const { connected, isLoading } = useWallet();
+    const {theme} = useTheme()
     const paths = [
         {
             name: "My Assets",
@@ -32,7 +34,7 @@ export default function BorrowLayout({ children }: { children: React.ReactNode }
                     </div>
                 </div>
             </section>
-            <section className="borrow-tabs py-100">
+            <section className={`borrow-tabs py-100 ${theme == 'light' ? 'light-theme' : 'dark-theme'}`}>
                 <div className="container">
                     <div className="row">
                         <div className="col d-flex box-main">
@@ -86,7 +88,6 @@ export default function BorrowLayout({ children }: { children: React.ReactNode }
                                             ) : (
                                                 <button className="connect-btn mt-3 rounded" data-bs-toggle="modal" data-bs-target="#connectmodal">Connect wallet</button>
                                             )
-
                                             }
                                         </div>
                                     )

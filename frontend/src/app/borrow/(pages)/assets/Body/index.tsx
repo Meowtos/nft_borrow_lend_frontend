@@ -11,6 +11,8 @@ import { BsList } from "react-icons/bs";
 import { BsFillGridFill } from "react-icons/bs";
 import { Loading } from "@/components/Loading";
 import { assetListingModalId, ListingModal } from "../ListingModal";
+import { MdFilter } from "react-icons/md";
+
 
 export function Body() {
     const { account } = useWallet();
@@ -57,7 +59,7 @@ export function Body() {
         <React.Fragment>
             <div className="content-header d-flex">
                 <div className="collection">
-                    <div className="dropdown-btn">
+                    <div className="dropdown-btn sl-coll">
                         <span className="me-2 fs-6">Select Collection:</span>
                         <button className="rounded text-start coll-btn" onClick={() => setDropdown(!dropdown)}>
                             {
@@ -65,7 +67,9 @@ export function Body() {
                             }
                             <IoIosArrowDown className="dd-icon" /></button>
                     </div>
-                    <div className="coll-dropdown rounded" hidden={dropdown}>
+                    <MdFilter className="mb-coll-filter d-none rounded" onClick={() => setDropdown(!dropdown)}/>
+
+                    <div className="coll-dropdown cl-1 rounded" hidden={dropdown}>
                         {userOwnedCollections.map((collection, index) => (
                             <div className="coll-item" key={index} onClick={() => handleCollectionSelect(collection)}>
                                 <p>{collection.collection_name} ({collection.token_standard})</p>
@@ -154,7 +158,7 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                                 <div className="card-body">
                                     <h4 className="card-title">{token.token_name}</h4>
                                     <p className="d-flex"><span>{token.collection_name}</span></p>
-                                    <p className="d-flex"><span>Token Standard :</span><span>{token.token_standard}</span></p>
+                                    <p className="d-flex"><span>Token Std. :</span><span>{token.token_standard}</span></p>
 
                                     <p className="description">{token.token_description}</p>
                                     <button onClick={() => setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`} className="btn list-btn w-100">List Asset</button>
@@ -197,7 +201,7 @@ function OwnedTokens({ collectionId, viewtype }: OwnedTokensProps) {
                                         <tr key={index}>
                                             <td>
                                                 <Image src={`${token.token_icon_uri}`} className="rounded me-2" alt="nft" width={32} height={32} />
-                                                <span className="fs-5">{token.token_name}</span>
+                                                <span className="fs-5">{token.token_name} </span> <span className="d-none ts-mobile"> ({token.token_standard})</span>
                                             </td>
                                             <td>{token.token_description}</td>
                                             <td className="text-center">{token.token_standard}</td>

@@ -25,8 +25,8 @@ export default function LendLayout({ children }: { children: React.ReactNode }) 
                 <div className="container">
                     <div className="row">
                         <div className="col text-center">
-                            <h2>Unlock Crypto Loans with Your NFTs</h2>
-                            <p className="w-50 m-auto position-relative pt-3">Leverage your NFTs as collateral and access instant liquidity without selling your digital assets. Get quick, transparent loans today!</p>
+                            <h2>Earn with Crypto Loans by Lending Your NFTs</h2>
+                            <p className="w-50 m-auto position-relative pt-3">Put your NFTs to work by lending them out and earn passive income. Offer liquidity to others and benefit from transparent, secure returns!</p>
                         </div>
                     </div>
                 </div>
@@ -34,37 +34,24 @@ export default function LendLayout({ children }: { children: React.ReactNode }) 
             <section className="borrow-tabs py-100">
                 <div className="container">
                     <div className="row">
-                        <div className="col">
-                            <div className="d-flex">
-                                <div className="nav flex-column nav-pills me-4 tab-btns" id="lend-tabs" role="tablist" aria-orientation="vertical">
-                                    {
-                                        paths.map((path, index) => (
-                                            <Link href={`/lend/${path.to}`} className={`tab-btn ${pathname === `/lend/${path.to}` ? "active" : ""}`} key={`lend-path-${index}`} scroll={false}>
-                                                {/* <button
-                                                    className="tab-btn"
-                                                    id={`lend-${path.to}-tab`}
-                                                    data-bs-toggle="pill"
-                                                    data-bs-target={`#lend-${path.to}`}
-                                                    type="button"
-                                                    role="tab"
-                                                    aria-controls={`lend-${path.to}`}
-                                                    aria-selected="true"
-                                                > */}
-                                                    {path.name}
-                                                {/* </button> */}
-                                            </Link>
-                                        ))
-                                    }
-                                </div>
-                                <div className="tab-content rounded" id="lend-tabs-tabContent">
-                                    {
-                                        paths.map((path, index) => (
-                                            <div key={`lend-content-${index}`} className={`tab-pane fade ${pathname === `/lend/${path.to}` ? "show active" : ""}`} id={`lend-${path.to}`} role="tabpanel" aria-labelledby={`lend-${path}`}>
-                                                {children}
-                                            </div>
-                                        ))
-                                    }
-                                </div>
+                        <div className="col d-flex box-main">
+                            <div className="nav flex-column nav-pills me-4 tab-btns" id="lend-tabs" role="tablist" aria-orientation="vertical">
+                                {
+                                    paths.map((path, index) => (
+                                        <Link href={`/lend/${path.to}`} className={`tab-btn ${pathname === `/lend/${path.to}` ? "active" : ""}`} key={`lend-path-${index}`} scroll={false}>
+                                            {path.name}
+                                        </Link>
+                                    ))
+                                }
+                            </div>
+                            <div className="tab-content rounded" id="lend-tabs-tabContent">
+                                {
+                                    paths.map((path, index) => (
+                                        <div key={`lend-content-${index}`} className={`tab-pane fade ${pathname === `/lend/${path.to}` ? "show active" : ""}`} id={`lend-${path.to}`} role="tabpanel" aria-labelledby={`lend-${path}`}>
+                                            {children}
+                                        </div>
+                                    ))
+                                }
                             </div>
                         </div>
                     </div>
