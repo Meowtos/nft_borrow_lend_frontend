@@ -9,11 +9,11 @@ export const menu =[
         url: "/",
     },
     {
-        name: "Borrow Loan",
+        name: "Borrow",
         url: "/borrow/assets"
     },
     {
-        name: "Lend Nft",
+        name: "Lend",
         url: "/lend/assets"
     },
     {
@@ -21,7 +21,7 @@ export const menu =[
         url: "/faucet"
     },
     {
-        name: "Mint NFT",
+        name: "Mint",
         url: "/nft-mint"
     },
 ]
@@ -42,12 +42,12 @@ export const footerLinks = [
 ]
 export const team = [
     {
-        name: "Ajaythxkur aka Sen7e",
+        name: "Sen7e",
         github: "https://github.com/ajaythxkur",
         profile: '/media/nfts/5.jpeg'
     },
     {
-        name: "AjayKumar aka Devil",
+        name: "Devil",
         github: "https://github.com/Devil02070",
         profile: '/media/nfts/2.jpeg'
     }

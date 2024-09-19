@@ -25,7 +25,7 @@ const Header = () => {
                     <div className="row m-0">
                         <div className="col-5 col-lg-4 p-0 logo">
                             <Link href={"/"}>
-                                <Image src="/media/logo3.png" alt="logo" height={60} width={150} />
+                                <Image src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXdyaGlpZTN1d2RrOHZxcHZhdm9jd2xxaXg2MzNqYnI4MWNveWtvNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZGemFcQerg4TlhDXSw/giphy.gif" alt="logo" height={65} width={100} className='rounded'/>
                             </Link>
                         </div>
 

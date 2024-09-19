@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
         }
         const address = req.nextUrl.searchParams.get("address");
         if (address) {
-            condition.account_address = address;
+            condition.address = address;
         }
         const data = await Listing.find(condition);
         return NextResponse.json({ message: "success", data }, { status: 200 });

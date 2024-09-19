@@ -6,8 +6,8 @@ import { WhyChooseUs } from "./WhyChooseUs";
 import { Faqs } from "./Faqs";
 
 export const metadata = {
-  title: "Home - Wiz Protocol",
-  description: "Homepage of Wiz Protocol"
+  title: "Home - Wizards Fi",
+  description: "Homepage of Wizards Fi"
 }
 export default function Home() {
   return (
