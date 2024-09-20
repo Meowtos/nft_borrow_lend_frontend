@@ -75,7 +75,7 @@ export function Body() {
         setChosenCollection(collection)
         setDropdown(!dropdown); // Close the dropdown after selection
     };
-    if (isLoading || userListingLoading) return <Loading />;
+    // if (isLoading || userListingLoading) return <Loading />;
     // if (userOwnedCollections.length === 0) return "No collections found"
     return (
         <React.Fragment>
@@ -85,7 +85,9 @@ export function Body() {
                         <span className="me-2 fs-6">Select Collection:</span>
                         <button className="rounded text-start coll-btn" onClick={() => setDropdown(!dropdown)}>
                             {
-                                chosenCollection ? chosenCollection.collection_name : "Select Collection"
+                                userOwnedCollections.length === 0
+                                    ? "No Collections Available"
+                                    : (chosenCollection ? chosenCollection.collection_name : "Select Collection")
                             }
                             <IoIosArrowDown className="dd-icon" /></button>
                     </div>

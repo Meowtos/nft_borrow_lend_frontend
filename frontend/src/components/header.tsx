@@ -47,8 +47,9 @@ const Header = () => {
                                 {
                                     connected ? (
                                         <div className="rewards" id="rewards">
-                                            <FaAward className="cn-icon" onClick={() => setSoon(!soon)} />
-                                            <p className="soon rounded-pill" hidden={soon}>soon!</p>
+                                            {/* <FaAward className="cn-icon" onClick={() => setSoon(!soon)} /> */}
+                                            <span className="cn-icon" onClick={() => setSoon(!soon)} >s:01</span>
+                                            <p className="soon rounded-pill mt-2" hidden={soon}>Season-1 Rewards Available Soon!</p>
                                         </div>
                                     ) : (' ')
                                 }
