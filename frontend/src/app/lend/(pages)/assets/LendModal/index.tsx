@@ -15,7 +15,7 @@ import { ABI_ADDRESS, NETWORK, SERVER_URL } from "@/utils/env";
 import { RiTwitterXLine } from "react-icons/ri";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
 import { explorerUrl } from "@/utils/constants";
-import { interestAmount, } from "@/utils/math";
+// import { interestAmount, } from "@/utils/math";
 
 export const lendModalId = "lendModal";
 interface LendModalProps {
@@ -257,7 +257,7 @@ export function LendModal({ token }: LendModalProps) {
                                                 <input type="submit" className="submit-btn" />
                                         }
                                     </form>
-                                    <p className="mt-4 notice"><strong>Notice:</strong>Your collateral is securely held in escrow at this stage. Once the borrower accepts the offer, the loan period begins and collateral is transferred to borrower, and you'll receive your collateral with interest after the borrower completes repayment.</p>
+                                    <p className="mt-4 notice"><strong>Notice:</strong>Your collateral is securely held in escrow at this stage. Once the borrower accepts the offer, the loan period begins and collateral is transferred to borrower, and you&apos;ll receive your collateral with interest after the borrower completes repayment.</p>
                                 </div>
                             </div>
                         }

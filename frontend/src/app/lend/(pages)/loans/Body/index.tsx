@@ -1,5 +1,4 @@
 "use client"
-import { Loading } from "@/components/Loading";
 import { Loan } from "@/types/ApiInterface";
 import { NETWORK } from "@/utils/env";
 import { shortenAddress } from "@/utils/shortenAddress";

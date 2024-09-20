@@ -174,7 +174,7 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
                                                 <input type="submit" className="submit-btn" />
                                         }
                                     </form>
-                                    <p className="mt-4 notice"><strong>Notice:</strong>This action is entirely free of transaction gas fees and won't impact your NFT ownership! Plus, all details above are optional.</p>
+                                    <p className="mt-4 notice"><strong>Notice:</strong>This action is entirely free of transaction gas fees and won&apos;t impact your NFT ownership! Plus, all details above are optional.</p>
                                 </div>
                             </div>
                         }

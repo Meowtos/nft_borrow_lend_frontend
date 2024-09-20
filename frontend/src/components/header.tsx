@@ -3,7 +3,6 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { WalletButtons } from './WalletButton';
 import Link from 'next/link';
-import { FaAward } from "react-icons/fa6";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from 'react-icons/io5'
 

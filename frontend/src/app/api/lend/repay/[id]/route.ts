@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Loan } from "@/models/loan";
 import { User } from "@/models/user";
-import { SERVER_URL } from "@/utils/env";
 
 type Params = {
     id: string

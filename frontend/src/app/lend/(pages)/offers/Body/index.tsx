@@ -1,6 +1,5 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import { Loading } from "@/components/Loading";
 import { Loan } from "@/types/ApiInterface";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Image from "next/image";

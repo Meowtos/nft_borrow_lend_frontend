@@ -9,7 +9,6 @@ import { Token } from "@/types/Token";
 import { IoIosArrowDown } from "react-icons/io";
 import { BsList } from "react-icons/bs";
 import { BsFillGridFill } from "react-icons/bs";
-import { Loading } from "@/components/Loading";
 import { assetListingModalId, ListingModal } from "../ListingModal";
 import { MdFilter } from "react-icons/md";
 import { Listing } from "@/types/ApiInterface";

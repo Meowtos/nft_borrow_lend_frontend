@@ -9,7 +9,6 @@ import { IoCheckmark } from "react-icons/io5";
 import { useTheme } from "@/context/themecontext";
 export function Body() {
     const { account, signAndSubmitTransaction, network } = useWallet()
-    const [token, _setToken] = useState("v2");
     const [name, setName] = useState("");
     const [uri, setUri] = useState("");
     const [loading, setLoading] = useState(false);
@@ -19,26 +18,24 @@ export function Body() {
         if (!account?.address) return;
         try {
             setLoading(true);
-            if(network?.name !== NETWORK) {
+            if (network?.name !== NETWORK) {
                 throw new Error(`Switch to ${NETWORK} network`)
             }
-            if (token === "v2") {
-                const response = await signAndSubmitTransaction({
-                    sender: account.address,
-                    data: {
-                        function: `${ABI_ADDRESS}::cars_collection::mint`,
-                        typeArguments: [],
-                        functionArguments: [name, uri]
-                    }
-                });
-                await aptos.waitForTransaction({
-                    transactionHash: response.hash
-                });
-                toast.success("Transaction succeed", {
-                    action: <a href={`${explorerUrl}/txn/${response.hash}`}>View Txn</a>,
-                    icon: <IoCheckmark />
-                })
-            }
+            const response = await signAndSubmitTransaction({
+                sender: account.address,
+                data: {
+                    function: `${ABI_ADDRESS}::cars_collection::mint`,
+                    typeArguments: [],
+                    functionArguments: [name, uri]
+                }
+            });
+            await aptos.waitForTransaction({
+                transactionHash: response.hash
+            });
+            toast.success("Transaction succeed", {
+                action: <a href={`${explorerUrl}/txn/${response.hash}`}>View Txn</a>,
+                icon: <IoCheckmark />
+            })
         } catch (error) {
             let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
             if (error instanceof Error) {
