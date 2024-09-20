@@ -7,7 +7,6 @@ const config = new AptosConfig({
 export const aptos = new Aptos(config);
 export const APR_DENOMINATOR = 10000;
 export const MAX_LOCK_DURATION = 365;
-
 export const getUserOwnedCollections = async (ownerAddr: string) => {
     const result = await aptos.getAccountCollectionsWithOwnedTokens({
         accountAddress: ownerAddr,
@@ -54,6 +53,5 @@ export const getAssetBalance = async (accountAddr: string, asset_type: string, t
         const primaryStore = result.find(store => store.is_primary === true);
         return primaryStore ? primaryStore.amount : 0        
     };
-    return 0;
 }
 

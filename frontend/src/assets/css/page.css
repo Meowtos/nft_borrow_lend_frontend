@@ -212,6 +212,10 @@ button,
 .header .dropdown-toggle::after {
     display: none !important;
 }
+ul.dropdown-menu li{background-color: var(--dark) !important;}
+
+
+
 /* ------------------------------------------------------- */
 /* Home */
 /* ------------------------------------------------------- */
@@ -462,7 +466,7 @@ button,
     color: inherit;
 }
 
-.footer p {
+.footer p, .footer h4 {
     color: var(--txt-light);
 }
 
@@ -517,7 +521,7 @@ button,
 /* ------------------------------------------------------------------------------------------------------------------------- */
 .inner-banner {
     padding: 220px 0px 130px 0px;
-    background-image: url('/media/inner-banner.jpg');
+    background-image: url('/media/dark-texture.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -533,7 +537,8 @@ button,
     bottom: 0px;
     left: 0px;
     background: var(--darkmain);
-    opacity: 0.6;
+    /* opacity: 0.6; */
+    opacity: 0.2;
 }
 
 .inner-banner h2 {
@@ -542,10 +547,14 @@ button,
 }
 
 /* Borrowpage */
+.borrow-tabs {
+    background: #181818;
+}
 .tab-btns {
     width: 20%;
     padding: 48px 16px;
     background: var(--bg-tabs);
+
 }
 
 .tab-btn {

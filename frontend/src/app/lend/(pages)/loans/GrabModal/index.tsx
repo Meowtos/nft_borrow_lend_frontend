@@ -4,7 +4,7 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { toast } from "sonner";
 import { IoCheckmark, IoClose } from 'react-icons/io5'
 import { aptos } from "@/utils/aptos";
-import { ABI_ADDRESS } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { explorerUrl } from "@/utils/constants";
 import { Loan } from "@/types/ApiInterface";
 
@@ -13,11 +13,14 @@ interface GrabModalProps {
     offer: Loan | null
 }
 export function GrabModal({ offer }: GrabModalProps) {
-    const { account, signAndSubmitTransaction } = useWallet();
+    const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false)
     const onGrab = async (offer: Loan) => {
         if (!account?.address || !offer.borrow_obj) return;
         try {
+            if(network?.name !== NETWORK) {
+                throw new Error(`Switch to ${NETWORK} network`)
+            }
             const functionArguments = [
                 offer.borrow_obj
             ];
@@ -64,7 +67,7 @@ export function GrabModal({ offer }: GrabModalProps) {
             <div className="modal fade" id={grabModalId} tabIndex={-1} aria-labelledby={`${grabModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeGrabModal">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeGrabModal" className="border-0">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {
@@ -80,6 +83,8 @@ export function GrabModal({ offer }: GrabModalProps) {
                                 }
                             </div>
                         }
+                        <p className="mt-4 notice"><strong>Notice:</strong>Borrower failed to make repayment; you can now claim their NFT and transfer it to your wallet.</p>
+
                     </div>
                 </div>
             </div>

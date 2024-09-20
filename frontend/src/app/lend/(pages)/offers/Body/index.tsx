@@ -1,6 +1,5 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import { Loading } from "@/components/Loading";
 import { Loan } from "@/types/ApiInterface";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Image from "next/image";
@@ -32,7 +31,7 @@ export function Body() {
     useEffect(() => {
         getUserLoanOffers();
     }, [getUserLoanOffers]);
-    if (loading) return <Loading />;
+    // if (loading) return <Loading />;
     return (
         <>
             <div className="overflow-auto">
@@ -49,27 +48,40 @@ export function Body() {
                     </thead>
                     <tbody>
                         {
-                            userOffers.length > 0 ? (
-                                userOffers.map((offer, index) => (
+                            loading ? (
+                                Array.from({ length: 3 }).map((_, index) => (
                                     <tr key={index}>
-                                        <td>
-                                            <Image src={offer.forListing.token_icon} className="rounded me-2" alt={offer.forListing.token_name} width={37} height={37} />
-                                            <span>{offer.forListing.token_name}</span>
-                                        </td>
-                                        <td>{offer.forListing.collection_name}</td>
-                                        <td>{offer.amount} {getAssetByType(offer.coin)?.symbol}</td>
-                                        <td>{offer.duration}</td>
-                                        <td>{offer.apr}</td>
-                                        <td className="text-end">
-                                            <button className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${withdrawOfferModalId}`} onClick={() => setWithdrawOffer(offer)}>Cancel Offer</button>
-
-                                        </td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-end"><span className="line"></span></td>
                                     </tr>
                                 ))
                             ) : (
-                                <tr>
-                                    <td colSpan={9} className="text-center"><p className="p-3">No offers</p></td>
-                                </tr>
+                                userOffers.length > 0 ? (
+                                    userOffers.map((offer, index) => (
+                                        <tr key={index}>
+                                            <td>
+                                                <Image src={offer.forListing.token_icon} className="rounded me-2" alt={offer.forListing.token_name} width={37} height={37} />
+                                                <span>{offer.forListing.token_name}</span>
+                                            </td>
+                                            <td>{offer.forListing.collection_name}</td>
+                                            <td>{offer.amount} {getAssetByType(offer.coin)?.symbol}</td>
+                                            <td>{offer.duration}</td>
+                                            <td>{offer.apr}</td>
+                                            <td className="text-end">
+                                                <button className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${withdrawOfferModalId}`} onClick={() => setWithdrawOffer(offer)}>Cancel Offer</button>
+
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={9} className="text-center"><p className="p-3">No offers</p></td>
+                                    </tr>
+                                )
                             )
                         }
                     </tbody>

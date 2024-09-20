@@ -1,0 +1,212 @@
+/* ------------------------------------------- */
+/* Animations */
+/* ------------------------------------------- */
+.scene {
+    width: 320px;
+    height: 320px;
+    transform-style: preserve-3d;
+    animation: rotate 35s infinite linear;
+    position: relative;
+}
+
+.cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.85;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.front {
+    transform: rotateY(0deg) translateZ(200px);
+    background-image: url("https://pbs.twimg.com/profile_images/1608213505227759621/sqqbCVLU_400x400.jpg");
+}
+
+.right {
+    transform: rotateY(90deg) translateZ(200px);
+    background-image: url("https://pbs.twimg.com/profile_images/1617566565884477462/T3ik8G9u_400x400.jpg");
+}
+
+.back {
+    transform: rotateY(180deg) translateZ(200px);
+    background-image: url("https://pbs.twimg.com/profile_images/1752282443997184000/vaX0-w0U_400x400.jpg");
+}
+
+.left {
+    transform: rotateY(-90deg) translateZ(200px);
+    background-image: url("https://pbs.twimg.com/profile_images/1777718397574242304/RoTGEIuc_400x400.jpg");
+}
+
+.top {
+    transform: rotateX(90deg) translateZ(200px);
+    background-image: url("https://pbs.twimg.com/profile_images/1712116455691399168/JWyqyBZc_400x400.jpg");
+}
+
+.bottom {
+    transform: rotateX(-90deg) translateZ(200px);
+    background-image: url("https://pbs.twimg.com/profile_images/1620089935977136128/PsJ400AV_400x400.jpg");
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotateX(0) rotateY(0);
+    }
+
+    100% {
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+
+
+/* ------------------------------------------- */
+/* Skeleton cel loading */
+/* ------------------------------------------- */
+.line {
+    float: left;
+    width: 100px;
+    height: 16px;
+    margin-top: 12px;
+    border-radius: 7px;
+    background-image: linear-gradient(90deg, #ffffff20 0px, #ffffff40 40px, #ffffff20 80px);
+    animation: shine-lines 3s linear infinite;
+}
+
+@keyframes shine-lines {
+    0% {
+        background-position: -150px;
+    }
+
+    50% {
+        background-position: 150px;
+    }
+
+    100% {
+        background-position: 350px;
+    }
+}
+
+
+
+
+
+/* Styles for laptop screens */
+@media (min-width: 1280px) and (max-width: 1440px) {
+    .scene {
+        width: 280px;
+        height: 280px;
+    }
+
+    .front {
+        transform: rotateY(0deg) translateZ(160px);
+    }
+
+    .back {
+        transform: rotateY(180deg) translateZ(160px);
+    }
+    .top {
+        transform: rotateX(90deg) translateZ(160px);
+    }
+
+    .bottom {
+        transform: rotateX(-90deg) translateZ(160px)
+    }
+
+    .right {
+        transform: rotateY(90deg) translateZ(160px);
+    }
+
+    .left {
+        transform: rotateY(-90deg) translateZ(160px);
+    }
+
+    @keyframes shine-lines {
+        0% {
+            background-position: 0px;
+        }
+
+        50% {
+            background-position: 0px;
+        }
+
+        100% {
+            background-position: 0px;
+        }
+    }
+}
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* Styles for smaller laptops */
+@media (min-width: 1024px) and (max-width: 1279px) {
+    .scene {
+        width: 260px;
+        height: 260px;
+    }
+
+    .front {
+        transform: rotateY(0deg) translateZ(130px);
+    }
+
+    .back {
+        transform: rotateY(180deg) translateZ(130px);
+    }
+    .top {
+        transform: rotateX(90deg) translateZ(130px);
+    }
+
+    .bottom {
+        transform: rotateX(-90deg) translateZ(130px)
+    }
+
+    .right {
+        transform: rotateY(90deg) translateZ(130px);
+    }
+
+    .left {
+        transform: rotateY(-90deg) translateZ(130px);
+    }
+}
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* Styles for smaller laptops */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .scene {
+        width: 180px;
+        height: 180px;
+    }
+
+    .front {
+        transform: rotateY(0deg) translateZ(120px);
+    }
+
+    .back {
+        transform: rotateY(180deg) translateZ(120px);
+    }
+    .top {
+        transform: rotateX(90deg) translateZ(120px);
+    }
+
+    .bottom {
+        transform: rotateX(-90deg) translateZ(120px)
+    }
+
+    .right {
+        transform: rotateY(90deg) translateZ(120px);
+    }
+
+    .left {
+        transform: rotateY(-90deg) translateZ(120px);
+    }
+}

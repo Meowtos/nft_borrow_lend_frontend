@@ -7,7 +7,7 @@ import { IoClose, IoCheckmark } from 'react-icons/io5'
 
 import { aptos } from "@/utils/aptos";
 import { Loan } from "@/types/ApiInterface";
-import { ABI_ADDRESS } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK, SERVER_URL } from "@/utils/env";
 import { explorerUrl } from "@/utils/constants";
 
 export const repayModalId = "repayModal";
@@ -16,11 +16,14 @@ interface RepayModalProps {
 }
 export function RepayModal({ offer }: RepayModalProps) {
     const { getAssetByType } = useApp();
-    const { account, signAndSubmitTransaction } = useWallet();
+    const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false)
     const onRepayLoan = async (offer: Loan) => {
         if (!account?.address || !offer.borrow_obj) return;
         try {
+            if(network?.name !== NETWORK) {
+                throw new Error(`Switch to ${NETWORK} network`)
+            }
             const coin = getAssetByType(offer.coin);
             if (!coin) return;
             const typeArguments = [];
@@ -58,6 +61,19 @@ export function RepayModal({ offer }: RepayModalProps) {
                 action: <a href={`${explorerUrl}/txn/${response.hash}`} target="_blank">View Txn</a>,
                 icon: <IoCheckmark />
             })
+            const discordId = apiRes.data;
+            if(discordId) {
+                await fetch(`${SERVER_URL}/borrow/${discordId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        token_name: offer.forListing.token_name,
+                        token_icon: offer.forListing.token_icon
+                    })
+                });
+            }
         } catch (error) {
             let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
             if (error instanceof Error) {
@@ -73,7 +89,7 @@ export function RepayModal({ offer }: RepayModalProps) {
             <div className="modal fade" id={repayModalId} tabIndex={-1} aria-labelledby={`${repayModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-md">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeRepayModal">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeRepayModal" className="border-0">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {

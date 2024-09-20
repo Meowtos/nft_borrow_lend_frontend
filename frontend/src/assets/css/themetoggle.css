@@ -1,0 +1,32 @@
+.theme-toggle {
+    padding: 5px;
+    background: var(--bg-28);
+    transition: all 0.5s ease;
+}
+
+.theme-icon {
+    font-size: 26px;
+    padding: 4px;
+    color: var(--txt-light);
+    transition: all 0.5s ease;
+}
+.light .theme-icon{
+    color: var(--light);
+}
+.theme-icon.active{
+    background: var(--primary-1);
+    color: var(--txt-light);
+}
+
+@media(max-width: 768px){
+    .theme-toggle {
+        padding: 3px;
+        width: 50%;
+        margin-left: 25%;
+        text-align: center;
+    }
+    .theme-icon {
+        font-size: 38px;
+        padding: 6px;
+    }
+}

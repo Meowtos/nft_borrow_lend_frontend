@@ -6,7 +6,7 @@ import { IoCheckmark, IoClose } from "react-icons/io5";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useApp } from "@/context/AppProvider";
-import { ABI_ADDRESS } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK, SERVER_URL } from "@/utils/env";
 import { aptos } from "@/utils/aptos";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -17,11 +17,14 @@ interface AcceptModalProps {
 }
 export function AcceptModal({ offer }: AcceptModalProps) {
     const { getAssetByType } = useApp();
-    const { account, signAndSubmitTransaction } = useWallet();
+    const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false);
     const onBorrow = async (offer: Loan) => {
         if (!account?.address) return;
         try {
+            if (network?.name !== NETWORK) {
+                throw new Error(`Switch to ${NETWORK} network`)
+            }
             const coin = getAssetByType(offer.coin);
             if (!coin) return;
             const typeArguments = [];
@@ -76,7 +79,19 @@ export function AcceptModal({ offer }: AcceptModalProps) {
                 action: <a href={`${explorerUrl}/txn/${response.hash}`} target="_blank">View Txn</a>,
                 icon: <IoCheckmark />
             })
+            const discordId = apiRes.data;
+            await fetch(`${SERVER_URL}/borrow/${discordId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token_name: offer.forListing.token_name,
+                    token_icon: offer.forListing.token_icon
+                })
+            });
         } catch (error: unknown) {
+            console.log({error})
             let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
             if (error instanceof Error) {
                 errorMessage = error.message;
@@ -91,7 +106,7 @@ export function AcceptModal({ offer }: AcceptModalProps) {
             <div className="modal fade" id={acceptOfferModalId} tabIndex={-1} aria-labelledby={`${acceptOfferModalId}Label`} aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" id="closeAcceptOfferModal" data-bs-dismiss="modal" aria-label="Close">
+                        <button type="button" id="closeAcceptOfferModal" data-bs-dismiss="modal" aria-label="Close" className="border-0">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {

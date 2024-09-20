@@ -96,11 +96,20 @@
   box-shadow: 0px 0px 20px 2px #00000020;
   border-radius: 8px;
 }
-.light-theme .main, .light-theme .list-modal{
+.light-theme .main, .light-theme .list-modal, .light-theme.borrow-tabs{
   background: #ededed !important;
+}
+.light-theme .tab-btns, .light-theme .tab-content{
+  background:#e3e3e3 !important
+}
+.light-theme .line{
+  background-image:linear-gradient(90deg, #00000020 0px, #00000040 40px, #00000020 80px);
 }
 .light-theme .outer:hover .main{
   background-color: var(--sec-1) !important;
+}
+.light-theme .br{
+  background: #ffffff;
 }
 @media(max-width:768px){
   .light-theme .work-row, .light-theme .accordion{
@@ -124,7 +133,7 @@ body {background-color: var(--dark);color: var(--light);}
 
 /* Headings */
 h1,h2,h3,h4,h5,h6,p {margin: 0px;}
-h2 {font-size: 48px;font-weight: 600;line-height: 56px;}
+h2 {font-size: 48px;font-weight: 600;line-height: 48px;}
 .col {padding: 0px}
 .py-100 {padding: 100px 0px;}
 .cn-wallet {padding: 48px;background: var(--bg-28);}

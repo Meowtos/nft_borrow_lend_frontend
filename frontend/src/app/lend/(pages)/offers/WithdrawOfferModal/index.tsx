@@ -4,7 +4,7 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { toast } from "sonner";
 import { IoCheckmark, IoClose } from 'react-icons/io5'
 import { aptos } from "@/utils/aptos";
-import { ABI_ADDRESS } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { explorerUrl } from "@/utils/constants";
 import { Loan } from "@/types/ApiInterface";
 import { useApp } from "@/context/AppProvider";
@@ -14,13 +14,17 @@ interface WithdrawOfferModalProps {
 }
 export function WithdrawOfferModal({ offer }: WithdrawOfferModalProps) {
     const { getAssetByType } = useApp();
-    const { account, signAndSubmitTransaction } = useWallet();
+    const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false)
     const onWithdrawOffer = async (offer: Loan) => {
         if (!account) return;
         try {
+            if(network?.name !== NETWORK) {
+                throw new Error(`Switch to ${NETWORK} network`)
+            }
             const coin = getAssetByType(offer.coin);
             if (!coin) return;
+            
             setLoading(true)
             const typeArguments = [];
             if (coin.token_standard === "v1") {
@@ -64,7 +68,7 @@ export function WithdrawOfferModal({ offer }: WithdrawOfferModalProps) {
             <div className="modal fade" id={withdrawOfferModalId} tabIndex={-1} aria-labelledby={`${withdrawOfferModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeWithdrawModal">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeWithdrawModal" className="border-0">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {
@@ -76,7 +80,7 @@ export function WithdrawOfferModal({ offer }: WithdrawOfferModalProps) {
                                         ?
                                         <button className="action-btn">Loading...</button>
                                         :
-                                        <button className="action-btn" onClick={() => onWithdrawOffer(offer)}>Get NFT</button>
+                                        <button className="action-btn" onClick={() => onWithdrawOffer(offer)}>Withdraw offer</button>
                                 }
                             </div>
                         }

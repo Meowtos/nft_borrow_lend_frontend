@@ -11,10 +11,11 @@ import { APR_DENOMINATOR, aptos, getAssetBalance, MAX_LOCK_DURATION } from "@/ut
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
 import { IListingSchema } from "@/models/listing";
-import { ABI_ADDRESS } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK, SERVER_URL } from "@/utils/env";
 import { RiTwitterXLine } from "react-icons/ri";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
 import { explorerUrl } from "@/utils/constants";
+// import { interestAmount, } from "@/utils/math";
 
 export const lendModalId = "lendModal";
 interface LendModalProps {
@@ -22,7 +23,7 @@ interface LendModalProps {
 }
 export function LendModal({ token }: LendModalProps) {
     const { assets } = useApp();
-    const { account, signAndSubmitTransaction } = useWallet();
+    const { account, signAndSubmitTransaction, network } = useWallet();
     const [dropdownToken, setDropdownToken] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
     const [balance, setBalance] = useState(0)
@@ -36,8 +37,8 @@ export function LendModal({ token }: LendModalProps) {
         validationSchema: Yup.object({
             coin: Yup.string().required("Coin is required"),
             amount: Yup.number().typeError("Amount must be a number").positive("Amount must be +ve").required("Amount is required"),
-            duration: Yup.number().min(1, "Minimum 1 day required").max(MAX_LOCK_DURATION, `Max ${MAX_LOCK_DURATION} day allowed`).required(),
-            apr: Yup.number().positive("Apr must be +ve").required(),
+            duration: Yup.number().min(1, "Minimum 1 day required").max(MAX_LOCK_DURATION, `Max ${MAX_LOCK_DURATION} day allowed`).required("Duration is required"),
+            apr: Yup.number().positive("Apr must be +ve").required("Apr is required"),
         }),
         onSubmit: async (data) => {
             if (!account?.address || !token) return;
@@ -47,6 +48,9 @@ export function LendModal({ token }: LendModalProps) {
                 if (!coin) {
                     throw new Error("No coin")
                 };
+                if (network?.name !== NETWORK) {
+                    throw new Error(`Switch to ${NETWORK} network`)
+                }
 
                 const decimals = coin.decimals;
                 const apr = Number(data.apr) * APR_DENOMINATOR;
@@ -72,9 +76,6 @@ export function LendModal({ token }: LendModalProps) {
                         functionArguments,
                     }
                 });
-                toast("Waiting for the transaction", {
-                    action: <a href="/somwhere">View Txn</a>
-                })
                 await aptos.waitForTransaction({
                     transactionHash: response.hash
                 })
@@ -105,10 +106,23 @@ export function LendModal({ token }: LendModalProps) {
                     throw new Error(apiRes.message)
                 }
                 document.getElementById("closeLendModal")?.click();
-                toast.success("Transaction succeed", {
+                toast("Transaction succeed", {
                     action: <a href={`${explorerUrl}/txn/${response.hash}`} target="_blank">View Txn</a>,
                     icon: <IoCheckmark />
                 })
+                const discordId = apiRes.data;
+                if (discordId) {
+                    await fetch(`${SERVER_URL}/new-offer/${discordId}`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            token_name: token.token_name,
+                            token_icon: token.token_icon
+                        })
+                    });
+                }
 
             } catch (error: unknown) {
                 let errorMessage = `An unexpected error has occured`;
@@ -143,12 +157,23 @@ export function LendModal({ token }: LendModalProps) {
     useEffect(() => {
         getBalance()
     }, [getBalance])
+    useEffect(() => {
+        if (token) {
+            setFieldValue("coin", token.coin ?? "");
+            setFieldValue("amount", token.amount ?? "")
+            setFieldValue("duration", token.duration ?? "")
+            setFieldValue("apr", token.apr ?? "")
+        }
+    }, [setFieldValue, token])
+    // const receiveAmount = useMemo(()=>{
+    //     return Number(values.amount) + interestAmount(Number(values.apr), Number(values.amount), Number(values.duration))
+    // },[values.amount, values.apr, values.duration])
     return (
         <React.Fragment>
             <div className="modal fade" id={lendModalId} tabIndex={-1} aria-labelledby={`${lendModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeLendModal">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeLendModal" className="border-0">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {
@@ -221,6 +246,9 @@ export function LendModal({ token }: LendModalProps) {
                                             <input type="text" name="apr" value={values.apr} onChange={handleChange} className="form-control" placeholder="Enter APR (%)" />
                                             {errors.apr && touched.apr && <span className="text-danger">{errors.apr}</span>}
                                         </div>
+                                        {/* <div className="mb-3">
+                                            <p className="mb-0">You will receive: {receiveAmount}</p>
+                                        </div> */}
                                         {
                                             submitLoading
                                                 ?
@@ -229,7 +257,7 @@ export function LendModal({ token }: LendModalProps) {
                                                 <input type="submit" className="submit-btn" />
                                         }
                                     </form>
-                                    <p className="mt-4 notice"><strong>Notice:</strong> By selecting this NFT as collateral, you acknowledge that the NFT will be securely transferred and stored with us for the duration of the loan. You will not have access to this NFT until the loan is fully repaid.</p>
+                                    <p className="mt-4 notice"><strong>Notice:</strong>Your collateral is securely held in escrow at this stage. Once the borrower accepts the offer, the loan period begins and collateral is transferred to borrower, and you&apos;ll receive your collateral with interest after the borrower completes repayment.</p>
                                 </div>
                             </div>
                         }

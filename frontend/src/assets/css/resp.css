@@ -7,14 +7,16 @@
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* Styles for laptop screens */
 @media (min-width: 1280px) and (max-width: 1440px) {
+  .container {
+    max-width: 90% !important;
+  }
   .banner h1 {
     font-size: 56px;
-    width: 80%;
     line-height: 64px;
-    color: var(--primary-3);
-    font-weight: 600;
   }
-
+  .wcs-cards {
+    padding-right: 20px;
+  }
   .all-cards {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -24,12 +26,48 @@
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* Styles for smaller laptops */
-@media (min-width: 1024px) and (max-width: 1280px) {
-
+@media (min-width: 1024px) and (max-width: 1279px) {
   .container {
     max-width: 95% !important;
   }
-
+  .banner {
+    padding-top: 220px;
+    height: unset;
+  }
+  .banner h1 {
+    font-size: 48px;
+    line-height: 56px;
+  }
+  .about, .py-100{
+    padding: 80px 0px;
+  }
+  .work-row {
+    padding: 60px 24px 32px 24px;
+  }
+  .outer {
+    padding: 0px 20px 0px 20px;
+  }
+  .main {
+    padding: 20px;
+    top: -32px;
+  }
+  .wcs-cards {
+    gap: 58px;
+    margin-top: 40px;
+    padding-right: 20px;
+  }
+  .wcs-card p {
+    width: 100%;
+    font-size: 15px;
+  }
+  .wcs-card h4 {
+    font-size: 20px;
+  }
+  .faqs .accordion {
+    padding: 40px;
+    width: 85% !important;
+    margin-top: 40px !important;
+  }
   .all-cards {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -38,8 +76,66 @@
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* ------------------------------------------------------------------------------------------------------------------ */
+/* Styles for tablets */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container {
+    max-width: 95% !important;
+  }
+  .banner {
+    padding: 170px 0px 100px 0px;
+    height: unset;
+  }
+  .banner h1 {
+    font-size: 44px;
+    line-height: 50px;
+  }
+  .banner p {
+    width: 74%;
+  }
+  .about, .py-100{
+    padding: 60px 0px;
+  }
+  h2 {
+    font-size: 40px;
+    line-height: 40px;
+  }
+
+  .work-row {
+    padding: 60px 24px 32px 24px;
+  }
+  .outer {
+    padding: 0px 20px 0px 20px;
+  }
+  .main {
+    padding: 20px;
+    top: -32px;
+  }
+  .wcs-cards {
+    gap: 58px;
+    margin-top: 40px;
+    padding-right: 20px;
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .wcs-card p {
+    width: 100%;
+    font-size: 15px;
+  }
+  .wcs-card h4 {
+    font-size: 20px;
+  }
+  .faqs .accordion {
+    padding: 40px;
+    width: 85% !important;
+    margin-top: 40px !important;
+  }
+
+}
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------ */
 /* Styles for mobiles */
-@media (min-width: 320px) and (max-width: 768px) {
+@media (min-width: 320px) and (max-width: 767px) {
   .container {
     max-width: 100% !important;
     padding-left: 20px !important;
@@ -422,105 +518,4 @@
     font-size: 32px;
   }
 
-}
-
-
-
-
-
-/* ------------------------------------------- */
-/* Animations */
-/* ------------------------------------------- */
-.scene {
-  width: 320px;
-  height: 320px;
-  transform-style: preserve-3d;
-  /* animation: rotate 20s infinite linear; */
-  animation: rotate 35s infinite linear;
-  position: relative;
-}
-
-.cube {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-}
-
-.face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  opacity: 0.85;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-}
-
-.front {
-  transform: rotateY(0deg) translateZ(200px);
-  background-image: url("https://pbs.twimg.com/profile_images/1608213505227759621/sqqbCVLU_400x400.jpg");
-}
-
-.right {
-  transform: rotateY(90deg) translateZ(200px);
-  background-image: url("https://pbs.twimg.com/profile_images/1617566565884477462/T3ik8G9u_400x400.jpg");
-}
-
-.back {
-  transform: rotateY(180deg) translateZ(200px);
-  background-image: url("https://pbs.twimg.com/profile_images/1752282443997184000/vaX0-w0U_400x400.jpg");
-}
-
-.left {
-  transform: rotateY(-90deg) translateZ(200px);
-  background-image: url("https://pbs.twimg.com/profile_images/1777718397574242304/RoTGEIuc_400x400.jpg");
-}
-
-.top {
-  transform: rotateX(90deg) translateZ(200px);
-  background-image: url("https://pbs.twimg.com/profile_images/1712116455691399168/JWyqyBZc_400x400.jpg");
-}
-
-.bottom {
-  transform: rotateX(-90deg) translateZ(200px);
-  background-image: url("https://pbs.twimg.com/profile_images/1620089935977136128/PsJ400AV_400x400.jpg");
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotateX(0) rotateY(0);
-  }
-
-  100% {
-    transform: rotateX(360deg) rotateY(360deg);
-  }
-}
-
-
-/* ------------------------------------------- */
-/* Skeleton cel loading */
-/* ------------------------------------------- */
-.line {
-  float: left;
-  width: 100px;
-  height: 16px;
-  margin-top: 12px;
-  border-radius: 7px;
-  background-image: linear-gradient(90deg, #ffffff20 0px, #ffffff40 40px, #ffffff20 80px);
-  animation: shine-lines 3s linear infinite;
-}
-
-@keyframes shine-lines {
-  0% {
-    background-position: -150px;
-  }
-
-  50% {
-    background-position: 150px;
-  }
-
-  100% {
-    background-position: 350px;
-  }
 }

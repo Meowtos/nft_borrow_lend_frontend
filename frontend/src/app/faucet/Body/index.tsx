@@ -3,13 +3,13 @@ import React, { useState } from "react"
 import { punk_coin, moon_coin } from "@/utils/coins"
 import { toast } from "sonner";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { ABI_ADDRESS } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { aptos } from "@/utils/aptos";
 import { explorerUrl } from "@/utils/constants";
 import { useTheme } from "@/context/themecontext";
 import { IoCheckmark } from "react-icons/io5";
 export function Body() {
-    const { account, signAndSubmitTransaction } = useWallet();
+    const { account, signAndSubmitTransaction, network } = useWallet();
     const [coin, setCoin] = useState(punk_coin);
     const [loading, setLoading] = useState(false);
     const {theme} = useTheme();
@@ -17,6 +17,9 @@ export function Body() {
         event.preventDefault();
         try {
             if (!account?.address) return;
+            if(network?.name !== NETWORK) {
+                throw new Error(`Switch to ${NETWORK} network`)
+            }
             setLoading(true);
             if (coin === moon_coin) {
                 const response = await signAndSubmitTransaction({
@@ -70,6 +73,7 @@ export function Body() {
                             <h3 className="text-center">Get Your Test Tokens</h3>
                             <p className="text-center mt-3">Quickly receive test tokens by selecting your desired coin. Tokens will be automatically sent to your connected wallet without needing to enter any additional details.</p>
                             <form onSubmit={onSubmit} className="mt-4">
+                                <label htmlFor="name" className="form-label">Choose Coin:</label>
                                 <select className="form-select select-coin" name="coin" value={coin} onChange={(e) => setCoin(e.target.value)} required >
                                     <option value={punk_coin}>Aptos Punk</option>
                                     <option value={moon_coin}>Moon Coin</option>
