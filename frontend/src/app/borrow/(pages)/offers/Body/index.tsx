@@ -25,6 +25,8 @@ export function Body() {
 
     return (
         <React.Fragment>
+            <h4 className="loans-title">Offers Received</h4>
+
             <div className="overflow-auto">
                 <table className="table">
                     <thead>

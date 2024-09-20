@@ -17,7 +17,7 @@ export function Body() {
     const [loading, setLoading] = useState(true);
     const [activeLoans, setActiveLoans] = useState<Loan[]>([]);
     const [prevLoans, setPrevLoans] = useState<Loan[]>([])
-    const [repayOffer, setRepayOffer] = useState<Loan|null>(null)
+    const [repayOffer, setRepayOffer] = useState<Loan | null>(null)
     const getLoans = useCallback(async () => {
         if (!account?.address) return;
         setLoading(true)
@@ -38,7 +38,7 @@ export function Body() {
             setLoading(false)
         }
     }, [account?.address])
-   
+
 
     useEffect(() => {
         getLoans();
@@ -110,37 +110,26 @@ export function Body() {
             </div>
 
 
-            {/* Previous Loans */}
-            <h4 className="mt-5 loans-title">Previous Loans</h4>
-            <div className="overflow-auto">
-                <table className="table mt-3">
-                    <thead>
-                        <tr>
-                            <th>Asset</th>
-                            <th>Lender</th>
-                            <th>Interest</th>
-                            <th>APR</th>
-                            <th>Duration</th>
-                            <th>Loan Value</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            loading ? (
-                                Array.from({ length: 5 }).map((_, index) => (
-                                    <tr key={index}>
-                                        <td className="text-center"><span className="line"></span></td>
-                                        <td className="text-center"><span className="line"></span></td>
-                                        <td className="text-center"><span className="line"></span></td>
-                                        <td className="text-center"><span className="line"></span></td>
-                                        <td className="text-center"><span className="line"></span></td>
-                                        <td className="text-center"><span className="line"></span></td>
-                                        <td className="text-center"><span className="line"></span></td>
-                                    </tr>
-                                ))
-                            ) : (
-                                prevLoans.length > 0 ? (
+            {
+                prevLoans.length > 0
+                &&
+                <>
+                    <h4 className="mt-5 loans-title">Previous Loans</h4>
+                    <div className="overflow-auto">
+                        <table className="table mt-3">
+                            <thead>
+                                <tr>
+                                    <th>Asset</th>
+                                    <th>Lender</th>
+                                    <th>Interest</th>
+                                    <th>APR</th>
+                                    <th>Duration</th>
+                                    <th>Loan Value</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
                                     prevLoans.map((item) => (
                                         <tr key={`borrowed -${item._id}`}>
                                             <td>
@@ -159,17 +148,14 @@ export function Body() {
                                             <td>{item.status}</td>
                                         </tr>
                                     ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan={6} className="text-center"><p className="p-3">No Previous Loans</p></td>
-                                    </tr>
-                                )
-                            )
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <RepayModal offer={repayOffer}/>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </>
+            }
+
+            <RepayModal offer={repayOffer} />
         </>
     )
 }

@@ -14,7 +14,7 @@ import { MdOutlineToken } from "react-icons/md";
 import { MAX_LOCK_DURATION } from "@/utils/aptos";
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
-import { NETWORK } from "@/utils/env";
+import { NETWORK, SERVER_URL } from "@/utils/env";
 
 export const assetListingModalId = "assetListingModal";
 interface ListingModalProps {
@@ -40,10 +40,10 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
         }),
         onSubmit: async (data) => {
             if (!account?.address || !token) return;
-           
+
             setSubmitLoading(true)
             try {
-                if(network?.name !== NETWORK) {
+                if (network?.name !== NETWORK) {
                     throw new Error(`Switch to ${NETWORK} network`)
                 }
                 const formData = {
@@ -71,6 +71,17 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
                 document.getElementById("closeAssetListingModal")?.click();
                 toast.success("Item listed successfully")
                 await getUserListings()
+                // Extra discord notification
+                await fetch(`${SERVER_URL}/new-listing`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        token_name: token.token_name,
+                        token_icon: token.token_icon_uri
+                    })
+                });
             } catch (error: unknown) {
                 let errorMessage = 'An unexpected error occurred';
                 if (error instanceof Error) {
@@ -163,7 +174,7 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
                                                 <input type="submit" className="submit-btn" />
                                         }
                                     </form>
-                                    <p className="mt-4 notice"><strong>Notice:</strong> By selecting this NFT as collateral, you acknowledge that the NFT will be securely transferred and stored with us for the duration of the loan. You will not have access to this NFT until the loan is fully repaid.</p>
+                                    <p className="mt-4 notice"><strong>Notice:</strong>This action is entirely free of transaction gas fees and won't impact your NFT ownership! Plus, all details above are optional.</p>
                                 </div>
                             </div>
                         }

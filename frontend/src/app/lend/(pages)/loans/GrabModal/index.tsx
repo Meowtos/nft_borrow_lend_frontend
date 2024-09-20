@@ -83,6 +83,8 @@ export function GrabModal({ offer }: GrabModalProps) {
                                 }
                             </div>
                         }
+                        <p className="mt-4 notice"><strong>Notice:</strong>Borrower failed to make repayment; you can now claim their NFT and transfer it to your wallet.</p>
+
                     </div>
                 </div>
             </div>

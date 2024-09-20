@@ -180,11 +180,10 @@ export function UpdateListingModal({ token, getUserListings }: UpdateListingModa
                                                 ?
                                                 <ButtonLoading className="submit-btn" />
                                                 :
-                                                <input type="submit" className="submit-btn" />
+                                                <input type="submit" className="submit-btn" value={"Update Listing"} />
                                         }
-                                        <button className="btn connect-btn ms-3" type="button" onClick={onRemoveListing} disabled={isRemoving}>Remove Listing</button>
+                                        <button className="btn connect-btn ms-3 text-uppercase rounded-0" type="button" onClick={onRemoveListing} disabled={isRemoving}>Remove Listing</button>
                                     </form>
-                                    <p className="mt-4 notice"><strong>Notice:</strong> By selecting this NFT as collateral, you acknowledge that the NFT will be securely transferred and stored with us for the duration of the loan. You will not have access to this NFT until the loan is fully repaid.</p>
                                 </div>
                             </div>
                         }

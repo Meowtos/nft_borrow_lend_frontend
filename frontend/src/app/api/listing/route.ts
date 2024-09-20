@@ -1,6 +1,5 @@
 import { connectDB } from "@/lib/connect";
 import { Listing } from "@/models/listing";
-import { SERVER_URL } from "@/utils/env";
 import { NextRequest, NextResponse } from "next/server";
 connectDB();
 
@@ -51,16 +50,6 @@ export async function POST(req: NextRequest) {
             apr: request.apr
         });
         await newListing.save();
-        await fetch(`${SERVER_URL}/new-listing`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                token_name: request.token_name,
-                token_icon: request.token_icon
-            })
-        });
         return NextResponse.json({ message: "success" }, { status: 200 });
     } catch (error: unknown) {
         let errorMessage = 'An unexpected error occurred';

@@ -2,7 +2,6 @@ import { connectDB } from "@/lib/connect";
 import { Listing } from "@/models/listing";
 import { Loan } from "@/models/loan";
 import { User } from "@/models/user";
-import { SERVER_URL } from "@/utils/env";
 import { NextRequest, NextResponse } from "next/server";
 connectDB();
 
@@ -60,20 +59,8 @@ export async function POST(req: NextRequest) {
             hash: request.hash,
         });
         const user = await User.findOne({ address: existListing.address });
-        if(user && user.discordId) {
-            await fetch(`${SERVER_URL}/new-offer/${user.discordId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    token_name: request.token_name,
-                    token_icon: request.token_icon
-                })
-            });
-        }
         await newLoan.save();
-        return NextResponse.json({ message: "success" }, { status: 200 });
+        return NextResponse.json({ message: "success", data: user?.discordId }, { status: 200 });
     } catch (error: unknown) {
         let errorMessage = 'An unexpected error occurred';
         if (error instanceof Error) {

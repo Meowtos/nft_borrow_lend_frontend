@@ -7,7 +7,7 @@ import { IoClose, IoCheckmark } from 'react-icons/io5'
 
 import { aptos } from "@/utils/aptos";
 import { Loan } from "@/types/ApiInterface";
-import { ABI_ADDRESS, NETWORK } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK, SERVER_URL } from "@/utils/env";
 import { explorerUrl } from "@/utils/constants";
 
 export const repayModalId = "repayModal";
@@ -61,6 +61,19 @@ export function RepayModal({ offer }: RepayModalProps) {
                 action: <a href={`${explorerUrl}/txn/${response.hash}`} target="_blank">View Txn</a>,
                 icon: <IoCheckmark />
             })
+            const discordId = apiRes.data;
+            if(discordId) {
+                await fetch(`${SERVER_URL}/borrow/${discordId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        token_name: offer.forListing.token_name,
+                        token_icon: offer.forListing.token_icon
+                    })
+                });
+            }
         } catch (error) {
             let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
             if (error instanceof Error) {

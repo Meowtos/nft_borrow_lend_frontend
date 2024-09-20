@@ -80,7 +80,7 @@ export function WithdrawOfferModal({ offer }: WithdrawOfferModalProps) {
                                         ?
                                         <button className="action-btn">Loading...</button>
                                         :
-                                        <button className="action-btn" onClick={() => onWithdrawOffer(offer)}>Get NFT</button>
+                                        <button className="action-btn" onClick={() => onWithdrawOffer(offer)}>Withdraw offer</button>
                                 }
                             </div>
                         }

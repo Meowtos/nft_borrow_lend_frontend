@@ -9,7 +9,7 @@ import { Listing } from "@/types/ApiInterface"
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
 export function Body() {
     const { account } = useWallet();
-    const [view, setView] = useState("list");
+    const [view, setView] = useState("grid");
     const [tokensListing, setTokensListing] = useState<Listing[]>([])
 
     useEffect(() => {
