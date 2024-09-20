@@ -64,7 +64,7 @@ export function GrabModal({ offer }: GrabModalProps) {
             <div className="modal fade" id={grabModalId} tabIndex={-1} aria-labelledby={`${grabModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeGrabModal">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeGrabModal" className="border-0">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {

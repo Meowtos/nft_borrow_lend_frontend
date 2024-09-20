@@ -73,7 +73,7 @@ export function RepayModal({ offer }: RepayModalProps) {
             <div className="modal fade" id={repayModalId} tabIndex={-1} aria-labelledby={`${repayModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-md">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeRepayModal">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeRepayModal" className="border-0">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {

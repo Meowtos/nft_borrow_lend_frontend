@@ -64,7 +64,7 @@ export function WithdrawOfferModal({ offer }: WithdrawOfferModalProps) {
             <div className="modal fade" id={withdrawOfferModalId} tabIndex={-1} aria-labelledby={`${withdrawOfferModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeWithdrawModal">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeWithdrawModal" className="border-0">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {

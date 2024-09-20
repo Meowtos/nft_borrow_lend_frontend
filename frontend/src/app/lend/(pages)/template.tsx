@@ -2,9 +2,11 @@
 import React from "react"
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useTheme } from "@/context/themecontext";
 
 export default function LendLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
+    const {theme} = useTheme();
     const paths = [
         {
             name: "Give a loan",
@@ -31,7 +33,7 @@ export default function LendLayout({ children }: { children: React.ReactNode }) 
                     </div>
                 </div>
             </section>
-            <section className="borrow-tabs py-100">
+            <section className={`borrow-tabs py-100 ${theme == 'light' ? 'light-theme' : 'dark-theme'}`}>
                 <div className="container">
                     <div className="row">
                         <div className="col d-flex box-main">

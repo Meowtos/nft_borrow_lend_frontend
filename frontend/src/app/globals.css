@@ -97,11 +97,7 @@
   border-radius: 8px;
 }
 .light-theme .main, .light-theme .list-modal, .light-theme.borrow-tabs{
-  /* background: #ededed !important; */
-  background-image: url('/media/white-texture.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: #ededed !important;
 }
 .light-theme .tab-btns, .light-theme .tab-content{
   background:#e3e3e3 !important

@@ -148,7 +148,7 @@ export function LendModal({ token }: LendModalProps) {
             <div className="modal fade" id={lendModalId} tabIndex={-1} aria-labelledby={`${lendModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeLendModal">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeLendModal" className="border-0">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {

@@ -69,7 +69,7 @@ export default function BorrowLayout({ children }: { children: React.ReactNode }
                                     ))
                                 }
                             </div> */}
-                            <div className="nav flex-column nav-pills me-4 tab-btns" id="borrow-tabs" role="tablist" aria-orientation="vertical">
+                            <div className="nav flex-column nav-pills me-4 tab-btns rounded" id="borrow-tabs" role="tablist" aria-orientation="vertical">
                                 {
                                     paths.map((path, index) => (
                                         <Link href={`/borrow/${path.to}`} className={`tab-btn ${pathname === `/borrow/${path.to}` ? "active" : ""}`} key={`borrow-path-${index}`} scroll={false}>{path.name}</Link>

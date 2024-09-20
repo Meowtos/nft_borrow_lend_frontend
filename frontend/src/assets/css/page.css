@@ -521,7 +521,7 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
 /* ------------------------------------------------------------------------------------------------------------------------- */
 .inner-banner {
     padding: 220px 0px 130px 0px;
-    background-image: url('/media/inner-banner.jpg');
+    background-image: url('/media/dark-texture.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -537,7 +537,8 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     bottom: 0px;
     left: 0px;
     background: var(--darkmain);
-    opacity: 0.6;
+    /* opacity: 0.6; */
+    opacity: 0.2;
 }
 
 .inner-banner h2 {
@@ -553,6 +554,7 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     width: 20%;
     padding: 48px 16px;
     background: var(--bg-tabs);
+
 }
 
 .tab-btn {
