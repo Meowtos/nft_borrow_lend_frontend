@@ -34,7 +34,7 @@ To deploy the contract using object
 
 ```bash
  aptos init --netowrk devnet
-``
+```
 
 ```bash
  PUBLISHER_PROFILE=default
@@ -52,8 +52,9 @@ To deploy the contract using object
 To update the contract 
 
 ```bash
- CONTRACT_OBJECT_ADDR
+ CONTRACT_OBJECT_ADDR=""
 ```
+Run command
 
 ```bash
  aptos move upgrade-object-package \
