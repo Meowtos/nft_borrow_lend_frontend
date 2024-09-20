@@ -1,4 +1,4 @@
-module my_addrx::cars_collection {
+module my_addrx::collection {
     use std::signer::address_of;
     use aptos_token_objects::token;
     use aptos_token_objects::collection;
@@ -9,10 +9,10 @@ module my_addrx::cars_collection {
     struct ObjectController has key {
         app_extend_ref: object::ExtendRef,
     }
-    const COLLECTION_NAME: vector<u8> = b"Aptos Cars";
-    const COLLECTION_DESCRIPTION: vector<u8> = b"Flex your favorite cars by minting an NFT";
+    const COLLECTION_NAME: vector<u8> = b"Movers";
+    const COLLECTION_DESCRIPTION: vector<u8> = b"Keep minting!!";
     const COLLECTION_URI: vector<u8> = b"https://img.freepik.com/premium-photo/lego-car-with-blue-car-top-word-car-side_811279-104257.jpg";
-    const TOKEN_DESCRIPTION: vector<u8> = b"Top on speed";
+    const TOKEN_DESCRIPTION: vector<u8> = b"Let's move";
 
     fun init_module(creator: &signer) {
         let constructor_ref = object::create_named_object(creator, COLLECTION_NAME);

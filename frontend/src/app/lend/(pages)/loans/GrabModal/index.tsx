@@ -4,7 +4,7 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { toast } from "sonner";
 import { IoCheckmark, IoClose } from 'react-icons/io5'
 import { aptos } from "@/utils/aptos";
-import { ABI_ADDRESS } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { explorerUrl } from "@/utils/constants";
 import { Loan } from "@/types/ApiInterface";
 
@@ -13,11 +13,14 @@ interface GrabModalProps {
     offer: Loan | null
 }
 export function GrabModal({ offer }: GrabModalProps) {
-    const { account, signAndSubmitTransaction } = useWallet();
+    const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false)
     const onGrab = async (offer: Loan) => {
         if (!account?.address || !offer.borrow_obj) return;
         try {
+            if(network?.name !== NETWORK) {
+                throw new Error(`Switch to ${NETWORK} network`)
+            }
             const functionArguments = [
                 offer.borrow_obj
             ];

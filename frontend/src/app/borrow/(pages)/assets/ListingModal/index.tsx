@@ -14,6 +14,7 @@ import { MdOutlineToken } from "react-icons/md";
 import { MAX_LOCK_DURATION } from "@/utils/aptos";
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
+import { NETWORK } from "@/utils/env";
 
 export const assetListingModalId = "assetListingModal";
 interface ListingModalProps {
@@ -22,7 +23,7 @@ interface ListingModalProps {
 }
 export function ListingModal({ token, getUserListings }: ListingModalProps) {
     const { assets } = useApp();
-    const { account } = useWallet();
+    const { account, network } = useWallet();
     const [dropdownToken, setDropdownToken] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
     const { values, handleSubmit, handleChange, setFieldValue, errors, touched } = useFormik({
@@ -39,8 +40,12 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
         }),
         onSubmit: async (data) => {
             if (!account?.address || !token) return;
+           
             setSubmitLoading(true)
             try {
+                if(network?.name !== NETWORK) {
+                    throw new Error(`Switch to ${NETWORK} network`)
+                }
                 const formData = {
                     ...data,
                     address: account.address,

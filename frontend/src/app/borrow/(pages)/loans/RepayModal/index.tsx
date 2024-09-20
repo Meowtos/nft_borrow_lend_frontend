@@ -7,7 +7,7 @@ import { IoClose, IoCheckmark } from 'react-icons/io5'
 
 import { aptos } from "@/utils/aptos";
 import { Loan } from "@/types/ApiInterface";
-import { ABI_ADDRESS } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { explorerUrl } from "@/utils/constants";
 
 export const repayModalId = "repayModal";
@@ -16,11 +16,14 @@ interface RepayModalProps {
 }
 export function RepayModal({ offer }: RepayModalProps) {
     const { getAssetByType } = useApp();
-    const { account, signAndSubmitTransaction } = useWallet();
+    const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false)
     const onRepayLoan = async (offer: Loan) => {
         if (!account?.address || !offer.borrow_obj) return;
         try {
+            if(network?.name !== NETWORK) {
+                throw new Error(`Switch to ${NETWORK} network`)
+            }
             const coin = getAssetByType(offer.coin);
             if (!coin) return;
             const typeArguments = [];

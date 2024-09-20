@@ -11,7 +11,6 @@ import Image from "next/image";
 import React from "react";
 import { IoClose } from "react-icons/io5";
 import { RxExit } from "react-icons/rx";
-
 export const WalletButtons = () => {
   const { wallets, connected, disconnect, isLoading } = useWallet();
   if (connected) {

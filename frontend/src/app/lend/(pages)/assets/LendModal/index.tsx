@@ -11,7 +11,7 @@ import { APR_DENOMINATOR, aptos, getAssetBalance, MAX_LOCK_DURATION } from "@/ut
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
 import { IListingSchema } from "@/models/listing";
-import { ABI_ADDRESS } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { RiTwitterXLine } from "react-icons/ri";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
 import { explorerUrl } from "@/utils/constants";
@@ -22,7 +22,7 @@ interface LendModalProps {
 }
 export function LendModal({ token }: LendModalProps) {
     const { assets } = useApp();
-    const { account, signAndSubmitTransaction } = useWallet();
+    const { account, signAndSubmitTransaction, network } = useWallet();
     const [dropdownToken, setDropdownToken] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
     const [balance, setBalance] = useState(0)
@@ -47,6 +47,9 @@ export function LendModal({ token }: LendModalProps) {
                 if (!coin) {
                     throw new Error("No coin")
                 };
+                if(network?.name !== NETWORK) {
+                    throw new Error(`Switch to ${NETWORK} network`)
+                }
 
                 const decimals = coin.decimals;
                 const apr = Number(data.apr) * APR_DENOMINATOR;
@@ -72,9 +75,6 @@ export function LendModal({ token }: LendModalProps) {
                         functionArguments,
                     }
                 });
-                toast("Waiting for the transaction", {
-                    action: <a href="/somwhere">View Txn</a>
-                })
                 await aptos.waitForTransaction({
                     transactionHash: response.hash
                 })
@@ -105,9 +105,8 @@ export function LendModal({ token }: LendModalProps) {
                     throw new Error(apiRes.message)
                 }
                 document.getElementById("closeLendModal")?.click();
-                toast.success("Transaction succeed", {
-                    action: <a href={`${explorerUrl}/txn/${response.hash}`} target="_blank">View Txn</a>,
-                    icon: <IoCheckmark />
+                toast("Transaction succeed", {
+                    action: <a href={`${explorerUrl}/txn/${response.hash}`} target="_blank">View Txn</a>
                 })
 
             } catch (error: unknown) {

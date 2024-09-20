@@ -4,7 +4,7 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { toast } from "sonner";
 import { IoCheckmark, IoClose } from 'react-icons/io5'
 import { aptos } from "@/utils/aptos";
-import { ABI_ADDRESS } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { explorerUrl } from "@/utils/constants";
 import { Loan } from "@/types/ApiInterface";
 import { useApp } from "@/context/AppProvider";
@@ -14,13 +14,17 @@ interface WithdrawOfferModalProps {
 }
 export function WithdrawOfferModal({ offer }: WithdrawOfferModalProps) {
     const { getAssetByType } = useApp();
-    const { account, signAndSubmitTransaction } = useWallet();
+    const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false)
     const onWithdrawOffer = async (offer: Loan) => {
         if (!account) return;
         try {
+            if(network?.name !== NETWORK) {
+                throw new Error(`Switch to ${NETWORK} network`)
+            }
             const coin = getAssetByType(offer.coin);
             if (!coin) return;
+            
             setLoading(true)
             const typeArguments = [];
             if (coin.token_standard === "v1") {
