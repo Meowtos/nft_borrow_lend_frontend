@@ -87,7 +87,7 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
             <div className="modal fade" id={assetListingModalId} tabIndex={-1} aria-labelledby={`${assetListingModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal" className="border-0">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {

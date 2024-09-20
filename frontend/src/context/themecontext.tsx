@@ -17,7 +17,7 @@ interface ThemeProviderProps {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [theme, setTheme] = useState<string>('dark'); // Set dark theme as the initial default
+  const [theme, setTheme] = useState<string>('light'); // Set dark theme as the initial default
 
   useEffect(() => {
     // Load the saved theme from localStorage, or use system preference for dark mode

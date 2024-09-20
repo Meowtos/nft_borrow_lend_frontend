@@ -27,7 +27,7 @@ function Banner() {
     <section className="banner">
       <div className="container">
         <div className="row">
-          <div className="col-12 col-lg-8 banner-content">
+          <div className="col-12 col-sm-8 col-lg-8 banner-content p-0">
             <h1>Unlock NFT Value with Instant Crypto Loans</h1>
             <p className="pt-3">Turn your NFTs into collateral and access cryptocurrency loans with ease. No need to sell—just lend your NFTs and get the liquidity you need in minutes.</p>
             <Link href={"/borrow/assets"}>
@@ -37,7 +37,7 @@ function Banner() {
               <button className="banner-btn mt-4 ms-4">I want to lend</button>
             </Link>
           </div>
-          <div className="col-12 col-lg-4 moving">
+          <div className="col-12 col-sm-4 col-lg-4 moving p-0">
             <div className="scene">
               <div className="cube">
                 {

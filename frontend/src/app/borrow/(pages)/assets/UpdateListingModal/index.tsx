@@ -113,7 +113,7 @@ export function UpdateListingModal({ token, getUserListings }: UpdateListingModa
             <div className="modal fade" id={updateListingModalId} tabIndex={-1} aria-labelledby={`${updateListingModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeUpdateListingModal">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeUpdateListingModal" className="border-0">
                             <IoClose  className="text-light close-icon" />
                         </button>
                         {
@@ -182,7 +182,7 @@ export function UpdateListingModal({ token, getUserListings }: UpdateListingModa
                                                 :
                                                 <input type="submit" className="submit-btn" />
                                         }
-                                        <button className="btn btn-danger" type="button" onClick={onRemoveListing} disabled={isRemoving}>Remove Listing</button>
+                                        <button className="btn connect-btn ms-3" type="button" onClick={onRemoveListing} disabled={isRemoving}>Remove Listing</button>
                                     </form>
                                     <p className="mt-4 notice"><strong>Notice:</strong> By selecting this NFT as collateral, you acknowledge that the NFT will be securely transferred and stored with us for the duration of the loan. You will not have access to this NFT until the loan is fully repaid.</p>
                                 </div>

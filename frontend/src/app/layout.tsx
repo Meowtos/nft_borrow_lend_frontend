@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "./globals.css";
 import "@/assets/css/page.css";
 import "@/assets/css/resp.css";
+import "@/assets/css/animate.css";
 import dynamic from "next/dynamic";
 import { Toaster } from "sonner";
 import { Bootstrap } from "@/context/Bootstrap";

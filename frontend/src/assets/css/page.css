@@ -212,6 +212,10 @@ button,
 .header .dropdown-toggle::after {
     display: none !important;
 }
+ul.dropdown-menu li{background-color: var(--dark) !important;}
+
+
+
 /* ------------------------------------------------------- */
 /* Home */
 /* ------------------------------------------------------- */
@@ -462,7 +466,7 @@ button,
     color: inherit;
 }
 
-.footer p {
+.footer p, .footer h4 {
     color: var(--txt-light);
 }
 
@@ -542,6 +546,9 @@ button,
 }
 
 /* Borrowpage */
+.borrow-tabs {
+    background: #181818;
+}
 .tab-btns {
     width: 20%;
     padding: 48px 16px;

@@ -5,15 +5,17 @@ import Link from 'next/link'
 import { BsDiscord } from "react-icons/bs";
 import { BsTwitter } from "react-icons/bs";
 import { IoMail } from "react-icons/io5";
+import { useTheme } from '@/context/themecontext';
 
 const Footer = () => {
+    const {theme} = useTheme()
     return (
         <>
-            <section className="footer">
+            <section className={`footer ${theme == 'light' ? 'light-theme' : 'dark-theme'}`}>
                 <div className="container">
                     <div className="row popped rounded">
                         <div className="col-lg-3 pe-5">
-                            <Image src="/media/logo3.png" alt="logo" height={60} width={150} />
+                            <Image src="/media/logo2.png" alt="logo" height={60} width={75} />
                             <p className='pt-3'>Unlock liquidity without selling your NFTs. Use them as collateral for secure, decentralized loans and retain ownership of your digital assets.</p>
                         </div>
                         <div className="col-lg-3">
