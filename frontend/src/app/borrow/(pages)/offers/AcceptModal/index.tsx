@@ -91,7 +91,7 @@ export function AcceptModal({ offer }: AcceptModalProps) {
                 })
             });
         } catch (error: unknown) {
-            console.log({error})
+            console.log({ error })
             let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
             if (error instanceof Error) {
                 errorMessage = error.message;
@@ -128,9 +128,9 @@ export function AcceptModal({ offer }: AcceptModalProps) {
                                     {
                                         !loading
                                             ?
-                                            <button className="action-btn rounded" onClick={() => onBorrow(offer)}>Accept the offer</button>
+                                            <button className="connect-btn mt-3 rounded" onClick={() => onBorrow(offer)}>Accept the offer</button>
                                             :
-                                            <button className="action-btn rounded">Loading...</button>
+                                            <button className="connect-btn mt-3 rounded">Loading...</button>
                                     }
                                 </div>
                             </div>
