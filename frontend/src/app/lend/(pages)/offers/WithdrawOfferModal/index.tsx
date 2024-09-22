@@ -66,7 +66,7 @@ export function WithdrawOfferModal({ offer }: WithdrawOfferModalProps) {
     return (
         <React.Fragment>
             <div className="modal fade" id={withdrawOfferModalId} tabIndex={-1} aria-labelledby={`${withdrawOfferModalId}Label`} >
-                <div className="modal-dialog modal-dialog-centered modal-xl">
+                <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content list-modal">
                         <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeWithdrawModal" className="border-0">
                             <IoClose className="text-light close-icon" />
@@ -74,13 +74,13 @@ export function WithdrawOfferModal({ offer }: WithdrawOfferModalProps) {
                         {
                             offer &&
                             <div className="row">
-                                Are you sure you want to close the offer?
+                                <h3 className="text-center">Are you sure you want to close the offer?</h3>
                                 {
                                     loading
                                         ?
-                                        <button className="action-btn">Loading...</button>
+                                        <button className="connect-btn mt-3 rounded">Loading...</button>
                                         :
-                                        <button className="action-btn" onClick={() => onWithdrawOffer(offer)}>Withdraw offer</button>
+                                        <button className="connect-btn mt-3 rounded" onClick={() => onWithdrawOffer(offer)}>Withdraw offer</button>
                                 }
                             </div>
                         }

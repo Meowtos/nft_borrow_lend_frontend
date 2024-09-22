@@ -27,7 +27,7 @@ export function DiscordNotification() {
             }
         } catch (error) {
             console.error(error)
-        } finally{
+        } finally {
             setLoading(false)
         }
     }, [account?.address]);
@@ -55,7 +55,7 @@ export function DiscordNotification() {
                     body: data
                 }
             );
-            if(!res.ok){
+            if (!res.ok) {
                 throw new Error("Sorry an error occured, we are on the issue")
             }
             const response = await res.json();
@@ -68,7 +68,7 @@ export function DiscordNotification() {
                     }
                 }
             );
-            if(!userRes.ok){
+            if (!userRes.ok) {
                 throw new Error("Sorry an error occured, we are on the issue")
             }
             const userResponse = await userRes.json();
@@ -84,7 +84,7 @@ export function DiscordNotification() {
                 })
             });
             const bindResponse = await bindRes.json();
-            if(!bindRes.ok){
+            if (!bindRes.ok) {
                 throw new Error(bindResponse.message)
             }
             router.push("/")
@@ -93,20 +93,20 @@ export function DiscordNotification() {
             let errorMessage = 'An unexpected error occurred';
             if (error instanceof Error) {
                 errorMessage = error.message;
-            } 
+            }
             toast.error(errorMessage);
         } finally {
             setIsVerifying(false)
         }
     }, [account?.address, code, router])
-    const updateNotification = async() => {
-        if(!account?.address || !user || !user.discordId) return;
+    const updateNotification = async () => {
+        if (!account?.address || !user || !user.discordId) return;
         try {
             const res = await fetch(`/api/discord?address=${account?.address}`, {
                 method: "PUT"
             });
             const response = await res.json();
-            if(!res.ok){
+            if (!res.ok) {
                 throw new Error(response.message)
             }
             await getUser()
@@ -114,7 +114,7 @@ export function DiscordNotification() {
             let errorMessage = 'An unexpected error occurred';
             if (error instanceof Error) {
                 errorMessage = error.message;
-            } 
+            }
             toast.error(errorMessage);
         }
     }
@@ -131,18 +131,18 @@ export function DiscordNotification() {
                 <FaDiscord />
             </button>
             {/* <FaDiscord type="button" disabled={loading || isVerifying} className="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"/> */}
-            <ul className="dropdown-menu p-0">
-                <li className="border-0">
+            <ul className="dropdown-menu p-0 bg-dark">
+                <li className="border-0 p-2 rounded">
                     {
-                        (!user || !user.discordId) && <Link href={DISCORD_OAUTH_URI} className="btn connect-btn m-0 w-100 border-0">Subscribe to notification</Link>
+                        (!user || !user.discordId) && <Link href={DISCORD_OAUTH_URI} className="btn connect-btn m-0 w-100 border-0">Enable Notification</Link>
                     }
                     {
                         user && user.discordId
                         &&
                         <div>
                             <p>{user.discordUsername}</p>
-                            <p>Notifcation:
-                                <button className="btn btn-success" onClick={()=>updateNotification()}>
+                            <p><span>Notifcation: </span>
+                                <button className="btn ms-3 action-btn p-2" onClick={() => updateNotification()}>
                                     {user.isNotification ? "On" : "Off"}
                                 </button>
                             </p>
