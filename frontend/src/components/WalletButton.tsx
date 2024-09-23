@@ -13,35 +13,40 @@ import React from "react";
 import { IoClose } from "react-icons/io5";
 import { RxExit } from "react-icons/rx";
 import { BsCopy } from "react-icons/bs";
-import { LiaExchangeAltSolid } from "react-icons/lia";
-import { MdOutlineAccountBalanceWallet } from "react-icons/md";
 import { RiArrowDropDownLine } from "react-icons/ri";
-
-
-
-
+import { useCopyToClipboard } from "usehooks-ts"
 // Aptos keyless
 import { GOOGLE_CLIENT_ID } from "../core/constants";
 import useEphemeralKeyPair from "../core/useEphemeralKeyPair";
+import { shortenAddress } from "@/utils/shortenAddress";
+import { toast } from "sonner";
+
 export const WalletButtons = () => {
-  const { wallets, connected, disconnect, isLoading } = useWallet();
-  if (connected) {
+  const { wallets, connected, disconnect, isLoading, account } = useWallet();
+  const [copiedText, copy] = useCopyToClipboard()
+  const handleCopy = (text: string) => () => {
+    copy(text)
+      .then(() => {
+        toast.success("Copied")
+      })
+      .catch(error => {
+        toast.success("Failed to copy")
+        console.error('Failed to copy!', error)
+      })
+    console.log('Copied!', { copiedText })
+  }
+  if (connected && account?.address) {
     return (
-      <>
-        <div className="connected d-flex align-center">
-          {/* <button onClick={disconnect} className="connect-btn rounded disconnect"><RxExit /> Disconnect</button> */}
-          <button className="connect-btn rounded disconnect dropdown-toggle position-relative" data-bs-toggle="dropdown" aria-expanded="false"  data-bs-auto-close="outside">0x34...456 <RiArrowDropDownLine className="arrow-icon"/></button>
-          <ul className="dropdown-menu p-0 rounded wallet-dd">
-            <div className="px-3 text-center profile">
-              {/* <h5>0x34...456</h5> */}
-              <h6><MdOutlineAccountBalanceWallet className="mb-1 me-1"/> 1.4APT</h6>
-            </div>
-            <li className="px-3 py-3"><LiaExchangeAltSolid className="me-2"/>Change Wallet</li>
-            <li className="px-3 py-3"><BsCopy className="me-2"/>Copy Address</li>
-            <li className="px-3 py-3"><RxExit className="me-2"/> Disconnect</li>
-          </ul>
-        </div>
-      </>
+      <div className="connected d-flex align-center">
+        <button className="connect-btn rounded disconnect dropdown-toggle position-relative" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">{shortenAddress(account.address)}<RiArrowDropDownLine className="arrow-icon" /></button>
+        <ul className="dropdown-menu p-0 rounded wallet-dd">
+          {/* <div className="px-3 text-center profile">
+            <h6><MdOutlineAccountBalanceWallet className="mb-1 me-1" />{aptosBal} APT</h6>
+          </div> */}
+          <li className="px-3 py-3" onClick={handleCopy(account.address)}><BsCopy className="me-2" />Copy Address</li>
+          <li className="px-3 py-3" onClick={disconnect}><RxExit className="me-2" /> Disconnect</li>
+        </ul>
+      </div>
     )
   }
 

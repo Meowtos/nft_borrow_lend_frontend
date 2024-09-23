@@ -15,8 +15,10 @@ export function Body() {
     const {theme} = useTheme();
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (!account?.address) {
+            return toast.error("Connect your wallet")
+        };
         try {
-            if (!account?.address) return;
             if(network?.name !== NETWORK) {
                 throw new Error(`Switch to ${NETWORK} network`)
             }
