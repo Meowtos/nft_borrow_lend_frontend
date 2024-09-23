@@ -137,28 +137,27 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
     const [chosenToken, setChosenToken] = useState<Token | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [updateListing, setUpdateListing] = useState<Listing | null>(null)
-    const getOwnedTokensByCollection = useCallback(() => {
+    const getOwnedTokensByCollection = useCallback(async() => {
         if (!account?.address || !collectionId) {
             setIsLoading(false)
             return setTokens([])
         }
         setIsLoading(true)
         try {
-            getUserOwnedTokensByCollection(account.address, collectionId).then((res) => {
-                const ownedTokens: Token[] = [];
-                for (const token of res) {
-                    ownedTokens.push({
-                        token_data_id: token.token_data_id,
-                        token_icon_uri: token.current_token_data?.token_uri ?? null,
-                        token_name: token.current_token_data?.token_name ?? "Unknown Token",
-                        token_description: token.current_token_data?.description ?? "",
-                        collection_id: token.current_token_data?.collection_id ?? "",
-                        token_standard: token.current_token_data?.token_standard ?? null,
-                        collection_name: token.current_token_data?.current_collection?.collection_name ?? "Unknown Collection"
-                    })
-                }
-                setTokens(ownedTokens)
-            })
+            const res = await getUserOwnedTokensByCollection(account.address, collectionId);
+            const ownedTokens: Token[] = [];
+            for (const token of res) {
+                ownedTokens.push({
+                    token_data_id: token.token_data_id,
+                    token_icon_uri: token.current_token_data?.token_uri ?? null,
+                    token_name: token.current_token_data?.token_name ?? "Unknown Token",
+                    token_description: token.current_token_data?.description ?? "",
+                    collection_id: token.current_token_data?.collection_id ?? "",
+                    token_standard: token.current_token_data?.token_standard ?? null,
+                    collection_name: token.current_token_data?.current_collection?.collection_name ?? "Unknown Collection"
+                })
+            }
+            setTokens(ownedTokens)
         } catch (error) {
             console.error(error)
         } finally {
