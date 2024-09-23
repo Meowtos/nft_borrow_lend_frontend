@@ -444,7 +444,11 @@
     top: -13px;
   }
   .submit-btn {
-    width: 50%;
+    width: fit-content !important;
+  }
+  .update-btn{
+    margin-left:0px !important;
+    margin-top: 24px;
   }
 
   /* faucet */

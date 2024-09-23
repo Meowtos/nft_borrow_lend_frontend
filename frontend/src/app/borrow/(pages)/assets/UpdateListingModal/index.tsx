@@ -113,7 +113,7 @@ export function UpdateListingModal({ token, getUserListings }: UpdateListingModa
             <div className="modal fade" id={updateListingModalId} tabIndex={-1} aria-labelledby={`${updateListingModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeUpdateListingModal" className="border-0">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeUpdateListingModal" className="border-0 modal-close">
                             <IoClose  className="text-light close-icon" />
                         </button>
                         {
@@ -182,7 +182,7 @@ export function UpdateListingModal({ token, getUserListings }: UpdateListingModa
                                                 :
                                                 <input type="submit" className="submit-btn" value={"Update Listing"} />
                                         }
-                                        <button className="btn connect-btn ms-3 text-uppercase rounded-0" type="button" onClick={onRemoveListing} disabled={isRemoving}>Remove Listing</button>
+                                        <button className="btn connect-btn ms-3 text-uppercase rounded-0 update-btn" type="button" onClick={onRemoveListing} disabled={isRemoving}>Remove Listing</button>
                                     </form>
                                 </div>
                             </div>

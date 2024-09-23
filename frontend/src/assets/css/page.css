@@ -158,6 +158,10 @@ button,
 .close-icon:hover {
     color: var(--primary-3) !important;
 }
+.modal-close{
+    background: unset;
+    text-align: end;
+}
 
 
 /* ------------------------------------------------------- */

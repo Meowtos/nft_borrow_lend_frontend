@@ -103,7 +103,7 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
             <div className="modal fade" id={assetListingModalId} tabIndex={-1} aria-labelledby={`${assetListingModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal" className="border-0">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal" className="border-0 modal-close">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {
@@ -171,7 +171,7 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
                                                 ?
                                                 <ButtonLoading className="submit-btn" />
                                                 :
-                                                <input type="submit" className="submit-btn" />
+                                                <input type="submit" className="submit-btn rounded" />
                                         }
                                     </form>
                                     <p className="mt-4 notice"><strong>Notice:</strong>This action is entirely free of transaction gas fees and won&apos;t impact your NFT ownership! Plus, all details above are optional.</p>
