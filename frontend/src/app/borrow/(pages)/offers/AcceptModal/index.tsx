@@ -106,7 +106,7 @@ export function AcceptModal({ offer }: AcceptModalProps) {
             <div className="modal fade" id={acceptOfferModalId} tabIndex={-1} aria-labelledby={`${acceptOfferModalId}Label`} aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" id="closeAcceptOfferModal" data-bs-dismiss="modal" aria-label="Close" className="border-0">
+                        <button type="button" id="closeAcceptOfferModal" data-bs-dismiss="modal" aria-label="Close" className="border-0 modal-close">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {

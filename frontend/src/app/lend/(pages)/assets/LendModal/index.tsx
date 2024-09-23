@@ -173,17 +173,13 @@ export function LendModal({ token }: LendModalProps) {
             <div className="modal fade" id={lendModalId} tabIndex={-1} aria-labelledby={`${lendModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeLendModal" className="border-0">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeLendModal" className="border-0 modal-close">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {
                             token &&
                             <div className="row">
                                 <div className="col-lg-3 p-0">
-                                    <div className="asset-socials text-start">
-                                        <RiTwitterXLine className="token-sc-icon me-2" />
-                                        <IoMdGlobe className="token-sc-icon" />
-                                    </div>
                                     <div className="nft">
                                         <Image src={token.token_icon ?? ""} className="asset-img" alt={token.token_name} width={150} height={200} />
                                     </div>

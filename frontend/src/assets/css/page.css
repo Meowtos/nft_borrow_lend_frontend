@@ -591,7 +591,7 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
 }
 
 .borrow-tabs .tab-content {
-    width: 100%;
+    width: 80%;
     padding: 48px 24px;
     background: var(--bg-tabs);
 }
@@ -769,7 +769,6 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     text-align: center;
     padding: 10px;
     border-radius: 8px;
-    margin-top: 8px;
     background: var(--bglight-10);
 }
 

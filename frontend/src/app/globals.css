@@ -168,6 +168,9 @@ h2 {font-size: 48px;font-weight: 600;line-height: 48px;}
   background: var(--sec-2);
   margin-top: 8px;
 }
+.mint-link{
+  color: var(--sec-2);
+}
 
 
 

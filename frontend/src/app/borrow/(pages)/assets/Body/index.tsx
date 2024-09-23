@@ -5,6 +5,7 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { getUserOwnedCollections, getUserOwnedTokensByCollection } from "@/utils/aptos";
 import { Collection } from "@/types/Collection";
 import Image from "next/image";
+import Link from 'next/link';
 import { Token } from "@/types/Token";
 import { IoIosArrowDown } from "react-icons/io";
 import { BsList } from "react-icons/bs";
@@ -203,7 +204,7 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings }: 
                             ))
                         ) : (
                             <>
-                                <p className="p-3 w-100 text-center">No Assets Found</p>
+                                <p className="p-3 w-100 text-center">No Assets Found. <Link href="/nft-mint" className="mint-link">Add New</Link></p>
                             </>
                         )
                 }
@@ -218,7 +219,7 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings }: 
                             <th>Token Description</th>
                             <th className="text-center">Token Standard</th>
                             <th>Collection</th>
-                            <th>Action</th>
+                            <th className="text-end">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -230,7 +231,7 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings }: 
                                         <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
-                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-end"><span className="line"></span></td>
                                     </tr>
                                 ))
                             ) :
@@ -239,12 +240,13 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings }: 
                                         <tr key={index}>
                                             <td>
                                                 <Image src={`${token.token_icon_uri}`} className="rounded me-2" alt="nft" width={32} height={32} />
-                                                <span className="fs-5">{token.token_name} </span> <span className="d-none ts-mobile"> ({token.token_standard})</span>
+                                                <span className="fs-5">{token.token_name} </span>
+                                                 {/* <span className="d-none ts-mobile"> ({token.token_standard})</span> */}
                                             </td>
                                             <td>{token.token_description}</td>
                                             <td className="text-center">{token.token_standard}</td>
                                             <td>{token.collection_name}</td>
-                                            <td>
+                                            <td className="text-end">
                                                 {
                                                     userListings.some(item => item.token_data_id === token.token_data_id)
                                                         ?
@@ -257,9 +259,10 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings }: 
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={6} className="text-center"><p className="p-3">No Assets Found</p></td>
+                                        <td colSpan={6} className="text-center"><p className="p-3">No Assets Found. <Link href="/nft-mint" className="mint-link">Add New</Link></p></td>
                                     </tr>
                                 )
+                                
                         }
                     </tbody>
                 </table>

@@ -48,13 +48,13 @@ export function Body() {
 
     }
     return (
-        <section className={`inner-banner ${theme == 'light' ? 'light-theme' : 'dark-theme'}`}>
+        <section className={`inner-banner pg-forms ${theme == 'light' ? 'light-theme' : 'dark-theme'}`}>
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-12 col-lg-6 col-md-8">
                         <div className="card mint faucet">
                             <h3 className="text-center mb-4">Mint Testnet NFT</h3>
-                            <p className="text-center mt-3">Mint your NFT easily by connecting your wallet and selecting your preferred options. Your NFT will be created and sent directly to your wallet without any extra steps!</p>
+                            <p className="text-center mb-3">Mint your NFT easily by connecting your wallet and selecting your preferred options. Your NFT will be created and sent directly to your wallet without any extra steps!</p>
                             <form onSubmit={onSubmit} className="mint-form">
                                 {/* <div className="mb-3">
                                     <label htmlFor="token" className="form-label">Select Collection:</label>

@@ -118,8 +118,8 @@ export function UpdateListingModal({ token, getUserListings }: UpdateListingModa
                         </button>
                         {
                             token &&
-                            <div className="row">
-                                <div className="col-lg-3 p-0">
+                            <div className="row m-0">
+                                <div className="col-12 col-lg-3 p-0">
                                     <div className="nft">
                                         <Image src={token.token_icon ?? ""} className="asset-img" alt={token.token_name} width={150} height={200} />
                                     </div>
@@ -130,7 +130,7 @@ export function UpdateListingModal({ token, getUserListings }: UpdateListingModa
                                     </div>
 
                                 </div>
-                                <div className="col-lg-9 p-0 ps-5">
+                                <div className=" col-12 col-lg-9 p-0 ps-5">
                                     <h3>Asset Listing</h3>
                                     <form className="asset-form pt-4" onSubmit={handleSubmit} autoComplete="off">
                                         <div className="mb-3">
