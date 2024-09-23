@@ -51,11 +51,11 @@ const Header = () => {
                                         </div>
                                     ) : (' ')
                                 }
-                                <DiscordNotification />
+                                {/* <DiscordNotification /> */}
                                 <ThemeToggle />
                                
                             </div>
-                            
+                            <DiscordNotification />
                             <WalletButtons />
 
                             {/* Mobile Menu */}

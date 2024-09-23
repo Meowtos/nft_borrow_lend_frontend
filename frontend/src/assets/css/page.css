@@ -269,14 +269,14 @@ ul.dropdown-menu li {
 }
 
 .disconnect{
-    padding-right: 32px;
+    padding-right: 38px;
 }
 .arrow-icon{
     font-size: 24px;
     font-size: 24px;
     line-height: unset;
     position: absolute;
-    right: 0px;
+    right: 8px;
     bottom: 13px;
 }
 
@@ -340,8 +340,10 @@ ul.dropdown-menu li {
     padding: 100px 80px;
     margin-top: 32px;
     gap: 32px;
-    /* padding-top: 100px; */
-    /* gap: 20px; */
+    /* background-image: url('/media/dark-texture.jpg') !important;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat; */
 }
 
 .work-row div:nth-child(1),
@@ -451,6 +453,10 @@ ul.dropdown-menu li {
     padding: 16px 22px;
     margin-left: 24px;
 }
+.wcs-card img{
+    height: unset;
+    width: unset;
+}
 
 .wcs-card .sr-no h3 {
     transform: skewX(32deg);
@@ -464,6 +470,13 @@ ul.dropdown-menu li {
 
 .wcs-card p {
     width: 90%;
+}
+
+.card-outline .vec-active, .card-outline.active .vec-def{
+   display: none;
+}
+.card-outline.active .vec-active{
+   display: inline-block;
 }
 
 .card-outline:hover {

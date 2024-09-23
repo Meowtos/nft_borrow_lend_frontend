@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { League_Spartan } from "next/font/google";
+// import { Courgette } from "next/font/google";
+// import { Playpen_Sans} from "next/font/google";
+// import { Vesper_Libre} from "next/font/google";
+
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./globals.css";
 import "@/assets/css/page.css";

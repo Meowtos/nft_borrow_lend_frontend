@@ -51,7 +51,7 @@ export const WalletButtons = () => {
   }
 
   if (isLoading || !wallets || !wallets[0]) {
-    return <button type="button" className="connect-btn">Connecting...</button>;
+    return <button type="button" className="connect-btn rounded">Connecting...</button>;
   }
 
   return <WalletList wallets={wallets as Wallet[]} />;
