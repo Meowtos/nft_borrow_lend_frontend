@@ -2,19 +2,24 @@
 import Image from 'next/image'
 import { chooseUs } from '@/utils/constants'
 import { useTheme } from '@/context/themecontext'
+import { useEffect } from 'react';
 export function WhyChooseUs() {
     const { theme } = useTheme();
-    const cards = document.querySelectorAll('.card-outline');
+    useEffect(() => {
+        if (typeof document !== undefined) {
+            const cards = document.querySelectorAll('.card-outline');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function () {
+                    card.classList.add('active');
+                });
 
-    cards.forEach(card => {
-      card.addEventListener('mouseenter', function() {
-        card.classList.add('active');
-      });
-    
-      card.addEventListener('mouseleave', function() {
-        card.classList.remove('active');
-      });
-    });
+                card.addEventListener('mouseleave', function () {
+                    card.classList.remove('active');
+                });
+            });
+        }
+    }, [])
+
     return (
         <>
             <section className={`why-choose-us py-100 ${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>

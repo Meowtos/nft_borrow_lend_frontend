@@ -76,8 +76,6 @@ export function Body() {
         setDropdown(!dropdown); // Close the dropdown after selection
     };
 
-    // if (isLoading || userListingLoading) return null;
-    // if (userOwnedCollections.length === 0) return "No collections found"
     return (
         <React.Fragment>
             <div className="content-header d-flex">
@@ -139,7 +137,6 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
     const [updateListing, setUpdateListing] = useState<Listing | null>(null)
     const getOwnedTokensByCollection = useCallback(async() => {
         if (!account?.address || !collectionId) {
-            setIsLoading(false)
             return setTokens([])
         }
         setIsLoading(true)
