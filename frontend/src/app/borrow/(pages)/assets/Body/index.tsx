@@ -75,6 +75,8 @@ export function Body() {
         setChosenCollection(collection)
         setDropdown(!dropdown); // Close the dropdown after selection
     };
+    console.log({isLoading, userListingLoading})
+
     // if (isLoading || userListingLoading) return null;
     // if (userOwnedCollections.length === 0) return "No collections found"
     return (

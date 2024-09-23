@@ -5,14 +5,13 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { toast } from "sonner";
 import { useFormik } from "formik";
 import Image from 'next/image'
-import { IoIosArrowDown, IoMdGlobe } from 'react-icons/io'
+import { IoIosArrowDown } from 'react-icons/io'
 import { IoCheckmark, IoClose } from 'react-icons/io5'
 import { APR_DENOMINATOR, aptos, getAssetBalance, MAX_LOCK_DURATION } from "@/utils/aptos";
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
 import { IListingSchema } from "@/models/listing";
 import { ABI_ADDRESS, NETWORK } from "@/utils/env";
-import { RiTwitterXLine } from "react-icons/ri";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
 import { explorerUrl } from "@/utils/constants";
 // import { interestAmount, } from "@/utils/math";

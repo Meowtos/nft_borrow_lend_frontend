@@ -99,7 +99,7 @@ export function DiscordNotification() {
             router.push("/")
             setIsVerifying(false)
         }
-    }, [account?.address, code, router])
+    }, [account?.address, code, router, getUser])
     const updateNotification = async () => {
         if (!account?.address || !user || !user.discordId) return;
         try {
