@@ -87,8 +87,8 @@ export function DiscordNotification() {
             if (!bindRes.ok) {
                 throw new Error(bindResponse.message)
             }
-            router.push("/")
             toast.success("Notifications started")
+            await getUser()
         } catch (error: unknown) {
             let errorMessage = 'An unexpected error occurred';
             if (error instanceof Error) {
@@ -96,6 +96,7 @@ export function DiscordNotification() {
             }
             toast.error(errorMessage);
         } finally {
+            router.push("/")
             setIsVerifying(false)
         }
     }, [account?.address, code, router])

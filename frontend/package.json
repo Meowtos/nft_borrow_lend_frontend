@@ -15,6 +15,7 @@
     "@tsparticles/react": "^3.0.0",
     "bootstrap": "^5.3.3",
     "dayjs": "^1.11.13",
+    "discord.js": "^14.16.2",
     "formik": "^2.4.6",
     "mongoose": "^8.6.1",
     "next": "^14.2.12",

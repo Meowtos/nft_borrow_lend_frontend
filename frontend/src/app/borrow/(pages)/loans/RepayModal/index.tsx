@@ -7,7 +7,7 @@ import { IoClose, IoCheckmark } from 'react-icons/io5'
 
 import { aptos } from "@/utils/aptos";
 import { Loan } from "@/types/ApiInterface";
-import { ABI_ADDRESS, NETWORK, SERVER_URL } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { explorerUrl } from "@/utils/constants";
 
 export const repayModalId = "repayModal";
@@ -63,14 +63,19 @@ export function RepayModal({ offer }: RepayModalProps) {
             })
             const discordId = apiRes.data;
             if(discordId) {
-                await fetch(`${SERVER_URL}/borrow/${discordId}`, {
+                await fetch(`api/discord-bot/send-user-embed`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        token_name: offer.forListing.token_name,
-                        token_icon: offer.forListing.token_icon
+                        recepient_id: discordId,
+                        title: "Loan Repayed",
+                        description: `Your loan for ${offer.forListing.token_name} has been repayed.`,
+                        image: offer.forListing.token_icon,
+                        url: `${window.location.origin}/lend/loans`,
+                        timestamp: Date.now().toString(),
+                        txnUrl: `${explorerUrl}/txn/${response.hash}`
                     })
                 });
             }

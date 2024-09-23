@@ -11,7 +11,7 @@ import { APR_DENOMINATOR, aptos, getAssetBalance, MAX_LOCK_DURATION } from "@/ut
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
 import { IListingSchema } from "@/models/listing";
-import { ABI_ADDRESS, NETWORK, SERVER_URL } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { RiTwitterXLine } from "react-icons/ri";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
 import { explorerUrl } from "@/utils/constants";
@@ -112,14 +112,19 @@ export function LendModal({ token }: LendModalProps) {
                 })
                 const discordId = apiRes.data;
                 if (discordId) {
-                    await fetch(`${SERVER_URL}/new-offer/${discordId}`, {
+                    await fetch(`api/discord-bot/send-user-embed`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                            token_name: token.token_name,
-                            token_icon: token.token_icon
+                            recepient_id: discordId,
+                            title: "New offer received",
+                            description: `You have received an offer on ${token.token_name}`,
+                            image: token.token_icon,
+                            url: `${window.location.origin}/borrow/offers`,
+                            timestamp: Date.now().toString(),
+                            txnUrl: `${explorerUrl}/txn/${response.hash}`
                         })
                     });
                 }
