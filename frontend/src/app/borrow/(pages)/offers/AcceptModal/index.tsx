@@ -6,7 +6,7 @@ import { IoCheckmark, IoClose } from "react-icons/io5";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useApp } from "@/context/AppProvider";
-import { ABI_ADDRESS, NETWORK, SERVER_URL } from "@/utils/env";
+import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { aptos } from "@/utils/aptos";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -80,16 +80,23 @@ export function AcceptModal({ offer }: AcceptModalProps) {
                 icon: <IoCheckmark />
             })
             const discordId = apiRes.data;
-            await fetch(`${SERVER_URL}/borrow/${discordId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    token_name: offer.forListing.token_name,
-                    token_icon: offer.forListing.token_icon
-                })
-            });
+            if(discordId){
+                await fetch(`api/discord-bot/send-user-embed`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        recepient_id: discordId,
+                        title: "Offer Accepted",
+                        description: `Your offer for ${offer.forListing.token_name} has been accepted. Loan period has started.`,
+                        image: offer.forListing.token_icon,
+                        url: `${window.location.origin}/lend/loans`,
+                        timestamp: Date.now().toString(),
+                        txnUrl: `${explorerUrl}/txn/${response.hash}`
+                    })
+                });
+            }
         } catch (error: unknown) {
             console.log({ error })
             let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
@@ -106,7 +113,7 @@ export function AcceptModal({ offer }: AcceptModalProps) {
             <div className="modal fade" id={acceptOfferModalId} tabIndex={-1} aria-labelledby={`${acceptOfferModalId}Label`} aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" id="closeAcceptOfferModal" data-bs-dismiss="modal" aria-label="Close" className="border-0">
+                        <button type="button" id="closeAcceptOfferModal" data-bs-dismiss="modal" aria-label="Close" className="border-0 modal-close">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {

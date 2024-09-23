@@ -5,14 +5,13 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { toast } from "sonner";
 import { useFormik } from "formik";
 import Image from 'next/image'
-import { IoIosArrowDown, IoMdGlobe } from 'react-icons/io'
+import { IoIosArrowDown } from 'react-icons/io'
 import { IoCheckmark, IoClose } from 'react-icons/io5'
 import { APR_DENOMINATOR, aptos, getAssetBalance, MAX_LOCK_DURATION } from "@/utils/aptos";
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
 import { IListingSchema } from "@/models/listing";
-import { ABI_ADDRESS, NETWORK, SERVER_URL } from "@/utils/env";
-import { RiTwitterXLine } from "react-icons/ri";
+import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
 import { explorerUrl } from "@/utils/constants";
 // import { interestAmount, } from "@/utils/math";
@@ -112,14 +111,19 @@ export function LendModal({ token }: LendModalProps) {
                 })
                 const discordId = apiRes.data;
                 if (discordId) {
-                    await fetch(`${SERVER_URL}/new-offer/${discordId}`, {
+                    await fetch(`api/discord-bot/send-user-embed`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                            token_name: token.token_name,
-                            token_icon: token.token_icon
+                            recepient_id: discordId,
+                            title: "New offer received",
+                            description: `You have received an offer on ${token.token_name}`,
+                            image: token.token_icon,
+                            url: `${window.location.origin}/borrow/offers`,
+                            timestamp: Date.now().toString(),
+                            txnUrl: `${explorerUrl}/txn/${response.hash}`
                         })
                     });
                 }
@@ -173,17 +177,13 @@ export function LendModal({ token }: LendModalProps) {
             <div className="modal fade" id={lendModalId} tabIndex={-1} aria-labelledby={`${lendModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeLendModal" className="border-0">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeLendModal" className="border-0 modal-close">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {
                             token &&
                             <div className="row">
                                 <div className="col-lg-3 p-0">
-                                    <div className="asset-socials text-start">
-                                        <RiTwitterXLine className="token-sc-icon me-2" />
-                                        <IoMdGlobe className="token-sc-icon" />
-                                    </div>
                                     <div className="nft">
                                         <Image src={token.token_icon ?? ""} className="asset-img" alt={token.token_name} width={150} height={200} />
                                     </div>

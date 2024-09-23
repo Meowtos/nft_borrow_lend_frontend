@@ -4,6 +4,17 @@ import { chooseUs } from '@/utils/constants'
 import { useTheme } from '@/context/themecontext'
 export function WhyChooseUs() {
     const { theme } = useTheme();
+    const cards = document.querySelectorAll('.card-outline');
+
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        card.classList.add('active');
+      });
+    
+      card.addEventListener('mouseleave', function() {
+        card.classList.remove('active');
+      });
+    });
     return (
         <>
             <section className={`why-choose-us py-100 ${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
@@ -23,7 +34,8 @@ export function WhyChooseUs() {
                                                     <h4 className="pt-4">{v.title}</h4>
                                                 </div>
                                                 <div className="col-4 text-end p-0">
-                                                    <Image src={v.imgurl} alt="vec-image" height={100} width={100} />
+                                                    <Image src={v.imgurl} alt="vec-image" className='vec-def' height={100} width={90} />
+                                                    <Image src={v.imgurl_active} alt="vec-image" className='vec-active' height={100} width={90} />
                                                 </div>
                                             </div>
                                             <p className="pt-4">{v.description}</p>

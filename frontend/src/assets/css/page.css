@@ -159,6 +159,11 @@ button,
     color: var(--primary-3) !important;
 }
 
+.modal-close {
+    background: unset;
+    text-align: end;
+}
+
 
 /* ------------------------------------------------------- */
 /* Header */
@@ -188,31 +193,101 @@ button,
     color: var(--primary-3) !important;
 }
 
-.nav-menu{
+.nav-menu {
     list-style-type: none;
     font-size: 18px;
     line-height: 20px;
     gap: 32px;
 }
-.nav-menu a{
+
+.nav-menu a {
     color: var(--light);
     text-decoration: none;
     transition: all 0.5s ease;
 }
-.nav-menu li:hover, .nav-menu a.active{
+
+.nav-menu li:hover,
+.nav-menu a.active {
     color: var(--sec-2);
 }
 
-.soon{
+.soon {
     position: absolute;
     background: var(--bg-28);
     color: var(--light);
     padding: 6px 24px;
 }
+
 .header .dropdown-toggle::after {
     display: none !important;
 }
-ul.dropdown-menu li{background-color: var(--dark) !important;}
+
+.disc-btn:active,
+.disc-btn:focus-visible {
+    background-color: var(--primary-1) !important;
+    color: var(--txt-light);
+}
+
+/* ul.dropdown-menu,
+ul.dropdown-menu li {
+    background-color: var(--bg-28) !important;
+} */
+
+.notif-box p {
+    color: var(--light);
+}
+
+.notif-box h6 {
+    justify-content: space-between;
+    cursor: pointer;
+}
+.notif-box h6 {
+    color: var(--sec-2);
+}
+
+.profile{
+    padding: 20px 20px;
+    background: #2a2a2a;
+    border-bottom: 2px solid var(--sec-2);
+}
+.wallet-dd,ul.dropdown-menu {
+    color: var(--light);
+    background: var(--bg-14) !important;
+    overflow: hidden;
+    width: 200px;
+}
+.wallet-dd li{
+    border-bottom: 1px solid var(--light-20);
+    cursor: pointer;
+}
+.wallet-dd li:last-child{
+    border-bottom: unset;
+}
+
+.wallet-dd li:hover{
+    background: var(--light-20);
+}
+
+.disconnect{
+    padding-right: 38px;
+}
+.arrow-icon{
+    font-size: 24px;
+    font-size: 24px;
+    line-height: unset;
+    position: absolute;
+    right: 8px;
+    bottom: 13px;
+}
+
+.light-theme .wallet-dd, .light-theme ul.dropdown-menu {
+    color: var(--light);
+    background: var(--dark) !important;
+    box-shadow: 0 0 20px 2px #ffffff20;
+}
+.light-theme .profile{
+    background: #ededed;
+}
 
 
 
@@ -254,9 +329,10 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
 }
 
 /* How it works */
-.about{
+.about {
     padding: 100px 0px;
 }
+
 .work-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -264,19 +340,23 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     padding: 100px 80px;
     margin-top: 32px;
     gap: 32px;
-  /* padding-top: 100px; */
-    /* gap: 20px; */
+    /* background-image: url('/media/dark-texture.jpg') !important;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat; */
 }
+
 .work-row div:nth-child(1),
 .work-row div:nth-child(2) {
     grid-column: 1;
 }
+
 .work-row div:nth-child(2) {
     margin-top: 55px;
 }
 
 .work-row div:nth-child(3) {
-    grid-column: 2; 
+    grid-column: 2;
     grid-row: 1;
     position: relative;
     top: 65%;
@@ -284,12 +364,14 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
 
 .work-row div:nth-child(4),
 .work-row div:nth-child(5) {
-    grid-column: 3; 
+    grid-column: 3;
 }
-.work-row div:nth-child(4){
+
+.work-row div:nth-child(4) {
     grid-row: 1;
 }
-.work-row div:nth-child(5){
+
+.work-row div:nth-child(5) {
     grid-row: 2;
 }
 
@@ -329,7 +411,8 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
 }
 
 
-.outer:hover .main h4, .outer:hover .main p {
+.outer:hover .main h4,
+.outer:hover .main p {
     color: var(--txt-light);
 }
 
@@ -370,6 +453,10 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     padding: 16px 22px;
     margin-left: 24px;
 }
+.wcs-card img{
+    height: unset;
+    width: unset;
+}
 
 .wcs-card .sr-no h3 {
     transform: skewX(32deg);
@@ -383,6 +470,13 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
 
 .wcs-card p {
     width: 90%;
+}
+
+.card-outline .vec-active, .card-outline.active .vec-def{
+   display: none;
+}
+.card-outline.active .vec-active{
+   display: inline-block;
 }
 
 .card-outline:hover {
@@ -406,17 +500,21 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     /* padding-bottom: 130px; */
     padding: 80px 0px 130px 0px;
 }
-.faqs .accordion{
+
+.faqs .accordion {
     padding: 64px;
 }
-.accordion-item{
+
+.accordion-item {
     border-radius: 8px;
     overflow: hidden;
     background: var(--dark);
 }
-.accordion-item:first-child{
+
+.accordion-item:first-child {
     margin-top: 0px !important;
 }
+
 .accordion-button {
     background: var(--dark) !important;
     color: var(--light);
@@ -425,17 +523,22 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     line-height: 26px;
     padding: 30px;
 }
-.accordion-button:focus, .accordion-button:focus-visible{
+
+.accordion-button:focus,
+.accordion-button:focus-visible {
     box-shadow: unset;
     outline: unset;
 }
+
 .accordion-button:not(.collapsed) {
     color: var(--sec-2) !important;
     box-shadow: unset;
 }
+
 .accordion-button::after {
     filter: invert(1) grayscale(1);
 }
+
 .accordion-body {
     /* background: var(--bg-14) !important; */
     color: var(--light);
@@ -445,6 +548,7 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     font-weight: 300 !important;
     line-height: 24px;
 }
+
 /* .accordion-collapse{
     border-top: 2px solid var(--sec-2);
 } */
@@ -466,7 +570,8 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     color: inherit;
 }
 
-.footer p, .footer h4 {
+.footer p,
+.footer h4 {
     color: var(--txt-light);
 }
 
@@ -476,7 +581,8 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     margin-top: -133px;
 }
 
-.ft-list,.social {
+.ft-list,
+.social {
     list-style: none;
     padding-top: 32px !important;
 }
@@ -487,7 +593,8 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     color: var(--txt-light);
     cursor: pointer;
 }
-.ft-list a:first-child li{
+
+.ft-list a:first-child li {
     margin-top: 0px;
 }
 
@@ -509,7 +616,8 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     background-color: var(--txt-light);
     color: var(--sec-2);
 }
-.ft-bottom p{
+
+.ft-bottom p {
     color: var(--light) !important;
 }
 
@@ -550,6 +658,7 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
 .borrow-tabs {
     background: #181818;
 }
+
 .tab-btns {
     width: 20%;
     padding: 48px 16px;
@@ -587,7 +696,7 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
 }
 
 .borrow-tabs .tab-content {
-    width: 100%;
+    width: 80%;
     padding: 48px 24px;
     background: var(--bg-tabs);
 }
@@ -765,7 +874,6 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     text-align: center;
     padding: 10px;
     border-radius: 8px;
-    margin-top: 8px;
     background: var(--bglight-10);
 }
 
@@ -890,31 +998,45 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
 /* Faucet/Mint nft Page */
 /* ------------------------------------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------------------------------------- */
-.card.mint, .card.faucet {
+.card.mint,
+.card.faucet {
     box-shadow: 0px 0px 20px 2px #00000020;
     background: #00000080;
     padding: 32px;
     color: var(--light);
 }
-.faucet h3,.mint h3{
+
+.faucet h3,
+.mint h3 {
     font-size: 32px;
 }
-.faucet p{width: 80%;margin: auto;}
-.select-coin{
+
+.faucet p {
+    width: 80%;
+    margin: auto;
+}
+
+.select-coin {
     background: #282828;
     border: unset;
     padding: 16px 24px;
     color: var(--light);
     cursor: pointer;
 }
-.select-coin:focus,.select-coin:focus-visible{
+
+.select-coin:focus,
+.select-coin:focus-visible {
     outline: unset;
     box-shadow: unset;
 }
-.inner-banner label{
+
+.inner-banner label {
     color: var(--light);
 }
-.mint-form input, .mint-form input:focus, .mint-form input:focus-visible{
+
+.mint-form input,
+.mint-form input:focus,
+.mint-form input:focus-visible {
     background: #282828;
     padding: 16px 24px;
     color: var(--light) !important;
@@ -923,15 +1045,19 @@ ul.dropdown-menu li{background-color: var(--dark) !important;}
     box-shadow: unset;
     cursor: pointer;
 }
-.mint-form input::placeholder{
+
+.mint-form input::placeholder {
     color: var(--light-66) !important;
 }
 
 /* for light theme */
-.light-theme .card.mint, .light-theme .card.faucet {
+.light-theme .card.mint,
+.light-theme .card.faucet {
     box-shadow: 0px 0px 20px 2px #ffffff20;
     background: #fafafa;
 }
-.light-theme .select-coin, .light-theme .mint-form input {
+
+.light-theme .select-coin,
+.light-theme .mint-form input {
     background: #cfcfcf;
 }

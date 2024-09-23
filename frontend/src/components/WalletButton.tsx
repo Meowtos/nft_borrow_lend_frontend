@@ -12,23 +12,46 @@ import Link from "next/link";
 import React from "react";
 import { IoClose } from "react-icons/io5";
 import { RxExit } from "react-icons/rx";
+import { BsCopy } from "react-icons/bs";
+import { RiArrowDropDownLine } from "react-icons/ri";
+import { useCopyToClipboard } from "usehooks-ts"
 // Aptos keyless
 import { GOOGLE_CLIENT_ID } from "../core/constants";
 import useEphemeralKeyPair from "../core/useEphemeralKeyPair";
+import { shortenAddress } from "@/utils/shortenAddress";
+import { toast } from "sonner";
+
 export const WalletButtons = () => {
-  const { wallets, connected, disconnect, isLoading } = useWallet();
-  if (connected) {
+  const { wallets, connected, disconnect, isLoading, account } = useWallet();
+  const [copiedText, copy] = useCopyToClipboard()
+  const handleCopy = (text: string) => () => {
+    copy(text)
+      .then(() => {
+        toast.success("Copied")
+      })
+      .catch(error => {
+        toast.success("Failed to copy")
+        console.error('Failed to copy!', error)
+      })
+    console.log('Copied!', { copiedText })
+  }
+  if (connected && account?.address) {
     return (
-      <>
-        <div className="connected d-flex align-center">
-          <button onClick={disconnect} className="connect-btn rounded disconnect"><RxExit /> Disconnect</button>
-        </div>
-      </>
+      <div className="connected d-flex align-center">
+        <button className="connect-btn rounded disconnect dropdown-toggle position-relative" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">{shortenAddress(account.address)}<RiArrowDropDownLine className="arrow-icon" /></button>
+        <ul className="dropdown-menu p-0 rounded wallet-dd">
+          {/* <div className="px-3 text-center profile">
+            <h6><MdOutlineAccountBalanceWallet className="mb-1 me-1" />{aptosBal} APT</h6>
+          </div> */}
+          <li className="px-3 py-3" onClick={handleCopy(account.address)}><BsCopy className="me-2" />Copy Address</li>
+          <li className="px-3 py-3" onClick={disconnect}><RxExit className="me-2" /> Disconnect</li>
+        </ul>
+      </div>
     )
   }
 
   if (isLoading || !wallets || !wallets[0]) {
-    return <button type="button" className="connect-btn">Connecting...</button>;
+    return <button type="button" className="connect-btn rounded">Connecting...</button>;
   }
 
   return <WalletList wallets={wallets as Wallet[]} />;

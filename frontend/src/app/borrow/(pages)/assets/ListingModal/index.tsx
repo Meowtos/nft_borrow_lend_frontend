@@ -14,7 +14,7 @@ import { MdOutlineToken } from "react-icons/md";
 import { MAX_LOCK_DURATION } from "@/utils/aptos";
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
-import { NETWORK, SERVER_URL } from "@/utils/env";
+import { LISTING_CHANNEL_ID, NETWORK } from "@/utils/env";
 
 export const assetListingModalId = "assetListingModal";
 interface ListingModalProps {
@@ -71,15 +71,21 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
                 document.getElementById("closeAssetListingModal")?.click();
                 toast.success("Item listed successfully")
                 await getUserListings()
-                // Extra discord notification
-                await fetch(`${SERVER_URL}/new-listing`, {
+                /// 
+                // Discord embed to discord server 
+                ///
+                await fetch(`/api/discord-bot/send-listing-embed`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        token_name: token.token_name,
-                        token_icon: token.token_icon_uri
+                        recepient_id: LISTING_CHANNEL_ID,
+                        title: "New Listing",
+                        description: `${token.token_name} has been listing`,
+                        image: token.token_icon_uri,
+                        url: `${window.location.origin}/lend/assets`,
+                        timestamp: Date.now().toString(),
                     })
                 });
             } catch (error: unknown) {
@@ -103,7 +109,7 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
             <div className="modal fade" id={assetListingModalId} tabIndex={-1} aria-labelledby={`${assetListingModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal" className="border-0">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeAssetListingModal" className="border-0 modal-close">
                             <IoClose className="text-light close-icon" />
                         </button>
                         {
@@ -171,7 +177,7 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
                                                 ?
                                                 <ButtonLoading className="submit-btn" />
                                                 :
-                                                <input type="submit" className="submit-btn" />
+                                                <input type="submit" className="submit-btn rounded" />
                                         }
                                     </form>
                                     <p className="mt-4 notice"><strong>Notice:</strong>This action is entirely free of transaction gas fees and won&apos;t impact your NFT ownership! Plus, all details above are optional.</p>

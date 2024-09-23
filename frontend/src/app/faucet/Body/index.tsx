@@ -15,8 +15,10 @@ export function Body() {
     const {theme} = useTheme();
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (!account?.address) {
+            return toast.error("Connect your wallet")
+        };
         try {
-            if (!account?.address) return;
             if(network?.name !== NETWORK) {
                 throw new Error(`Switch to ${NETWORK} network`)
             }
@@ -65,7 +67,7 @@ export function Body() {
         }
     }
     return (
-        <section className={`inner-banner ${theme == 'light' ? 'light-theme' : 'dark-theme'}`}>
+        <section className={`inner-banner pg-forms ${theme == 'light' ? 'light-theme' : 'dark-theme'}`}>
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-12 col-lg-6 col-md-8">

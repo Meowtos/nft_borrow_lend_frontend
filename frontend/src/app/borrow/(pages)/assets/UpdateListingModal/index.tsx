@@ -113,13 +113,13 @@ export function UpdateListingModal({ token, getUserListings }: UpdateListingModa
             <div className="modal fade" id={updateListingModalId} tabIndex={-1} aria-labelledby={`${updateListingModalId}Label`} >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
-                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeUpdateListingModal" className="border-0">
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeUpdateListingModal" className="border-0 modal-close">
                             <IoClose  className="text-light close-icon" />
                         </button>
                         {
                             token &&
-                            <div className="row">
-                                <div className="col-lg-3 p-0">
+                            <div className="row m-0">
+                                <div className="col-12 col-lg-3 p-0">
                                     <div className="nft">
                                         <Image src={token.token_icon ?? ""} className="asset-img" alt={token.token_name} width={150} height={200} />
                                     </div>
@@ -130,7 +130,7 @@ export function UpdateListingModal({ token, getUserListings }: UpdateListingModa
                                     </div>
 
                                 </div>
-                                <div className="col-lg-9 p-0 ps-5">
+                                <div className=" col-12 col-lg-9 p-0 ps-5">
                                     <h3>Asset Listing</h3>
                                     <form className="asset-form pt-4" onSubmit={handleSubmit} autoComplete="off">
                                         <div className="mb-3">
@@ -182,7 +182,7 @@ export function UpdateListingModal({ token, getUserListings }: UpdateListingModa
                                                 :
                                                 <input type="submit" className="submit-btn" value={"Update Listing"} />
                                         }
-                                        <button className="btn connect-btn ms-3 text-uppercase rounded-0" type="button" onClick={onRemoveListing} disabled={isRemoving}>Remove Listing</button>
+                                        <button className="btn connect-btn ms-3 text-uppercase rounded-0 update-btn" type="button" onClick={onRemoveListing} disabled={isRemoving}>Remove Listing</button>
                                     </form>
                                 </div>
                             </div>
