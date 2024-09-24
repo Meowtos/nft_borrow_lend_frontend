@@ -300,9 +300,6 @@
   .ft-list li {
     margin-top: 10px;
   }
-}
-
-@media(max-width:1024px){
   .connect-btn .arrow-icon{display: none;}
 }
 
@@ -650,7 +647,7 @@
   /* .table{
     width: max-content;
   } */
-   
+
   /* .list-view th:nth-child(2),
   .list-view td:nth-child(2),
   .list-view th:nth-child(3),

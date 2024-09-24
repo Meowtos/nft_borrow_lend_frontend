@@ -590,9 +590,20 @@ ul.dropdown-menu li {
 }
 
 .footer .popped {
-    background-color: var(--primary-1);
+    /* background-color: var(--primary-1); */
     padding: 60px 24px;
     margin-top: -133px;
+    background: var(--dark);
+    box-shadow: 0 0 10px 0px var(--primary-1);
+    /* border: 1px dashed var(--primary-1); */
+}
+.light-theme.footer .popped{
+    background: var(--primary-1);
+}
+.light-theme .footer-logo {
+    background: #ffffff;
+    border-radius: 100%;
+    padding: 4px;
 }
 
 .ft-list,

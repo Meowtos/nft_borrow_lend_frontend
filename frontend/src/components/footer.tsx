@@ -14,7 +14,7 @@ const Footer = () => {
                 <div className="container">
                     <div className="row popped rounded">
                         <div className="col-lg-3 pe-5">
-                            <Image src="/media/logo2.png" alt="logo" height={60} width={75} />
+                            <Image src="/media/logo-main.png" className='footer-logo' alt="logo" height={75} width={80} />
                             <p className='pt-3'>Unlock liquidity without selling your NFTs. Use them as collateral for secure, decentralized loans and retain ownership of your digital assets.</p>
                         </div>
                         <div className="col-lg-3">
