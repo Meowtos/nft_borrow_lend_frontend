@@ -50,7 +50,7 @@ const Footer = () => {
                                 <Link href={discordLink} target='_blank'>
                                     <BsDiscord className='sc-icon' />
                                 </Link>
-                                <Link href={twitterLnk} target='_blank'>
+                                <Link href={twitterLnk}>
                                     <BsTwitter className='sc-icon' />
                                 </Link>
                             </div>
