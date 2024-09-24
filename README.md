@@ -36,6 +36,7 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
+    <li><a href="#architecture">Architecture</a></li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
@@ -43,7 +44,6 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -54,7 +54,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://octos-xyz.vercel.app)
+[![Octos screenshot][product-screenshot]](https://octos-xyz.vercel.app)
 
 Welcome to Octos, the future of decentralized finance where NFTs are more than just art—they are assets. Octos is a groundbreaking platform on the Aptos blockchain, enabling users to leverage their NFTs as collateral and access token-based loans.
 
@@ -69,9 +69,10 @@ Octos is here to redefine how you utilize NFTs. Join us today and experience dec
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
-### Built With
+### Architecture
+[![Architecture screenshot][architecture-screenshot]]
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+### Built With
 
 - [![Move][Move]][Move-url]
 - [![Next][Next.js]][Next-url]
@@ -216,7 +217,9 @@ Use this space to list resources you find helpful and would like to give credit 
 
 - [Aptos Docs](https://aptos.dev)
 - [Aptos Learn](https://learn.aptoslabs.com)
-Special thanks
+
+### Special thanks
+
 - [Aptos dev discussions](https://github.com/aptos-labs/aptos-developer-discussions/discussions)
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
@@ -233,5 +236,6 @@ Special thanks
 [product-screenshot]: media-kit/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
-[Move]: media-kit/move.png
+[Move]: media-kit/move.png?style=for-the-badge
 [Move-url]: https://aptos.dev/en/build/smart-contracts
+[architecture-screenshot]: media-kit/architecture.jpeg
