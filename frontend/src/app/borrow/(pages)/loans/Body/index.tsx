@@ -11,6 +11,7 @@ import { interestPercentage } from "@/utils/math";
 import { Clock } from "@/components/Clock";
 import { secInADay } from "@/utils/time";
 import { RepayModal, repayModalId } from "../RepayModal";
+import millify from "millify";
 export function Body() {
     const { account } = useWallet();
     const { getAssetByType } = useApp();
@@ -90,7 +91,7 @@ export function Body() {
                                                     {shortenAddress(item.address)}
                                                 </Link>
                                             </td>
-                                            <td>{interestPercentage(item.apr, item.duration)}%</td>
+                                            <td>{millify(interestPercentage(item.apr, item.duration))}%</td>
                                             <td>{item.apr} %</td>
                                             <td>{item.duration} day/days</td>
                                             <td>{item.start_timestamp ? <Clock timestamp={item.start_timestamp + item.duration * secInADay} /> : ""}</td>
@@ -141,11 +142,11 @@ export function Body() {
                                                     {shortenAddress(item.address)}
                                                 </Link>
                                             </td>
-                                            <td>{interestPercentage(item.apr, item.duration)}%</td>
+                                            <td>{millify(interestPercentage(item.apr, item.duration))}%</td>
                                             <td>{item.apr} %</td>
                                             <td>{item.duration} day/days</td>
                                             <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
-                                            <td>{item.status}</td>
+                                            <td className="text-capitalize">{item.status}</td>
                                         </tr>
                                     ))
                                 }

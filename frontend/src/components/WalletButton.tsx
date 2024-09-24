@@ -38,7 +38,7 @@ export const WalletButtons = () => {
   if (connected && account?.address) {
     return (
       <div className="connected d-flex align-center">
-        <button className="connect-btn rounded disconnect dropdown-toggle position-relative" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">{shortenAddress(account.address)}<RiArrowDropDownLine className="arrow-icon" /></button>
+        <button className="connect-btn rounded disconnect dropdown-toggle position-relative" data-bs-toggle="dropdown" aria-expanded="false" >{shortenAddress(account.address)}<RiArrowDropDownLine className="arrow-icon" /></button>
         <ul className="dropdown-menu p-0 rounded wallet-dd">
           {/* <div className="px-3 text-center profile">
             <h6><MdOutlineAccountBalanceWallet className="mb-1 me-1" />{aptosBal} APT</h6>

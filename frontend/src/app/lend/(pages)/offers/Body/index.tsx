@@ -92,7 +92,7 @@ export function Body() {
                     </tbody>
                 </table>
             </div>
-            <WithdrawOfferModal offer={withdrawOffer} />
+            <WithdrawOfferModal offer={withdrawOffer} getUserLoanOffers={getUserLoanOffers}/>
         </>
     )
 }

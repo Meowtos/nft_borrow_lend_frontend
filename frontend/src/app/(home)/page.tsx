@@ -4,10 +4,11 @@ import { ParticlesComponent } from "./ReactParticles";
 import { HowItWorks } from "./HowItWorks";
 import { WhyChooseUs } from "./WhyChooseUs";
 import { Faqs } from "./Faqs";
+import { project } from "@/utils/constants";
 
 export const metadata = {
-  title: "Home - Wizards Fi",
-  description: "Homepage of Wizards Fi"
+  title: `Home - ${project}`,
+  description: `Homepage of ${project}`
 }
 export default function Home() {
   return (

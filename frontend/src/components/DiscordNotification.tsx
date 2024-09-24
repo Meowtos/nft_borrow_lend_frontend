@@ -30,6 +30,8 @@ export function DiscordNotification() {
             const response = await res.json();
             if (res.ok) {
                 setUser(response.data)
+            } else {
+                setUser(null)
             }
         } catch (error) {
             console.error(error)
@@ -117,6 +119,7 @@ export function DiscordNotification() {
                 throw new Error(response.message)
             }
             await getUser()
+            toast.success("Notification settings updated")
         } catch (error: unknown) {
             let errorMessage = 'An unexpected error occurred';
             if (error instanceof Error) {

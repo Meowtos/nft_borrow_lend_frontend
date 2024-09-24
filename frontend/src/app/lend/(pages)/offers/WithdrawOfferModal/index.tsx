@@ -8,11 +8,14 @@ import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { explorerUrl } from "@/utils/constants";
 import { Loan } from "@/types/ApiInterface";
 import { useApp } from "@/context/AppProvider";
+import Image from "next/image";
+import { MdCollections, MdOutlineToken } from "react-icons/md";
 export const withdrawOfferModalId = "grabModal";
 interface WithdrawOfferModalProps {
-    offer: Loan | null
+    offer: Loan | null;
+    getUserLoanOffers: () => Promise<void>
 }
-export function WithdrawOfferModal({ offer }: WithdrawOfferModalProps) {
+export function WithdrawOfferModal({ offer, getUserLoanOffers }: WithdrawOfferModalProps) {
     const { getAssetByType } = useApp();
     const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false)
@@ -44,11 +47,15 @@ export function WithdrawOfferModal({ offer }: WithdrawOfferModalProps) {
             await aptos.waitForTransaction({
                 transactionHash: response.hash
             })
+            await fetch(`/api/lend/${offer._id}`, {
+                method: "DELETE"
+            });
             document.getElementById("closeWithdrawModal")?.click()
             toast.success("Transaction succeed", {
                 action: <a href={`${explorerUrl}/txn/${response.hash}`} target="_blank">View Txn</a>,
                 icon: <IoCheckmark />
             })
+            await getUserLoanOffers()
            
         } catch (error: unknown) {
             let errorMessage = `An unexpected error has occured`;
@@ -66,7 +73,7 @@ export function WithdrawOfferModal({ offer }: WithdrawOfferModalProps) {
     return (
         <React.Fragment>
             <div className="modal fade" id={withdrawOfferModalId} tabIndex={-1} aria-labelledby={`${withdrawOfferModalId}Label`} >
-                <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
                         <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeWithdrawModal" className="border-0 modal-close">
                             <IoClose className="text-light close-icon" />
@@ -74,14 +81,28 @@ export function WithdrawOfferModal({ offer }: WithdrawOfferModalProps) {
                         {
                             offer &&
                             <div className="row">
-                                <h4 className="text-center mt-4">Are you sure you want to close the offer?</h4>
-                                {
-                                    loading
-                                        ?
-                                        <button className="connect-btn mt-4 rounded">Loading...</button>
-                                        :
-                                        <button className="connect-btn mt-4 rounded" onClick={() => onWithdrawOffer(offer)}>Withdraw offer</button>
-                                }
+                                <div className="col-lg-3 p-0">
+                                    <div className="nft">
+                                        <Image src={offer.forListing.token_icon} className="asset-img" alt={offer.forListing.token_name} width={150} height={200} />
+                                    </div>
+                                    <div className="nft-details">
+                                        <h4 className="text-center">{offer.forListing.token_name}</h4>
+                                        <p><MdCollections className="text-light" /> {offer.forListing.collection_name}</p>
+                                        <p><MdOutlineToken className="text-light" />{offer.forListing.token_standard}</p>
+                                    </div>
+                                </div>
+                                <div className="col-lg-9 p-0 ps-5">
+                                    <h3>Close offer</h3>
+                                    <p className="mt-4 notice"><strong>Notice:</strong> Once the offer is closed, your collateral held in escrow will be returned to you promptly.</p>
+
+                                    {
+                                        !loading
+                                            ?
+                                            <button className="connect-btn mt-3 rounded" onClick={() => onWithdrawOffer(offer)}>Close offer</button>
+                                            :
+                                            <button className="connect-btn mt-3 rounded">Loading...</button>
+                                    }
+                                </div>
                             </div>
                         }
                     </div>

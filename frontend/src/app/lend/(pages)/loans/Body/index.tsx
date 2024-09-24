@@ -93,7 +93,7 @@ export function Body() {
                                             <td>{item.start_timestamp ? <Clock timestamp={item.start_timestamp + item.duration * secInADay} /> : ""}</td>
                                             <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
                                             <td>
-                                                <button className="action-btn" data-bs-toggle="modal" data-bs-target={`${grabModalId}`} onClick={() => setGrabOffer(item)}>Get NFT</button>
+                                                <button className="action-btn" data-bs-toggle="modal" data-bs-target={`#${grabModalId}`} onClick={() => setGrabOffer(item)}>Get NFT</button>
                                             </td>
                                         </tr>
                                     ))
@@ -177,7 +177,7 @@ export function Body() {
                     </tbody>
                 </table>
             </div>
-            <GrabModal offer={grabOffer} />
+            <GrabModal offer={grabOffer} fetchLoans={fetchLoans}/>
         </React.Fragment>
 
     )

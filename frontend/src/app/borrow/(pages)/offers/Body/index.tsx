@@ -9,14 +9,22 @@ export function Body() {
     const { getAssetByType } = useApp();
     const { account } = useWallet();
     const [offers, setOffers] = useState<Loan[]>([]);
-    const [selectedOffer, setSelectedOffer] = useState<Loan | null>(null)
+    const [selectedOffer, setSelectedOffer] = useState<Loan | null>(null);
+    const [loading, setLoading] = useState(true)
     const fetchOffers = useCallback(async () => {
         if (!account?.address) return;
-        const res = await fetch(`/api/lend?forAddress=${account.address}&status=pending`);
-        const response = await res.json();
-        if (res.ok) {
-            setOffers(response.data);
+        try {
+            const res = await fetch(`/api/lend?forAddress=${account.address}&status=pending`);
+            const response = await res.json();
+            if (res.ok) {
+                setOffers(response.data);
+            }
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false)
         }
+       
     }, [account?.address]);
    
     useEffect(() => {
@@ -41,6 +49,18 @@ export function Body() {
                     </thead>
                     <tbody>
                         {
+                            loading ?
+                            Array.from({ length: 3 }).map((_, index) => (
+                                <tr key={index}>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-end"><span className="line"></span></td>
+                                </tr>
+                            ))
+                            :
                             offers.length > 0 ? (
                                 offers.map((offer, index) => (
                                     <tr key={index}>
@@ -66,7 +86,7 @@ export function Body() {
                     </tbody>
                 </table>
             </div>
-            <AcceptModal offer={selectedOffer} />
+            <AcceptModal offer={selectedOffer} fetchOffers={fetchOffers} />
         </React.Fragment>
     )
 }

@@ -11,7 +11,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/ajaythxkur/wiz_protocol">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="media-kit/logo.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Wiz Protocol</h3>
@@ -22,7 +22,7 @@
     <a href="https://github.com/ajaythxkur/wiz_protocol"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://wizards-fi.vercel.app">View Demo</a>
+    <a href="https://octos-xyz.vercel.app">View Demo</a>
     ·
     <a href="https://github.com/ajaythxkur/wiz_protocol/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·

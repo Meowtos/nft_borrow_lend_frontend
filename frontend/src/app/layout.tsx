@@ -19,10 +19,11 @@ import Footer from "@/components/footer";
 const Header = dynamic(()=>import("@/components/header"), { ssr: false })
 
 import { ThemeProvider } from '@/context/themecontext';
+import { project } from "@/utils/constants";
 
 const font = League_Spartan({ subsets: ["latin"], weight: "400" })
 export const metadata: Metadata = {
-  title: "Wizards Fi",
+  title: project,
   description: "Get tokens in loan by lending your nfts",
 };
 

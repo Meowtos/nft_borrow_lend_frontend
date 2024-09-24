@@ -27,7 +27,7 @@ export const createDM = async(recipient_id: Snowflake) => {
 export const createEmbedMessage = async(channel_id: Snowflake, embeds: APIEmbed[]) => {
     return (await discord_api.post(
         `/channels/${channel_id}/messages`,
-        { content:"Wizards", embeds },
+        { content:"Octos", embeds },
         {
             headers: { "Content-Type": "multipart/form-data" }
         }
