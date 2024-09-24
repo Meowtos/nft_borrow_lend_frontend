@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useApp } from "@/context/AppProvider";
 import Image from "next/image";
 import { AcceptModal, acceptOfferModalId } from "../AcceptModal";
+import { IoNewspaperOutline } from "react-icons/io5";
 export function Body() {
     const { getAssetByType } = useApp();
     const { account } = useWallet();
@@ -26,7 +27,7 @@ export function Body() {
         }
        
     }, [account?.address]);
-   
+
     useEffect(() => {
         fetchOffers()
     }, [fetchOffers])
@@ -79,7 +80,12 @@ export function Body() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={6} className="text-center"><p className="p-3">No offers received</p></td>
+                                    <td colSpan={6} className="text-center">
+                                        <div className="empty-box text-center py-5 px-3 mt-2 mb-2 rounded">
+                                            <IoNewspaperOutline className="fs-1" />
+                                            <p className="mt-2 w-100 text-center">No Offers Received</p>
+                                        </div>
+                                    </td>
                                 </tr>
                             )
                         }

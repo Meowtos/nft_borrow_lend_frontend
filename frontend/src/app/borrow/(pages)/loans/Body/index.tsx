@@ -12,6 +12,7 @@ import { Clock } from "@/components/Clock";
 import { secInADay } from "@/utils/time";
 import { RepayModal, repayModalId } from "../RepayModal";
 import millify from "millify";
+import { IoNewspaperOutline } from "react-icons/io5";
 export function Body() {
     const { account } = useWallet();
     const { getAssetByType } = useApp();
@@ -101,7 +102,12 @@ export function Body() {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={9} className="text-center"><p className="p-3">No Current Loans</p></td>
+                                        <td colSpan={9} className="text-center">
+                                            <div className="empty-box text-center py-5 px-3 mt-2 mb-2 rounded">
+                                                <IoNewspaperOutline className="fs-1" />
+                                                <p className="mt-2 w-100 text-center">No Active Loans</p>
+                                            </div>
+                                        </td>
                                     </tr>
                                 )
                             )
