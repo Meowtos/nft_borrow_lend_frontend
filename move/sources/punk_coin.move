@@ -1,3 +1,8 @@
+//
+//
+//// Test Coin
+//
+//
 module my_addrx::punk_coin {
     use std::signer;
     use aptos_framework::fungible_asset::{Self, MintRef, TransferRef, Metadata};
@@ -11,7 +16,7 @@ module my_addrx::punk_coin {
         transfer_ref: TransferRef,
     }
 
-    const ASSET_SYMBOL: vector<u8> = b"APT_PUNK";
+    const ASSET_SYMBOL: vector<u8> = b"PUNK";
     const ASSET_NAME: vector<u8> = b"Aptos Punk";
     const ASSET_ICON_URI: vector<u8> = b"https://img.freepik.com/premium-psd/pixel-art-boy-character-with-sunglasses-isolated-transparent-background-game-character_401927-2106.jpg";
 
