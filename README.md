@@ -70,12 +70,12 @@ Octos is here to redefine how you utilize NFTs. Join us today and experience dec
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 ### Architecture
-[![Architecture screenshot][architecture-screenshot]]
+[architecture-screenshot]
 
 ### Built With
 
-- [![Move][Move]][Move-url]
-- [![Next][Next.js]][Next-url]
+- [![Move]][Move-url]
+- [![Next]][Next-url]
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
@@ -92,7 +92,7 @@ Ensure you have the following installed:
 - Node.js (version 16+)
 - Aptos CLI for interacting with the Aptos blockchain
 - Git for version control
-- Discord API Key for Discord integration
+- Discord Bot Token for Discord integration
 
 ## Installation
 
