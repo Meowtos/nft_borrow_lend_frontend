@@ -124,13 +124,13 @@
   .faucet p {
     width: 100%;
   }
-  .loans-table{
-    width: max-content;
+  .loans-table, .offers-table{
+    width: max-content !important;
   }
-  .loans-table.table td {
+  .loans-table.table td, .offers-table.table td {
     padding-right: 24px;
   }
-  .loans-table.table td:last-child {
+  .loans-table.table td:last-child, .offers-table.table td:last-child {
     padding-right: 8px;
   }
 
@@ -300,6 +300,10 @@
   .ft-list li {
     margin-top: 10px;
   }
+}
+
+@media(max-width:1024px){
+  .connect-btn .arrow-icon{display: none;}
 }
 
 /* ------------------------------------------------------------------------------------------------------------------ */
