@@ -2,7 +2,7 @@ import { Snowflake, DMChannel, User, APIEmbed } from "discord.js"
 import axios, { AxiosResponse } from "axios"
 import { BOT_TOKEN } from "./env"
 export const discord_api = axios.create({
-    baseURL: "https://discord.com/api/v10",
+    baseURL: "https://discord.com/api",
     timeout: 3000,
     headers: {
         "Access-Control-Allow-Origin": "*",
@@ -12,24 +12,29 @@ export const discord_api = axios.create({
     },
 })
 
-export const getUser = async(user_id: Snowflake) => {
+export const getUser = async (user_id: Snowflake) => {
     return (await discord_api.get(
         `/users/${user_id}`,
     )) as AxiosResponse<User>
 }
-export const createDM = async(recipient_id: Snowflake) => {
+export const createDM = async (recipient_id: Snowflake) => {
     return (await discord_api.post(
         `/users/@me/channels`,
         { recipient_id },
+        {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
     )) as AxiosResponse<DMChannel>
 }
 
-export const createEmbedMessage = async(channel_id: Snowflake, embeds: APIEmbed[]) => {
+export const createEmbedMessage = async (channel_id: Snowflake, embeds: APIEmbed[]) => {
     return (await discord_api.post(
         `/channels/${channel_id}/messages`,
-        { content:"Octos", embeds },
+        { embeds },
         {
-            headers: { "Content-Type": "multipart/form-data" }
+            headers: { "Content-Type": "application/json" }
         }
-    )); 
+    ));
 }

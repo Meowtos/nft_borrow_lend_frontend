@@ -21,7 +21,7 @@ interface LendModalProps {
     token: IListingSchema | null
 }
 export function LendModal({ token }: LendModalProps) {
-    const { assets } = useApp();
+    const { assets, getAssetByType } = useApp();
     const { account, signAndSubmitTransaction, network } = useWallet();
     const [dropdownToken, setDropdownToken] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
@@ -111,19 +111,22 @@ export function LendModal({ token }: LendModalProps) {
                 })
                 const discordId = apiRes.data;
                 if (discordId) {
-                    await fetch(`api/discord-bot/send-user-embed`, {
+                    await fetch(`/api/discord-bot/send-user-embed`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
                             recepient_id: discordId,
-                            title: "New offer received",
-                            description: `You have received an offer on ${token.token_name}`,
+                            title: `You have received an offer on ${token.token_name}`,
                             image: token.token_icon,
                             url: `${window.location.origin}/borrow/offers`,
                             timestamp: Date.now().toString(),
-                            txnUrl: `${explorerUrl}/txn/${response.hash}`
+                            txnUrl: `${explorerUrl}/txn/${response.hash}`,
+                            amount: data.amount,
+                            coin: getAssetByType(data.coin)?.symbol,
+                            apr: data.apr,
+                            duration: data.duration
                         })
                     });
                 }

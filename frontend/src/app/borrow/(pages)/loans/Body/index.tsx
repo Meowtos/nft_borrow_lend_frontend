@@ -162,7 +162,7 @@ export function Body() {
                 </>
             }
 
-            <RepayModal offer={repayOffer} />
+            <RepayModal offer={repayOffer} getLoans={getLoans}/>
         </>
     )
 }

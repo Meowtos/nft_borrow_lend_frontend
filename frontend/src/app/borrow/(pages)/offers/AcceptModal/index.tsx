@@ -82,18 +82,16 @@ export function AcceptModal({ offer, fetchOffers }: AcceptModalProps) {
             
             const discordId = apiRes.data;
             if(discordId){
-                await fetch(`api/discord-bot/send-user-embed`, {
+                await fetch(`/api/discord-bot/send-user-embed`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
                         recepient_id: discordId,
-                        title: "Offer Accepted",
-                        description: `Your offer for ${offer.forListing.token_name} has been accepted. Loan period has started.`,
+                        title: `Loan started for  ${offer.forListing.token_name}`,
                         image: offer.forListing.token_icon,
                         url: `${window.location.origin}/lend/loans`,
-                        timestamp: Date.now().toString(),
                         txnUrl: `${explorerUrl}/txn/${response.hash}`
                     })
                 });

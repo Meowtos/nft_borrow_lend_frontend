@@ -14,9 +14,10 @@ import { MdCollections, MdOutlineToken } from "react-icons/md";
 
 export const repayModalId = "repayModal";
 interface RepayModalProps {
-    offer: Loan | null
+    offer: Loan | null;
+    getLoans: () => Promise<void>;
 }
-export function RepayModal({ offer }: RepayModalProps) {
+export function RepayModal({ offer, getLoans }: RepayModalProps) {
     const { getAssetByType } = useApp();
     const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false)
@@ -65,22 +66,21 @@ export function RepayModal({ offer }: RepayModalProps) {
             })
             const discordId = apiRes.data;
             if (discordId) {
-                await fetch(`api/discord-bot/send-user-embed`, {
+                await fetch(`/api/discord-bot/send-user-embed`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
                         recepient_id: discordId,
-                        title: "Loan Repayed",
-                        description: `Your loan for ${offer.forListing.token_name} has been repayed.`,
+                        title: `Your loan for ${offer.forListing.token_name} has been repayed.`,
                         image: offer.forListing.token_icon,
                         url: `${window.location.origin}/lend/loans`,
-                        timestamp: Date.now().toString(),
                         txnUrl: `${explorerUrl}/txn/${response.hash}`
                     })
                 });
             }
+            await getLoans();
         } catch (error) {
             let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
             if (error instanceof Error) {
