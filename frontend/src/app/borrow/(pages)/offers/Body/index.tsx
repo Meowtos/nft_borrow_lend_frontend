@@ -50,7 +50,7 @@ export function Body() {
                     <tbody>
                         {
                             loading ?
-                            Array.from({ length: 3 }).map((_, index) => (
+                            Array.from({ length: 3   }).map((_, index) => (
                                 <tr key={index}>
                                     <td className="text-center"><span className="line"></span></td>
                                     <td className="text-center"><span className="line"></span></td>
