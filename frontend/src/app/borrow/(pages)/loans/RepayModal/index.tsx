@@ -114,7 +114,7 @@ export function RepayModal({ offer }: RepayModalProps) {
                                 </div>
                                 <div className="col-lg-9 p-0 ps-5">
                                     <h3>Repay Loan</h3>
-                                    <p className="mt-4 notice"><strong>Notice:</strong> Upon repaying the loan, you'll transfer the loan amount with interest and instantly receive your NFT back—no extra fees will be charged by escrow.</p>
+                                    <p className="mt-4 notice"><strong>Notice:</strong> Upon repaying the loan, you&apos;ll transfer the loan amount with interest and instantly receive your NFT back—no extra fees will be charged by escrow.</p>
                                     {
                                         !loading
                                             ?
