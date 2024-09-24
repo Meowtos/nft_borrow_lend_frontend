@@ -14,7 +14,7 @@ export function HowItWorks() {
                                 {
                                     working.map((v, idx) => (
 
-                                        <div className="outer" key={`idx-${idx}`}>
+                                        <div className="outer rounded" key={`idx-${idx}`}>
                                             <div className="main">
                                                 <h4>{v.heading}</h4>
                                                 <p className="pt-3">{v.description}</p>
