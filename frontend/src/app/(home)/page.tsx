@@ -34,7 +34,7 @@ function Banner() {
               <button className="banner-btn mt-4">Get a loan now</button>
             </Link>
             <Link href={"/lend/assets"}>
-              <button className="banner-btn mt-4 ms-4">I want to lend</button>
+              <button className="banner-btn mt-4 ms-4 lend-btn">I want to lend</button>
             </Link>
           </div>
           <div className="col-12 col-sm-4 col-lg-4 moving p-0">

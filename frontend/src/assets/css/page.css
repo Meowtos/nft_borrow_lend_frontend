@@ -103,6 +103,7 @@ button,
     position: relative;
     touch-action: manipulation;
     transition: all 0.5s ease;
+    text-transform: capitalize;
 }
 
 .banner-btn:after {
@@ -119,6 +120,13 @@ button,
     z-index: -1;
 }
 
+.lend-btn {
+    background: var(--primary-3);
+}
+.lend-btn:after{
+    background: var(--primary-1);
+}
+
 .banner-btn:hover:after {
     transform: translate(0, 0);
 }
@@ -126,6 +134,9 @@ button,
 .banner-btn:active,
 .banner-btn:hover {
     background-color: var(--sec-1);
+}
+.lend-btn:hover{
+    background: var(--primary-1);
 }
 
 /* banner btn-end */

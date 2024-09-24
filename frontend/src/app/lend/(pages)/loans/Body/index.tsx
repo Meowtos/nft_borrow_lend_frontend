@@ -11,6 +11,7 @@ import { interestPercentage } from "@/utils/math";
 import { Clock } from "@/components/Clock";
 import { secInADay } from "@/utils/time";
 import { GrabModal, grabModalId } from "../GrabModal";
+import { IoNewspaperOutline } from "react-icons/io5";
 export function Body() {
     const { getAssetByType } = useApp();
     const { account } = useWallet();
@@ -98,7 +99,12 @@ export function Body() {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={9} className="text-center"><p className="p-3">No Active Loans</p></td>
+                                        <td colSpan={9} className="text-center">
+                                            <div className="empty-box text-center py-5 px-3 mt-2 mb-2 rounded">
+                                                <IoNewspaperOutline className="fs-1" />
+                                                <p className="mt-2 w-100 text-center">No Active Loans</p>
+                                            </div>
+                                        </td>
                                     </tr>
                                 )
                             )
@@ -158,7 +164,12 @@ export function Body() {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={9} className="text-center"><p className="p-3">No Previous Loans</p></td>
+                                        <td colSpan={9} className="text-center">
+                                            <div className="empty-box text-center py-5 px-3 mt-2 mb-2 rounded">
+                                                <IoNewspaperOutline className="fs-1" />
+                                                <p className="mt-2 w-100 text-center">No Previous Loans</p>
+                                            </div>
+                                        </td>
                                     </tr>
                                 )
                             )

@@ -21,7 +21,7 @@ export function RepayModal({ offer }: RepayModalProps) {
     const onRepayLoan = async (offer: Loan) => {
         if (!account?.address || !offer.borrow_obj) return;
         try {
-            if(network?.name !== NETWORK) {
+            if (network?.name !== NETWORK) {
                 throw new Error(`Switch to ${NETWORK} network`)
             }
             const coin = getAssetByType(offer.coin);
@@ -62,7 +62,7 @@ export function RepayModal({ offer }: RepayModalProps) {
                 icon: <IoCheckmark />
             })
             const discordId = apiRes.data;
-            if(discordId) {
+            if (discordId) {
                 await fetch(`api/discord-bot/send-user-embed`, {
                     method: "POST",
                     headers: {
@@ -100,16 +100,18 @@ export function RepayModal({ offer }: RepayModalProps) {
                         {
                             offer &&
                             <div className="row">
-                                <div className="col">
-                                    {
-                                        loading
-                                            ?
-                                            <button className="action-btn rounded" onClick={() => onRepayLoan(offer)}>Repay</button>
-                                            :
-                                            <button className="action-btn rounded" onClick={() => onRepayLoan(offer)}>Repay</button>
-                                    }
-
-                                </div>
+                                <h4 className="text-center mt-4 mb-4">Repayment Information</h4>
+                                <p className="d-flex space-btw"><span>Loan Amount: </span><span>15APT</span></p>
+                                <p className="d-flex space-btw mt-2"><span>Interest Rate: </span> <span>20%</span></p>
+                                <p className="d-flex space-btw mt-2"><span>Total Amount Due: </span> <span>20APT</span></p>
+                                <p className="mt-3">You are about to repay a total of <span>20APT</span>, which includes the original loan amount and the accrued interest.</p>
+                                {
+                                    loading
+                                        ?
+                                        <button className="action-btn rounded" onClick={() => onRepayLoan(offer)}>Paying...</button>
+                                        :
+                                        <button className="action-btn rounded" onClick={() => onRepayLoan(offer)}>Repay</button>
+                                }
                             </div>
                         }
                     </div>
