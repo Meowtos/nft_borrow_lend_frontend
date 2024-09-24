@@ -7,6 +7,8 @@ import { LendModal, lendModalId } from "../LendModal"
 import { useApp } from "@/context/AppProvider"
 import { Listing } from "@/types/ApiInterface"
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
+import { IoNewspaperOutline } from "react-icons/io5";
+
 export function Body() {
     const { account } = useWallet();
     const [view, setView] = useState("grid");
@@ -34,7 +36,7 @@ export function Body() {
     }, [tokensListing, account?.address])
     return (
         <React.Fragment>
-            <div className="content-header d-flex">
+            <div className="content-header d-flex mb-4 lendnft">
                 <div className="view-type d-flex align-items-center">
                     <span className="me-2">View:</span>
                     <div className="dsp-layout">
@@ -60,7 +62,16 @@ export function TokenListings({ viewtype, tokens, loading }: TokenListingsProps)
 
     return (
         <React.Fragment>
-            <div className="all-cards pt-4 grid-view" hidden={viewtype == 'grid' ? false : true}>
+            {tokens.length === 0 && !loading && (
+                <>
+                    <div className="empty-box text-center py-5 px-3 rounded">
+                        <IoNewspaperOutline className="fs-1" />
+                        <p className="mt-2 w-100 text-center">No Borrowers available</p>
+                    </div>
+                </>
+            )}
+
+            <div className="all-cards grid-view" hidden={viewtype == 'grid' ? false : true}>
                 {
                     loading ?
                         Array.from({ length: 6 }).map((_, index) => (
@@ -75,39 +86,35 @@ export function TokenListings({ viewtype, tokens, loading }: TokenListingsProps)
                             </div>
                         ))
                         :
-                        tokens.length > 0 ? (
-                            tokens.map((token) => (
-                                <div className="card border-0" key={token.token_data_id}>
-                                    <Image src={`${token.token_icon}`} className="card-img-top w-100" alt={token.token_name} width={150} height={150} />
-                                    <div className="card-body ">
-                                        <h4 className="card-title">{token.token_name}</h4>
-                                        <p className="card-text p-2">{token.collection_name}</p>
-                                        <button onClick={() => setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${lendModalId}`} className="btn list-btn w-100 mt-3">Lend</button>
-                                    </div>
+                        tokens.map((token) => (
+                            <div className="card border-0" key={token.token_data_id}>
+                                <Image src={`${token.token_icon}`} className="card-img-top w-100" alt={token.token_name} width={150} height={150} />
+                                <div className="card-body ">
+                                    <h4 className="card-title">{token.token_name}</h4>
+                                    <p className="card-text p-2">{token.collection_name}</p>
+                                    <button onClick={() => setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${lendModalId}`} className="btn list-btn w-100 mt-3">Give Loan</button>
                                 </div>
-                            ))
-                        ) : (
-                            <>
-                                <p className="p-3 w-100 text-center">No Borrowers available</p>
-                            </>
-                        )
+                            </div>
+                        ))
                 }
             </div>
 
             {/* List View */}
-            <div className="pt-4 list-view lend" hidden={viewtype == 'list' ? false : true}>
+            <div className="list-view lend" hidden={viewtype == 'list' ? false : true}>
                 <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Token Name</th>
-                            <th>Token Standard</th>
-                            <th>Collection</th>
-                            <th>Amount</th>
-                            <th>Duration in days</th>
-                            <th>APR %</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+                    {tokens.length > 0 && (
+                        <thead>
+                            <tr>
+                                <th>Token Name</th>
+                                <th>Token Standard</th>
+                                <th>Collection</th>
+                                <th>Amount</th>
+                                <th>Duration in days</th>
+                                <th>APR %</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    )}
                     <tbody>
                         {
                             loading ?
@@ -121,33 +128,27 @@ export function TokenListings({ viewtype, tokens, loading }: TokenListingsProps)
                                     </tr>
                                 ))
                                 :
-                                tokens.length > 0 ? (
-                                    tokens.map((token) => (
-                                        <tr key={token.token_data_id}>
-                                            <td>
-                                                <Image src={`${token.token_icon}`} className="rounded me-2" alt="nft" width={32} height={32} />
-                                                <span className="fs-5">{token.token_name} </span>
-                                                <span className="d-none ts-mobile">(V2)</span><br />
-                                                <p className="d-none ts-mobile pt-2">{token.collection_name}</p><br />
-                                                <p className="d-none ts-mobile">{token.apr}%</p>
-                                            </td>
-                                            <td>{token.token_standard}</td>
-                                            <td>{token.collection_name}</td>
-                                            <td>{token.amount} {token.coin ? getAssetByType(token.coin)?.symbol : ""}</td>
-                                            <td>{token.duration}</td>
-                                            <td>{token.apr}</td>
-                                            <td>
-                                                <button onClick={() => setChosenToken(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${lendModalId}`}>Lend</button>
-                                                <p className="d-none ts-mobile pt-2">{token.amount} {token.coin ? getAssetByType(token.coin)?.symbol : ""}</p><br />
-                                                <p className="d-none ts-mobile">{token.duration}D</p>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan={6} className="text-center"><p className="p-3">No Borrowers available</p></td>
+                                tokens.map((token) => (
+                                    <tr key={token.token_data_id}>
+                                        <td>
+                                            <Image src={`${token.token_icon}`} className="rounded me-2" alt="nft" width={32} height={32} />
+                                            <span className="fs-5">{token.token_name} </span>
+                                            <span className="d-none ts-mobile">({token.token_standard})</span><br />
+                                            <p className="d-none ts-mobile pt-2">{token.collection_name}</p><br />
+                                            <p className="d-none ts-mobile">{token.apr}%</p>
+                                        </td>
+                                        <td>{token.token_standard}</td>
+                                        <td>{token.collection_name}</td>
+                                        <td>{token.amount} {token.coin ? getAssetByType(token.coin)?.symbol : ""}</td>
+                                        <td>{token.duration}</td>
+                                        <td>{token.apr}</td>
+                                        <td>
+                                            <button onClick={() => setChosenToken(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${lendModalId}`}>Give Loan</button>
+                                            <p className="d-none ts-mobile pt-2">{token.amount} {token.coin ? getAssetByType(token.coin)?.symbol : ""}</p><br />
+                                            <p className="d-none ts-mobile">{token.duration}D</p>
+                                        </td>
                                     </tr>
-                                )
+                                ))
                         }
                     </tbody>
                 </table>

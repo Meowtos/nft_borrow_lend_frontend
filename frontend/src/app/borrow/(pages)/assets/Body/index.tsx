@@ -14,6 +14,7 @@ import { assetListingModalId, ListingModal } from "../ListingModal";
 import { MdFilter } from "react-icons/md";
 import { Listing } from "@/types/ApiInterface";
 import { UpdateListingModal, updateListingModalId } from "../UpdateListingModal";
+import { IoNewspaperOutline } from "react-icons/io5";
 
 
 export function Body() {
@@ -78,7 +79,7 @@ export function Body() {
 
     return (
         <React.Fragment>
-            <div className="content-header d-flex">
+            <div className="content-header d-flex mb-4">
                 <div className="collection">
                     <div className="dropdown-btn sl-coll">
                         <span className="me-2 fs-6">Select Collection:</span>
@@ -114,7 +115,7 @@ export function Body() {
                 </div>
             </div>
             <div className="content-body">
-                <OwnedTokens viewtype={view} collectionId={chosenCollection?.collection_id ?? null} userListings={userListings} getUserListings={getUserListings} userListingLoading={userListingLoading}/>
+                <OwnedTokens viewtype={view} collectionId={chosenCollection?.collection_id ?? null} userListings={userListings} getUserListings={getUserListings} userListingLoading={userListingLoading} />
             </div>
         </React.Fragment>
     )
@@ -135,7 +136,7 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
     const [chosenToken, setChosenToken] = useState<Token | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [updateListing, setUpdateListing] = useState<Listing | null>(null)
-    const getOwnedTokensByCollection = useCallback(async() => {
+    const getOwnedTokensByCollection = useCallback(async () => {
         if (!account?.address || !collectionId) {
             return setTokens([])
         }
@@ -172,8 +173,16 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
     }, [getOwnedTokensByCollection]);
     return (
         <React.Fragment>
+            {tokens.length === 0 && !isLoading && (
+                <>
+                    <div className="empty-box text-center py-5 px-3 rounded">
+                        <IoNewspaperOutline className="fs-1" />
+                        <p className="mt-2 w-100 text-center">No Assets Found. <Link href="/nft-mint" className="mint-link">Add New</Link></p>
+                    </div>
+                </>
+            )}
             {/* Grid View */}
-            <div className="all-cards pt-4 grid-view" hidden={viewtype == 'grid' ? false : true}>
+            <div className="all-cards grid-view" hidden={viewtype == 'grid' ? false : true}>
                 {
                     isLoading || userListingLoading ?
                         Array.from({ length: 5 }).map((_, index) => (
@@ -183,48 +192,44 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
                                     <p className="px-3 pt-3"><span className="line"></span></p>
                                     <p className="px-3 pt-3"><span className="line w-100"></span></p>
                                     <p className="px-3 pt-3"><span className="line w-75"></span></p>
-                                    <p className="px-3 pt-3"><span className="line w-100"></span></p>
+                                    <p className="px-3 pt-3"><span className="line w-100 ms-auto"></span></p>
                                 </div>
                             </div>
                         ))
                         :
-                        tokens.length > 0 ? (
-                            tokens.map((token) => (
-                                <div className="card border-0 text-light" key={token.token_data_id}>
-                                    <Image src={`${token.token_icon_uri}`} className="card-img-top w-100" alt={token.token_name} width={150} height={200} />
-                                    <div className="card-body">
-                                        <h4 className="card-title">{token.token_name}</h4>
-                                        <p className="d-flex">Collection: <span>{token.collection_name}</span></p>
-                                        {
-                                            userListings.some(item => item.token_data_id === token.token_data_id)
-                                                ?
-                                                <button onClick={() => onUpdateListing(token)} data-bs-toggle="modal" data-bs-target={`#${updateListingModalId}`} className="btn list-btn w-100">Update Listing</button>
-                                                :
-                                                <button onClick={() => setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`} className="btn list-btn w-100">List Asset</button>
-                                        }
-                                    </div>
+                        tokens.map((token) => (
+                            <div className="card border-0 text-light" key={token.token_data_id}>
+                                <Image src={`${token.token_icon_uri}`} className="card-img-top w-100" alt={token.token_name} width={150} height={200} />
+                                <div className="card-body">
+                                    <h4 className="card-title">{token.token_name}</h4>
+                                    <p className="d-flex">Collection: <span>{token.collection_name}</span></p>
+                                    {
+                                        userListings.some(item => item.token_data_id === token.token_data_id)
+                                            ?
+                                            <button onClick={() => onUpdateListing(token)} data-bs-toggle="modal" data-bs-target={`#${updateListingModalId}`} className="btn list-btn w-100">Update Listing</button>
+                                            :
+                                            <button onClick={() => setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`} className="btn list-btn w-100">List Asset</button>
+                                    }
                                 </div>
-                            ))
-                        ) : (
-                            <>
-                                <p className="p-3 w-100 text-center">No Assets Found. <Link href="/nft-mint" className="mint-link">Add New</Link></p>
-                            </>
-                        )
+                            </div>
+                        ))
                 }
             </div>
 
             {/* List View */}
-            <div className="pt-4 list-view" hidden={viewtype == 'list' ? false : true}>
+            <div className="list-view" hidden={viewtype == 'list' ? false : true}>
                 <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Token Name</th>
-                            <th>Token Description</th>
-                            <th className="text-center">Token Standard</th>
-                            <th>Collection</th>
-                            <th className="text-end">Action</th>
-                        </tr>
-                    </thead>
+                    {tokens.length > 0 && (
+                        <thead>
+                            <tr>
+                                <th>Token Name</th>
+                                <th>Token Description</th>
+                                <th className="text-center">Token Standard</th>
+                                <th>Collection</th>
+                                <th className="text-end">Action</th>
+                            </tr>
+                        </thead>
+                    )}
                     <tbody>
                         {
                             isLoading || userListingLoading ? (
@@ -238,34 +243,27 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
                                     </tr>
                                 ))
                             ) :
-                                tokens.length > 0 ? (
-                                    tokens.map((token, index) => (
-                                        <tr key={index}>
-                                            <td>
-                                                <Image src={`${token.token_icon_uri}`} className="rounded me-2" alt="nft" width={32} height={32} />
-                                                <span className="fs-5">{token.token_name} </span>
-                                                {/* <span className="d-none ts-mobile"> ({token.token_standard})</span> */}
-                                            </td>
-                                            <td>{token.token_description}</td>
-                                            <td className="text-center">{token.token_standard}</td>
-                                            <td>{token.collection_name}</td>
-                                            <td className="text-end">
-                                                {
-                                                    userListings.some(item => item.token_data_id === token.token_data_id)
-                                                        ?
-                                                        <button onClick={() => onUpdateListing(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${updateListingModalId}`}>Update</button>
-                                                        :
-                                                        <button onClick={() => setChosenToken(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`}>List</button>
-                                                }
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan={6} className="text-center"><p className="p-3">No Assets Found. <Link href="/nft-mint" className="mint-link">Add New</Link></p></td>
+                                tokens.map((token, index) => (
+                                    <tr key={index}>
+                                        <td>
+                                            <Image src={`${token.token_icon_uri}`} className="rounded me-2" alt="nft" width={32} height={32} />
+                                            <span className="fs-5">{token.token_name} </span>
+                                            {/* <span className="d-none ts-mobile"> ({token.token_standard})</span> */}
+                                        </td>
+                                        <td>{token.token_description}</td>
+                                        <td className="text-center">{token.token_standard}</td>
+                                        <td>{token.collection_name}</td>
+                                        <td className="text-end">
+                                            {
+                                                userListings.some(item => item.token_data_id === token.token_data_id)
+                                                    ?
+                                                    <button onClick={() => onUpdateListing(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${updateListingModalId}`}>Update</button>
+                                                    :
+                                                    <button onClick={() => setChosenToken(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${assetListingModalId}`}>List</button>
+                                            }
+                                        </td>
                                     </tr>
-                                )
-
+                                ))
                         }
                     </tbody>
                 </table>

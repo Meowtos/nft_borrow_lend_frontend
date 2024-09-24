@@ -1,7 +1,7 @@
+export const project = `Octos`;
 export const explorerUrl = "https://explorer.aptoslabs.com" 
 export const discordLink = "https://discord.gg/tFQMPWSQ5z";
 export const twitterLnk ="";
-export const gmail = "definftloans@gmailcom";
 
 export const menu =[
     {
@@ -28,12 +28,12 @@ export const menu =[
 
 export const footerLinks = [
     {
-        heading: "Lend Nft",
-        path: "/lend/assets"
+        heading: "Borrow",
+        path: "/borrow/assets"
     },
     {
-        heading: "Borrow Loan",
-        path: "/borrow/assets"
+        heading: "Lend",
+        path: "/lend/assets"
     },
     {
         heading: "Faq",

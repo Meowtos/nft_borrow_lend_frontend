@@ -13,9 +13,10 @@ import { useState } from "react";
 import { explorerUrl } from "@/utils/constants";
 export const acceptOfferModalId = "acceptOfferModal";
 interface AcceptModalProps {
-    offer: Loan | null
+    offer: Loan | null;
+    fetchOffers: () => Promise<void>
 }
-export function AcceptModal({ offer }: AcceptModalProps) {
+export function AcceptModal({ offer, fetchOffers }: AcceptModalProps) {
     const { getAssetByType } = useApp();
     const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false);
@@ -71,7 +72,6 @@ export function AcceptModal({ offer }: AcceptModalProps) {
             });
             const apiRes = await res.json();
             if (!res.ok) {
-                console.log(apiRes)
                 throw new Error(apiRes.message)
             }
             document.getElementById("closeAcceptOfferModal")?.click();
@@ -79,6 +79,7 @@ export function AcceptModal({ offer }: AcceptModalProps) {
                 action: <a href={`${explorerUrl}/txn/${response.hash}`} target="_blank">View Txn</a>,
                 icon: <IoCheckmark />
             })
+            
             const discordId = apiRes.data;
             if(discordId){
                 await fetch(`api/discord-bot/send-user-embed`, {
@@ -97,6 +98,7 @@ export function AcceptModal({ offer }: AcceptModalProps) {
                     })
                 });
             }
+            await fetchOffers()
         } catch (error: unknown) {
             console.log({ error })
             let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
@@ -130,7 +132,7 @@ export function AcceptModal({ offer }: AcceptModalProps) {
                                     </div>
                                 </div>
                                 <div className="col-lg-9 p-0 ps-5">
-                                    <h3>Asset Offer Accept</h3>
+                                    <h3>Accept offer</h3>
                                     <p className="mt-4 notice"><strong>Notice:</strong> By selecting this NFT as collateral, you acknowledge that the NFT will be securely transferred and stored with us for the duration of the loan. You will not have access to this NFT until the loan is fully repaid.</p>
                                     {
                                         !loading

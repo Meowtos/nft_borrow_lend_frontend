@@ -5,6 +5,7 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Image from "next/image";
 import { useApp } from "@/context/AppProvider";
 import { WithdrawOfferModal, withdrawOfferModalId } from "../WithdrawOfferModal";
+import { IoNewspaperOutline } from "react-icons/io5";
 export function Body() {
     const { account } = useWallet();
     const { getAssetByType } = useApp()
@@ -73,13 +74,17 @@ export function Body() {
                                             <td>{offer.apr}</td>
                                             <td className="text-end">
                                                 <button className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${withdrawOfferModalId}`} onClick={() => setWithdrawOffer(offer)}>Cancel Offer</button>
-
                                             </td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={9} className="text-center"><p className="p-3">No offers</p></td>
+                                        <td colSpan={9} className="text-center">
+                                            <div className="empty-box text-center py-5 px-3 mt-2 mb-2 rounded">
+                                                <IoNewspaperOutline className="fs-1" />
+                                                <p className="mt-2 w-100 text-center">No Offers Sent</p>
+                                            </div>
+                                        </td>
                                     </tr>
                                 )
                             )
@@ -87,7 +92,7 @@ export function Body() {
                     </tbody>
                 </table>
             </div>
-            <WithdrawOfferModal offer={withdrawOffer} />
+            <WithdrawOfferModal offer={withdrawOffer} getUserLoanOffers={getUserLoanOffers}/>
         </>
     )
 }

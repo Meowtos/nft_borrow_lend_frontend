@@ -4,10 +4,11 @@ import { ParticlesComponent } from "./ReactParticles";
 import { HowItWorks } from "./HowItWorks";
 import { WhyChooseUs } from "./WhyChooseUs";
 import { Faqs } from "./Faqs";
+import { project } from "@/utils/constants";
 
 export const metadata = {
-  title: "Home - Wizards Fi",
-  description: "Homepage of Wizards Fi"
+  title: `Home - ${project}`,
+  description: `Homepage of ${project}`
 }
 export default function Home() {
   return (
@@ -34,7 +35,7 @@ function Banner() {
               <button className="banner-btn mt-4">Get a loan now</button>
             </Link>
             <Link href={"/lend/assets"}>
-              <button className="banner-btn mt-4 ms-4">I want to lend</button>
+              <button className="banner-btn mt-4 ms-4 lend-btn">I want to lend</button>
             </Link>
           </div>
           <div className="col-12 col-sm-4 col-lg-4 moving p-0">

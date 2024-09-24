@@ -7,18 +7,21 @@ import { aptos } from "@/utils/aptos";
 import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { explorerUrl } from "@/utils/constants";
 import { Loan } from "@/types/ApiInterface";
+import Image from "next/image";
+import { MdCollections, MdOutlineToken } from "react-icons/md";
 
 export const grabModalId = "grabModal";
 interface GrabModalProps {
-    offer: Loan | null
+    offer: Loan | null;
+    fetchLoans: () => Promise<void>;
 }
-export function GrabModal({ offer }: GrabModalProps) {
+export function GrabModal({ offer, fetchLoans }: GrabModalProps) {
     const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false)
     const onGrab = async (offer: Loan) => {
         if (!account?.address || !offer.borrow_obj) return;
         try {
-            if(network?.name !== NETWORK) {
+            if (network?.name !== NETWORK) {
                 throw new Error(`Switch to ${NETWORK} network`)
             }
             const functionArguments = [
@@ -52,6 +55,7 @@ export function GrabModal({ offer }: GrabModalProps) {
                 action: <a href={`${explorerUrl}/txn/${response.hash}`} target="_blank">View Txn</a>,
                 icon: <IoCheckmark />
             })
+            await fetchLoans()
         } catch (error) {
             let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
             if (error instanceof Error) {
@@ -73,18 +77,29 @@ export function GrabModal({ offer }: GrabModalProps) {
                         {
                             offer &&
                             <div className="row">
-                                Repayment failed by user ${offer.forAddress}. Claim nft to your wallet
-                                {
-                                    loading
-                                        ?
-                                        <button className="action-btn">Loading...</button>
-                                        :
-                                        <button className="action-btn" onClick={() => onGrab(offer)}>Get NFT</button>
-                                }
+                                <div className="col-lg-3 p-0">
+                                    <div className="nft">
+                                        <Image src={offer.forListing.token_icon} className="asset-img" alt={offer.forListing.token_name} width={150} height={200} />
+                                    </div>
+                                    <div className="nft-details">
+                                        <h4 className="text-center">{offer.forListing.token_name}</h4>
+                                        <p><MdCollections className="text-light" /> {offer.forListing.collection_name}</p>
+                                        <p><MdOutlineToken className="text-light" />{offer.forListing.token_standard}</p>
+                                    </div>
+                                </div>
+                                <div className="col-lg-9 p-0 ps-5">
+                                    <h3>Get NFT</h3>
+                                    <p className="mt-4 notice"><strong>Notice:</strong> If the borrower fails to repay the loan within the agreed timeframe, you have the right to claim their NFT from the escrowed collateral. To initiate this, you&apos;ll need to sign a transaction and call the contract manually. Once signed, the NFT will be transferred to your wallet securely, ensuring a smooth process with no additional fees.</p>
+                                    {
+                                        !loading
+                                            ?
+                                            <button className="connect-btn mt-3 rounded" onClick={() => onGrab(offer)}>Get NFT</button>
+                                            :
+                                            <button className="connect-btn mt-3 rounded">Loading...</button>
+                                    }
+                                </div>
                             </div>
                         }
-                        <p className="mt-4 notice"><strong>Notice:</strong>Borrower failed to make repayment; you can now claim their NFT and transfer it to your wallet.</p>
-
                     </div>
                 </div>
             </div>

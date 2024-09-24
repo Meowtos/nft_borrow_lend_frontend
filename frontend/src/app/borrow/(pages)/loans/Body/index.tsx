@@ -11,6 +11,8 @@ import { interestPercentage } from "@/utils/math";
 import { Clock } from "@/components/Clock";
 import { secInADay } from "@/utils/time";
 import { RepayModal, repayModalId } from "../RepayModal";
+import millify from "millify";
+import { IoNewspaperOutline } from "react-icons/io5";
 export function Body() {
     const { account } = useWallet();
     const { getAssetByType } = useApp();
@@ -49,7 +51,7 @@ export function Body() {
             {/* Live/Current loans */}
             <h4 className="loans-title">Current Loans</h4>
             <div className="overflow-auto">
-                <table className="table mt-3">
+                <table className="table mt-3 loans-table">
                     <thead>
                         <tr>
                             <th>Asset</th>
@@ -59,7 +61,7 @@ export function Body() {
                             <th>Duration</th>
                             <th>Countdown</th>
                             <th>Loan</th>
-                            <th>Action</th>
+                            <th className="text-end">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,7 +76,7 @@ export function Body() {
                                         <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
-                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-end"><span className="line"></span></td>
                                     </tr>
                                 ))
                             ) : (
@@ -90,17 +92,22 @@ export function Body() {
                                                     {shortenAddress(item.address)}
                                                 </Link>
                                             </td>
-                                            <td>{interestPercentage(item.apr, item.duration)}%</td>
+                                            <td>{millify(interestPercentage(item.apr, item.duration))}%</td>
                                             <td>{item.apr} %</td>
                                             <td>{item.duration} day/days</td>
                                             <td>{item.start_timestamp ? <Clock timestamp={item.start_timestamp + item.duration * secInADay} /> : ""}</td>
                                             <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
-                                            <td><button className="action-btn" onClick={() => setRepayOffer(item)} data-bs-toggle="modal" data-bs-target={`#${repayModalId}`}>Repay Loan</button></td>
+                                            <td className="text-end"><button className="action-btn" onClick={() => setRepayOffer(item)} data-bs-toggle="modal" data-bs-target={`#${repayModalId}`}>Repay Loan</button></td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={9} className="text-center"><p className="p-3">No Current Loans</p></td>
+                                        <td colSpan={9} className="text-center">
+                                            <div className="empty-box text-center py-5 px-3 mt-2 mb-2 rounded">
+                                                <IoNewspaperOutline className="fs-1" />
+                                                <p className="mt-2 w-100 text-center">No Active Loans</p>
+                                            </div>
+                                        </td>
                                     </tr>
                                 )
                             )
@@ -116,7 +123,7 @@ export function Body() {
                 <>
                     <h4 className="mt-5 loans-title">Previous Loans</h4>
                     <div className="overflow-auto">
-                        <table className="table mt-3">
+                        <table className="table mt-3 loans-table">
                             <thead>
                                 <tr>
                                     <th>Asset</th>
@@ -141,11 +148,11 @@ export function Body() {
                                                     {shortenAddress(item.address)}
                                                 </Link>
                                             </td>
-                                            <td>{interestPercentage(item.apr, item.duration)}%</td>
+                                            <td>{millify(interestPercentage(item.apr, item.duration))}%</td>
                                             <td>{item.apr} %</td>
                                             <td>{item.duration} day/days</td>
                                             <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
-                                            <td>{item.status}</td>
+                                            <td className="text-capitalize">{item.status}</td>
                                         </tr>
                                     ))
                                 }

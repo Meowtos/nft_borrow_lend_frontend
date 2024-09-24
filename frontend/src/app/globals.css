@@ -111,6 +111,10 @@
 .light-theme .br{
   background: #ffffff;
 }
+.light-theme .empty-box {
+  background: #00000015;
+  color: #00000050;
+}
 @media(max-width:768px){
   .light-theme .work-row, .light-theme .accordion{
     box-shadow: unset;
@@ -139,6 +143,7 @@ h2 {font-size: 48px;font-weight: 600;line-height: 48px;}
 .cn-wallet {padding: 48px;background: var(--bg-28);}
 .align-center{align-items: center;}
 .theme-mode{cursor: pointer;}
+.space-btw{justify-content: space-between !important;}
 
 
 /* Pages */
@@ -170,6 +175,10 @@ h2 {font-size: 48px;font-weight: 600;line-height: 48px;}
 }
 .mint-link{
   color: var(--sec-2);
+}
+.empty-box{
+  background: #ffffff06;
+  color: #ffffff33;
 }
 
 

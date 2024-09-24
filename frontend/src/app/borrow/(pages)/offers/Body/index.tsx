@@ -5,20 +5,29 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useApp } from "@/context/AppProvider";
 import Image from "next/image";
 import { AcceptModal, acceptOfferModalId } from "../AcceptModal";
+import { IoNewspaperOutline } from "react-icons/io5";
 export function Body() {
     const { getAssetByType } = useApp();
     const { account } = useWallet();
     const [offers, setOffers] = useState<Loan[]>([]);
-    const [selectedOffer, setSelectedOffer] = useState<Loan | null>(null)
+    const [selectedOffer, setSelectedOffer] = useState<Loan | null>(null);
+    const [loading, setLoading] = useState(true)
     const fetchOffers = useCallback(async () => {
         if (!account?.address) return;
-        const res = await fetch(`/api/lend?forAddress=${account.address}&status=pending`);
-        const response = await res.json();
-        if (res.ok) {
-            setOffers(response.data);
+        try {
+            const res = await fetch(`/api/lend?forAddress=${account.address}&status=pending`);
+            const response = await res.json();
+            if (res.ok) {
+                setOffers(response.data);
+            }
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false)
         }
+       
     }, [account?.address]);
-   
+
     useEffect(() => {
         fetchOffers()
     }, [fetchOffers])
@@ -41,6 +50,18 @@ export function Body() {
                     </thead>
                     <tbody>
                         {
+                            loading ?
+                            Array.from({ length: 3   }).map((_, index) => (
+                                <tr key={index}>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-center"><span className="line"></span></td>
+                                    <td className="text-end"><span className="line"></span></td>
+                                </tr>
+                            ))
+                            :
                             offers.length > 0 ? (
                                 offers.map((offer, index) => (
                                     <tr key={index}>
@@ -59,14 +80,19 @@ export function Body() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={6} className="text-center"><p className="p-3">No offers received</p></td>
+                                    <td colSpan={6} className="text-center">
+                                        <div className="empty-box text-center py-5 px-3 mt-2 mb-2 rounded">
+                                            <IoNewspaperOutline className="fs-1" />
+                                            <p className="mt-2 w-100 text-center">No Offers Received</p>
+                                        </div>
+                                    </td>
                                 </tr>
                             )
                         }
                     </tbody>
                 </table>
             </div>
-            <AcceptModal offer={selectedOffer} />
+            <AcceptModal offer={selectedOffer} fetchOffers={fetchOffers} />
         </React.Fragment>
     )
 }

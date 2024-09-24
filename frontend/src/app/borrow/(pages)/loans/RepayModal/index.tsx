@@ -9,6 +9,8 @@ import { aptos } from "@/utils/aptos";
 import { Loan } from "@/types/ApiInterface";
 import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { explorerUrl } from "@/utils/constants";
+import Image from "next/image";
+import { MdCollections, MdOutlineToken } from "react-icons/md";
 
 export const repayModalId = "repayModal";
 interface RepayModalProps {
@@ -21,7 +23,7 @@ export function RepayModal({ offer }: RepayModalProps) {
     const onRepayLoan = async (offer: Loan) => {
         if (!account?.address || !offer.borrow_obj) return;
         try {
-            if(network?.name !== NETWORK) {
+            if (network?.name !== NETWORK) {
                 throw new Error(`Switch to ${NETWORK} network`)
             }
             const coin = getAssetByType(offer.coin);
@@ -62,7 +64,7 @@ export function RepayModal({ offer }: RepayModalProps) {
                 icon: <IoCheckmark />
             })
             const discordId = apiRes.data;
-            if(discordId) {
+            if (discordId) {
                 await fetch(`api/discord-bot/send-user-embed`, {
                     method: "POST",
                     headers: {
@@ -92,7 +94,7 @@ export function RepayModal({ offer }: RepayModalProps) {
     return (
         <React.Fragment>
             <div className="modal fade" id={repayModalId} tabIndex={-1} aria-labelledby={`${repayModalId}Label`} >
-                <div className="modal-dialog modal-dialog-centered modal-md">
+                <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content list-modal">
                         <button type="button" data-bs-dismiss="modal" aria-label="Close" id="closeRepayModal" className="border-0 modal-close">
                             <IoClose className="text-light close-icon" />
@@ -100,15 +102,26 @@ export function RepayModal({ offer }: RepayModalProps) {
                         {
                             offer &&
                             <div className="row">
-                                <div className="col">
+                                <div className="col-lg-3 p-0">
+                                    <div className="nft">
+                                        <Image src={offer.forListing.token_icon} className="asset-img" alt={offer.forListing.token_name} width={150} height={200} />
+                                    </div>
+                                    <div className="nft-details">
+                                        <h4 className="text-center">{offer.forListing.token_name}</h4>
+                                        <p><MdCollections className="text-light" /> {offer.forListing.collection_name}</p>
+                                        <p><MdOutlineToken className="text-light" />{offer.forListing.token_standard}</p>
+                                    </div>
+                                </div>
+                                <div className="col-lg-9 p-0 ps-5">
+                                    <h3>Repay Loan</h3>
+                                    <p className="mt-4 notice"><strong>Notice:</strong> Upon repaying the loan, you&apos;ll transfer the loan amount with interest and instantly receive your NFT back—no extra fees will be charged by escrow.</p>
                                     {
-                                        loading
+                                        !loading
                                             ?
-                                            <button className="action-btn rounded" onClick={() => onRepayLoan(offer)}>Repay</button>
+                                            <button className="connect-btn mt-3 rounded" onClick={() => onRepayLoan(offer)}>Repay Loan</button>
                                             :
-                                            <button className="action-btn rounded" onClick={() => onRepayLoan(offer)}>Repay</button>
+                                            <button className="connect-btn mt-3 rounded">Loading...</button>
                                     }
-
                                 </div>
                             </div>
                         }

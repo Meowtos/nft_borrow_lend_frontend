@@ -1,10 +1,9 @@
 "use client"
-import { discordLink, footerLinks, gmail, team, twitterLnk } from '@/utils/constants';
+import { discordLink, footerLinks, project, team, twitterLnk } from '@/utils/constants';
 import Image from 'next/image'
 import Link from 'next/link'
 import { BsDiscord } from "react-icons/bs";
 import { BsTwitter } from "react-icons/bs";
-import { IoMail } from "react-icons/io5";
 import { useTheme } from '@/context/themecontext';
 
 const Footer = () => {
@@ -54,15 +53,12 @@ const Footer = () => {
                                 <Link href={twitterLnk} target='_blank'>
                                     <BsTwitter className='sc-icon' />
                                 </Link>
-                                <Link href={`mailto:${gmail}`}>
-                                    <IoMail className='sc-icon' />
-                                </Link>
                             </div>
                         </div>
                     </div>
                     <div className="row mt-4 pt-2 ft-bottom">
                         <div className="col">
-                            <p className="m-0">@Copyright 2024 Wizards-fi</p>
+                            <p className="m-0">@Copyright 2024 {project}</p>
                         </div>
                         <div className="col d-flex justify-content-end">
                             <p className="m-0 text-end"><span>Privacy Policy</span> | <span>Terms and conditions</span></p>

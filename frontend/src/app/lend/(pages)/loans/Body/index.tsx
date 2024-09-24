@@ -11,6 +11,7 @@ import { interestPercentage } from "@/utils/math";
 import { Clock } from "@/components/Clock";
 import { secInADay } from "@/utils/time";
 import { GrabModal, grabModalId } from "../GrabModal";
+import { IoNewspaperOutline } from "react-icons/io5";
 export function Body() {
     const { getAssetByType } = useApp();
     const { account } = useWallet();
@@ -45,7 +46,7 @@ export function Body() {
         <React.Fragment>
             <h4 className="loans-title">Active Loans</h4>
             <div className="overflow-auto">
-                <table className="table mt-3">
+                <table className="table mt-3 loans-table">
                     <thead>
                         <tr>
                             <th>Asset</th>
@@ -92,13 +93,18 @@ export function Body() {
                                             <td>{item.start_timestamp ? <Clock timestamp={item.start_timestamp + item.duration * secInADay} /> : ""}</td>
                                             <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
                                             <td>
-                                                <button className="action-btn" data-bs-toggle="modal" data-bs-target={`${grabModalId}`} onClick={() => setGrabOffer(item)}>Get NFT</button>
+                                                <button className="action-btn" data-bs-toggle="modal" data-bs-target={`#${grabModalId}`} onClick={() => setGrabOffer(item)}>Get NFT</button>
                                             </td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={9} className="text-center"><p className="p-3">No Active Loans</p></td>
+                                        <td colSpan={9} className="text-center">
+                                            <div className="empty-box text-center py-5 px-3 mt-2 mb-2 rounded">
+                                                <IoNewspaperOutline className="fs-1" />
+                                                <p className="mt-2 w-100 text-center">No Active Loans</p>
+                                            </div>
+                                        </td>
                                     </tr>
                                 )
                             )
@@ -109,7 +115,7 @@ export function Body() {
 
             <h4 className="mt-5 loans-title">Previous Loans</h4>
             <div className="overflow-auto">
-                <table className="table mt-3">
+                <table className="table mt-3 loans-table">
                     <thead>
                         <tr>
                             <th>Asset</th>
@@ -126,7 +132,6 @@ export function Body() {
                             loading ? (
                                 Array.from({ length: 5 }).map((_, index) => (
                                     <tr key={index}>
-                                        <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
@@ -158,7 +163,12 @@ export function Body() {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={9} className="text-center"><p className="p-3">No Previous Loans</p></td>
+                                        <td colSpan={9} className="text-center">
+                                            <div className="empty-box text-center py-5 px-3 mt-2 mb-2 rounded">
+                                                <IoNewspaperOutline className="fs-1" />
+                                                <p className="mt-2 w-100 text-center">No Previous Loans</p>
+                                            </div>
+                                        </td>
                                     </tr>
                                 )
                             )
@@ -166,7 +176,7 @@ export function Body() {
                     </tbody>
                 </table>
             </div>
-            <GrabModal offer={grabOffer} />
+            <GrabModal offer={grabOffer} fetchLoans={fetchLoans}/>
         </React.Fragment>
 
     )
