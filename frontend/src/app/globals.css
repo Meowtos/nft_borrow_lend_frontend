@@ -182,6 +182,10 @@ h2 {font-size: 48px;font-weight: 600;line-height: 48px;}
 }
 
 
+.txt-primary{
+  color: var(--sec-2) !important;
+}
+
 
 
 

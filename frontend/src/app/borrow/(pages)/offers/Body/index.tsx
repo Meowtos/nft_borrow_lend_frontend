@@ -37,7 +37,7 @@ export function Body() {
             <h4 className="loans-title">Offers Received</h4>
 
             <div className="overflow-auto">
-                <table className="table mt-3">
+                <table className="table mt-3 offers-table">
                     <thead>
                         <tr>
                             <th>Token</th>

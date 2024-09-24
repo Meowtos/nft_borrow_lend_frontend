@@ -3,7 +3,7 @@
 //// Test Collection
 //
 //
-module my_addrx::octos {
+module my_addrx::octos_movers {
     use std::signer::address_of;
     use aptos_token_objects::token;
     use aptos_token_objects::collection;
@@ -21,10 +21,10 @@ module my_addrx::octos {
         counter: u64,
     }
 
-    const COLLECTION_NAME: vector<u8> = b"Octos";
+    const COLLECTION_NAME: vector<u8> = b"Octos movers";
     const COLLECTION_DESCRIPTION: vector<u8> = b"Keep minting!!";
     const COLLECTION_URI: vector<u8> = b"https://github.com/ajaythxkur/octos";
-    const TOKEN_DESCRIPTION: vector<u8> = b"LFGGGGGG";
+    const TOKEN_DESCRIPTION: vector<u8> = b"LF Move";
 
     fun init_module(creator: &signer) {
         let constructor_ref = object::create_named_object(creator, COLLECTION_NAME);
@@ -79,11 +79,11 @@ module my_addrx::octos {
     }
 
     #[view]
-    public fun get_token_address(num: u64): address {
+    public fun get_token_address(token_name: String): address {
         token::create_token_address(
             &get_app_signer_addr(),
             &utf8(COLLECTION_NAME),
-            &utf8(construct_token_name(num))
+            &token_name
         )
     }
 

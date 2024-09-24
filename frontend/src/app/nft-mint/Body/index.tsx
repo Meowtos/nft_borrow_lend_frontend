@@ -9,9 +9,9 @@ import { IoCheckmark } from "react-icons/io5";
 import { useTheme } from "@/context/themecontext";
 export function Body() {
     const { account, signAndSubmitTransaction, network } = useWallet()
-    const [name, setName] = useState("");
     const [uri, setUri] = useState("");
     const [loading, setLoading] = useState(false);
+    const [collection, setCollection] = useState("octos")
     const { theme } = useTheme();
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -26,9 +26,9 @@ export function Body() {
             const response = await signAndSubmitTransaction({
                 sender: account.address,
                 data: {
-                    function: `${ABI_ADDRESS}::cars_collection::mint`,
+                    function: `${ABI_ADDRESS}::${collection}::mint`,
                     typeArguments: [],
-                    functionArguments: [name, uri]
+                    functionArguments: [uri]
                 }
             });
             await aptos.waitForTransaction({
@@ -58,15 +58,12 @@ export function Body() {
                             <h3 className="text-center mb-4">Mint Testnet NFT</h3>
                             <p className="text-center mb-3">Mint your NFT easily by connecting your wallet and selecting your preferred options. Your NFT will be created and sent directly to your wallet without any extra steps!</p>
                             <form onSubmit={onSubmit} className="mint-form">
-                                {/* <div className="mb-3">
-                                    <label htmlFor="token" className="form-label">Select Collection:</label>
-                                    <select className="form-select select-coin" name="token" value={token} onChange={(e)=>setToken(e.target.value)} required>
-                                        <option value="v2">Cars on Aptos</option>
-                                    </select>
-                                </div> */}
                                 <div className="mb-3">
-                                    <label htmlFor="name" className="form-label">Token Name:</label>
-                                    <input type="text" className="form-control" name="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your token name" required />
+                                    <label htmlFor="token" className="form-label">Select Collection:</label>
+                                    <select className="form-select select-coin" name="token" value={collection} onChange={(e)=>setCollection(e.target.value)} required>
+                                        <option value="octos">Octos</option>
+                                        <option value="octos_movers">Octos Movers</option>
+                                    </select>
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="uri" className="form-label">Icon Uri:</label>

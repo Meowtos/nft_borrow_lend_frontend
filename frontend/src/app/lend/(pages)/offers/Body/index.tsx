@@ -36,7 +36,7 @@ export function Body() {
     return (
         <>
             <div className="overflow-auto">
-                <table className="table">
+                <table className="table offers-table">
                     <thead>
                         <tr>
                             <th>Token</th>

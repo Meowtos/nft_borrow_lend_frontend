@@ -2,7 +2,7 @@ import { Snowflake, DMChannel, User, APIEmbed } from "discord.js"
 import axios, { AxiosResponse } from "axios"
 import { BOT_TOKEN } from "./env"
 export const discord_api = axios.create({
-    baseURL: "https://discord.com/api/",
+    baseURL: "https://discord.com/api/v10",
     timeout: 3000,
     headers: {
         "Access-Control-Allow-Origin": "*",

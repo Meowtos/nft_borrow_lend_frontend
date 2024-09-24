@@ -430,7 +430,7 @@ module my_addrx::nft_lending {
     use my_addrx::moon_coin;
 
     #[test_only]
-    use my_addrx::cars_collection;
+    use my_addrx::octos;
 
     #[test_only]
     use std::string::utf8;
@@ -448,7 +448,7 @@ module my_addrx::nft_lending {
         init_module_for_test(admin);
         punk_coin::init_module_for_test(admin);
         moon_coin::init_module_for_test(admin);
-        cars_collection::init_module_for_test(admin);
+        octos::init_module_for_test(admin);
     }
 
     #[test_only]
@@ -549,12 +549,11 @@ module my_addrx::nft_lending {
         punk_coin::faucet(alice);
         let metadata = punk_coin::asset_metadata(punk_coin::asset_address());
         // NFT to bob
-        cars_collection::mint(
+        octos::mint(
             bob,
-            utf8(b"Name"),
             utf8(b"uri"),
         );
-        let token_addr = cars_collection::get_token_address(utf8(b"Name"));
+        let token_addr = octos::get_token_address(0);
         let token =  object::address_to_object(token_addr);
         let offer = make_offer_with_fa_for_test(
            alice,
@@ -575,12 +574,11 @@ module my_addrx::nft_lending {
         account::create_account_for_test(address_of(bob));
         moon_coin::faucet(alice);
         // NFT to bob
-        cars_collection::mint(
+        octos::mint(
             bob,
-            utf8(b"Name"),
             utf8(b"uri"),
         );
-        let token_addr = cars_collection::get_token_address(utf8(b"Name"));
+        let token_addr = octos::get_token_address(0);
         let token = object::address_to_object(token_addr);
         let offer = make_offer_with_coin_for_test<moon_coin::MoonCoin>(
            alice,
@@ -615,12 +613,11 @@ module my_addrx::nft_lending {
         punk_coin::faucet(alice);
         let metadata = punk_coin::asset_metadata(punk_coin::asset_address());
         // NFT to bob
-        cars_collection::mint(
+        octos::mint(
             bob,
-            utf8(b"Name"),
             utf8(b"uri"),
         );
-        let token_addr = cars_collection::get_token_address(utf8(b"Name"));
+        let token_addr = octos::get_token_address(0);
         let token = object::address_to_object(token_addr);
         let offer = make_offer_with_fa_for_test(
            alice,
@@ -647,12 +644,11 @@ module my_addrx::nft_lending {
         account::create_account_for_test(address_of(bob));
         moon_coin::faucet(alice);
         // NFT to bob
-        cars_collection::mint(
+        octos::mint(
             bob,
-            utf8(b"Name"),
             utf8(b"uri"),
         );
-        let token_addr = cars_collection::get_token_address(utf8(b"Name"));
+        let token_addr = octos::get_token_address(0);
         let token = object::address_to_object(token_addr);
         let offer = make_offer_with_coin_for_test<moon_coin::MoonCoin>(
            alice,
@@ -688,12 +684,11 @@ module my_addrx::nft_lending {
         account::create_account_for_test(address_of(bob));
         moon_coin::faucet(alice);
         // NFT to bob
-        cars_collection::mint(
+        octos::mint(
             bob,
-            utf8(b"Name"),
             utf8(b"uri"),
         );
-        let token_addr = cars_collection::get_token_address(utf8(b"Name"));
+        let token_addr = octos::get_token_address(0);
         let token = object::address_to_object(token_addr);
         let offer = make_offer_with_coin_for_test<moon_coin::MoonCoin>(
            alice,

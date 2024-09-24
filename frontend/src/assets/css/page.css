@@ -822,6 +822,12 @@ ul.dropdown-menu li {
     color: var(--light-90);
     padding: 16px;
 }
+.card-body h6, .card-body p{
+    color: var(--light-90);
+}
+.light-theme .card-body h6, .light-theme .card-body p{
+    color: var(--light-99);
+}
 
 
 

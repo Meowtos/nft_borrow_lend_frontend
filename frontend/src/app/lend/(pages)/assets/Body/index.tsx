@@ -92,6 +92,14 @@ export function TokenListings({ viewtype, tokens, loading }: TokenListingsProps)
                                 <div className="card-body ">
                                     <h4 className="card-title">{token.token_name}</h4>
                                     <p className="card-text p-2">{token.collection_name}</p>
+                                    <h6 className="px-2">Borrower&apos;s Ask:</h6>
+                                    <p className="p-2">
+                                        <span className="txt-primary">{token.amount} {token.coin ? getAssetByType(token.coin)?.symbol: "Any coin "}</span>with
+                                        &nbsp;
+                                        <span className="txt-primary">{token.apr ?? "any "}</span> APR for
+                                        &nbsp;
+                                        <span className="txt-primary">{token.duration ?? "any "}</span> days.
+                                    </p>
                                     <button onClick={() => setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${lendModalId}`} className="btn list-btn w-100 mt-3">Give Loan</button>
                                 </div>
                             </div>
