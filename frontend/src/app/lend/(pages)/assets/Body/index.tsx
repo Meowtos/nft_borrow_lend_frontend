@@ -94,11 +94,11 @@ export function TokenListings({ viewtype, tokens, loading }: TokenListingsProps)
                                     <p className="card-text p-2">{token.collection_name}</p>
                                     <h6 className="px-2">Borrower&apos;s Ask:</h6>
                                     <p className="p-2">
-                                        <span className="txt-primary">{token.amount} {token.coin ? getAssetByType(token.coin)?.symbol: "Any coin "}</span>with
+                                        <span className="txt-primary">{token.amount} {token.coin ? getAssetByType(token.coin)?.symbol: "Any coin"}</span>&nbsp;with
                                         &nbsp;
-                                        <span className="txt-primary">{token.apr ?? "any "}</span> APR for
+                                        <span className="txt-primary">{token.apr ?? "any"}</span>&nbsp;APR for
                                         &nbsp;
-                                        <span className="txt-primary">{token.duration ?? "any "}</span> days.
+                                        <span className="txt-primary">{token.duration ?? "any"}</span>&nbsp;days.
                                     </p>
                                     <button onClick={() => setChosenToken(token)} data-bs-toggle="modal" data-bs-target={`#${lendModalId}`} className="btn list-btn w-100 mt-3">Give Loan</button>
                                 </div>
@@ -141,9 +141,9 @@ export function TokenListings({ viewtype, tokens, loading }: TokenListingsProps)
                                         <td>
                                             <Image src={`${token.token_icon}`} className="rounded me-2" alt="nft" width={32} height={32} />
                                             <span className="fs-5">{token.token_name} </span>
-                                            <span className="d-none ts-mobile">({token.token_standard})</span><br />
+                                            {/* <span className="d-none ts-mobile">({token.token_standard})</span><br />
                                             <p className="d-none ts-mobile pt-2">{token.collection_name}</p><br />
-                                            <p className="d-none ts-mobile">{token.apr}%</p>
+                                            <p className="d-none ts-mobile">{token.apr}%</p> */}
                                         </td>
                                         <td>{token.token_standard}</td>
                                         <td>{token.collection_name}</td>
@@ -152,8 +152,8 @@ export function TokenListings({ viewtype, tokens, loading }: TokenListingsProps)
                                         <td>{token.apr}</td>
                                         <td>
                                             <button onClick={() => setChosenToken(token)} className="action-btn rounded" data-bs-toggle="modal" data-bs-target={`#${lendModalId}`}>Give Loan</button>
-                                            <p className="d-none ts-mobile pt-2">{token.amount} {token.coin ? getAssetByType(token.coin)?.symbol : ""}</p><br />
-                                            <p className="d-none ts-mobile">{token.duration}D</p>
+                                            {/* <p className="d-none ts-mobile pt-2">{token.amount} {token.coin ? getAssetByType(token.coin)?.symbol : ""}</p><br />
+                                            <p className="d-none ts-mobile">{token.duration}D</p> */}
                                         </td>
                                     </tr>
                                 ))

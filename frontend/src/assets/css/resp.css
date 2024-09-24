@@ -124,13 +124,13 @@
   .faucet p {
     width: 100%;
   }
-  .loans-table, .offers-table{
+  .loans-table, .offers-table, .list-view .table{
     width: max-content !important;
   }
-  .loans-table.table td, .offers-table.table td {
+  .loans-table.table td, .offers-table.table td, .list-view .table td {
     padding-right: 24px;
   }
-  .loans-table.table td:last-child, .offers-table.table td:last-child {
+  .loans-table.table td:last-child, .offers-table.table td:last-child, .list-view .table td:last-child {
     padding-right: 8px;
   }
 
@@ -300,9 +300,6 @@
   .ft-list li {
     margin-top: 10px;
   }
-}
-
-@media(max-width:1024px){
   .connect-btn .arrow-icon{display: none;}
 }
 
@@ -650,7 +647,8 @@
   /* .table{
     width: max-content;
   } */
-  .list-view th:nth-child(2),
+
+  /* .list-view th:nth-child(2),
   .list-view td:nth-child(2),
   .list-view th:nth-child(3),
   .list-view td:nth-child(3),
@@ -661,7 +659,7 @@
   .list-view.lend th:nth-child(6),
   .list-view.lend td:nth-child(6) {
     display: none;
-  }
+  } */
 
   .list-view .table {
     width: 100%;

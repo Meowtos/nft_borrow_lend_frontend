@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
         });
         const user = await User.findOne({ address: existListing.address });
         await newLoan.save();
-        return NextResponse.json({ message: "success", data: user?.discordId }, { status: 200 });
+        return NextResponse.json({ message: "success", data: user?.isNotification ? user?.discordId : null }, { status: 200 });
     } catch (error: unknown) {
         let errorMessage = 'An unexpected error occurred';
         if (error instanceof Error) {

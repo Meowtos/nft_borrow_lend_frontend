@@ -1,7 +1,7 @@
 export const project = `Octos`;
 export const explorerUrl = "https://explorer.aptoslabs.com" 
 export const discordLink = "https://discord.gg/tFQMPWSQ5z";
-export const twitterLnk ="";
+export const twitterLnk ="#";
 
 export const menu =[
     {
@@ -44,12 +44,12 @@ export const team = [
     {
         name: "Sen7e",
         github: "https://github.com/ajaythxkur",
-        profile: '/media/nfts/5.jpeg'
+        profile: '/media/nfts/10.jpeg'
     },
     {
         name: "Devil",
         github: "https://github.com/Devil02070",
-        profile: '/media/nfts/2.jpeg'
+        profile: '/media/nfts/1.jpeg'
     }
 ];
 

@@ -98,6 +98,7 @@ module my_addrx::nft_lending {
     const EREPAY_TIME_HAS_EXCEED: u64 = 10;
     const EUNAUTHORIZED_ACTION: u64 = 11;
     const EREPAY_TIME_HAS_NOT_EXCEED: u64 = 12;
+    const ENO_COLLATERAL: u64 = 13;
 
     //
     ////
@@ -273,6 +274,7 @@ module my_addrx::nft_lending {
             apr,
             delete_ref,
         } = move_from<Offer>(make_addr);
+        assert!(object::is_owner(token_id, address_of(account)), ENO_COLLATERAL);
         object::delete(delete_ref);
         let constructor_ref = &object::create_object(address_of(account));
         let obj_signer = &object::generate_signer(constructor_ref);

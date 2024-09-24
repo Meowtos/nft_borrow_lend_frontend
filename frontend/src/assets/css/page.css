@@ -104,6 +104,7 @@ button,
     touch-action: manipulation;
     transition: all 0.5s ease;
     text-transform: capitalize;
+    border-radius: 4px;
 }
 
 .banner-btn:after {
@@ -118,13 +119,14 @@ button,
     transform: translate(8px, 8px);
     transition: transform .3s ease-out;
     z-index: -1;
+    border-radius: 4px;
 }
 
 .lend-btn {
     background: var(--primary-3);
 }
 .lend-btn:after{
-    background: var(--primary-1);
+    background: #3E065F;
 }
 
 .banner-btn:hover:after {
@@ -133,7 +135,8 @@ button,
 
 .banner-btn:active,
 .banner-btn:hover {
-    background-color: var(--sec-1);
+    /* background-color: var(--sec-1); */
+    background: var(--primary-1);
 }
 .lend-btn:hover{
     background: var(--primary-1);
@@ -587,9 +590,20 @@ ul.dropdown-menu li {
 }
 
 .footer .popped {
-    background-color: var(--primary-1);
+    /* background-color: var(--primary-1); */
     padding: 60px 24px;
     margin-top: -133px;
+    background: var(--dark);
+    box-shadow: 0 0 10px 0px var(--primary-1);
+    /* border: 1px dashed var(--primary-1); */
+}
+.light-theme.footer .popped{
+    background: var(--primary-1);
+}
+.light-theme .footer-logo {
+    background: #ffffff;
+    border-radius: 100%;
+    padding: 4px;
 }
 
 .ft-list,

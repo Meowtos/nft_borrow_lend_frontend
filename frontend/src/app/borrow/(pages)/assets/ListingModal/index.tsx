@@ -22,7 +22,7 @@ interface ListingModalProps {
     getUserListings: () => Promise<void>
 }
 export function ListingModal({ token, getUserListings }: ListingModalProps) {
-    const { assets } = useApp();
+    const { assets, getAssetByType } = useApp();
     const { account, network } = useWallet();
     const [dropdownToken, setDropdownToken] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
@@ -81,11 +81,13 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
                     },
                     body: JSON.stringify({
                         recepient_id: LISTING_CHANNEL_ID,
-                        title: "New Listing",
-                        description: `${token.token_name} has been listing`,
+                        title: `${token.token_name}`,
                         image: token.token_icon_uri,
                         url: `${window.location.origin}/lend/assets`,
-                        timestamp: Date.now().toString(),
+                        amount: data.amount != "" ? data.amount : null,
+                        coin: data.coin ? getAssetByType(data.coin)?.symbol : null,
+                        apr: data.apr !== "" ? data.apr : null,
+                        duration: data.duration !== "" ? data.duration : null
                     })
                 });
             } catch (error: unknown) {
