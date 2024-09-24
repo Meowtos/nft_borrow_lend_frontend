@@ -71,12 +71,12 @@ Octos is here to redefine how you utilize NFTs. Join us today and experience dec
 
 ### Architecture
 
-[Architecture][architecture-screenshot]
+[![Architecture screenshot][architecture-screenshot]](https://octos-xyz.vercel.app)
 
 ### Built With
 
 - [Move][Move-url]
-- [Next][Next-url]
+- [Nextjs][Next-url]
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
