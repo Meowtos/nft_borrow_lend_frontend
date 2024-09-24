@@ -7,14 +7,20 @@ import { BsTwitter } from "react-icons/bs";
 import { useTheme } from '@/context/themecontext';
 
 const Footer = () => {
-    const {theme} = useTheme()
+    const { theme } = useTheme()
     return (
         <>
             <section className={`footer ${theme == 'light' ? 'light-theme' : 'dark-theme'}`}>
                 <div className="container">
                     <div className="row popped rounded">
                         <div className="col-lg-3 pe-5">
-                            <Image src="/media/logo-main.png" className='footer-logo' alt="logo" height={75} width={80} />
+                            {
+                                theme == 'dark'
+                                    ?
+                                    <Image src="/media/octos4.png" alt="logo" height={65} width={75} className='rounded' />
+                                    :
+                                    <Image src="/media/octos3.png" alt="logo" height={65} width={75} className='rounded' />
+                            }
                             <p className='pt-3'>Unlock liquidity without selling your NFTs. Use them as collateral for secure, decentralized loans and retain ownership of your digital assets.</p>
                         </div>
                         <div className="col-lg-3">
@@ -22,7 +28,7 @@ const Footer = () => {
                             <p className="br"></p>
                             <ul className='ft-list m-0 p-0'>
                                 {
-                                    footerLinks.map((v, idx)=>(
+                                    footerLinks.map((v, idx) => (
                                         <Link href={v.path} key={`path-${idx}`}>
                                             <li>{v.heading}</li>
                                         </Link>
@@ -35,9 +41,9 @@ const Footer = () => {
                             <p className="br"></p>
                             <ul className='ft-list m-0 p-0'>
                                 {
-                                    team.map((v,idx)=>(
+                                    team.map((v, idx) => (
                                         <Link href={v.github} target='_blank' key={`team-${idx}`}>
-                                            <li><Image src={v.profile} alt="profile" height={24} width={24} className='me-2 rounded-circle'/>{v.name}</li>
+                                            <li><Image src={v.profile} alt="profile" height={24} width={24} className='me-2 rounded-circle' />{v.name}</li>
                                         </Link>
                                     ))
                                 }

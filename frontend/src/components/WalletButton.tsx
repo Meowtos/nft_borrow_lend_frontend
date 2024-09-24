@@ -82,17 +82,15 @@ const WalletList = ({ wallets }: { wallets: Wallet[] }) => {
             </div>
             <div className="modal-body text-center p-0">
               {/* Aptos keyless */}
-              <Link href={redirectUrl.toString()}>
-                <button className="wl-item rounded w-100">
+                <button className="wl-item rounded w-100 disabled" disabled>
                   <Image
                     alt={"google"}
                     src={"/google-logo.svg"}
                     height={20}
                     width={20}
                   />&nbsp;
-                  Sign in with keyless account
+                  Sign in with keyless account (coming soon)
                 </button>
-              </Link>
               {wallets.map((wallet, index) => (
                 <div key={index} >
                   <WalletView wallet={wallet} key={index} />
