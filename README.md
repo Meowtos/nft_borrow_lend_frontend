@@ -8,11 +8,11 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href=[github-url]>
+  <a href="https://github.com/ajaythxkur/octos">
     <img src="media-kit/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Wiz Protocol</h3>
+  <h3 align="center">Octos</h3>
 
   <p align="center">
     Turn your NFTs into collateral and access cryptocurrency loans with ease. No need to sell—just lend your NFTs and get the liquidity you need in minutes.
