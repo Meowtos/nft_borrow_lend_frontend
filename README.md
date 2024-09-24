@@ -70,12 +70,13 @@ Octos is here to redefine how you utilize NFTs. Join us today and experience dec
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 ### Architecture
-[architecture-screenshot]
+
+[Architecture][architecture-screenshot]
 
 ### Built With
 
-- [![Move]][Move-url]
-- [![Next]][Next-url]
+- [Move][Move-url]
+- [Next][Next-url]
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
