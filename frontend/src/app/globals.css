@@ -111,6 +111,10 @@
 .light-theme .br{
   background: #ffffff;
 }
+.light-theme .empty-box {
+  background: #00000015;
+  color: #00000050;
+}
 @media(max-width:768px){
   .light-theme .work-row, .light-theme .accordion{
     box-shadow: unset;

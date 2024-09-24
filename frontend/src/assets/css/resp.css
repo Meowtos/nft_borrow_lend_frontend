@@ -121,10 +121,17 @@
   .submit-btn {
     width: fit-content;
   }
-
-
   .faucet p {
     width: 100%;
+  }
+  .loans-table{
+    width: max-content;
+  }
+  .loans-table.table td {
+    padding-right: 24px;
+  }
+  .loans-table.table td:last-child {
+    padding-right: 8px;
   }
 
 }

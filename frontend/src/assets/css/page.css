@@ -719,6 +719,9 @@ ul.dropdown-menu li {
     padding: 20px;
     border-radius: 4px;
 }
+.lendnft{
+    justify-content: end;
+}
 
 .content-header .collection {
     position: relative;

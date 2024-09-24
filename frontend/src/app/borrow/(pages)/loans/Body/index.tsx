@@ -51,7 +51,7 @@ export function Body() {
             {/* Live/Current loans */}
             <h4 className="loans-title">Current Loans</h4>
             <div className="overflow-auto">
-                <table className="table mt-3">
+                <table className="table mt-3 loans-table">
                     <thead>
                         <tr>
                             <th>Asset</th>
@@ -61,7 +61,7 @@ export function Body() {
                             <th>Duration</th>
                             <th>Countdown</th>
                             <th>Loan</th>
-                            <th>Action</th>
+                            <th className="text-end">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,7 +76,7 @@ export function Body() {
                                         <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
-                                        <td className="text-center"><span className="line"></span></td>
+                                        <td className="text-end"><span className="line"></span></td>
                                     </tr>
                                 ))
                             ) : (
@@ -97,7 +97,7 @@ export function Body() {
                                             <td>{item.duration} day/days</td>
                                             <td>{item.start_timestamp ? <Clock timestamp={item.start_timestamp + item.duration * secInADay} /> : ""}</td>
                                             <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
-                                            <td><button className="action-btn" onClick={() => setRepayOffer(item)} data-bs-toggle="modal" data-bs-target={`#${repayModalId}`}>Repay Loan</button></td>
+                                            <td className="text-end"><button className="action-btn" onClick={() => setRepayOffer(item)} data-bs-toggle="modal" data-bs-target={`#${repayModalId}`}>Repay Loan</button></td>
                                         </tr>
                                     ))
                                 ) : (
@@ -123,7 +123,7 @@ export function Body() {
                 <>
                     <h4 className="mt-5 loans-title">Previous Loans</h4>
                     <div className="overflow-auto">
-                        <table className="table mt-3">
+                        <table className="table mt-3 loans-table">
                             <thead>
                                 <tr>
                                     <th>Asset</th>

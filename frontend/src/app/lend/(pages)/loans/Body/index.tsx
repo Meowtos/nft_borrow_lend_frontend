@@ -46,7 +46,7 @@ export function Body() {
         <React.Fragment>
             <h4 className="loans-title">Active Loans</h4>
             <div className="overflow-auto">
-                <table className="table mt-3">
+                <table className="table mt-3 loans-table">
                     <thead>
                         <tr>
                             <th>Asset</th>
@@ -115,7 +115,7 @@ export function Body() {
 
             <h4 className="mt-5 loans-title">Previous Loans</h4>
             <div className="overflow-auto">
-                <table className="table mt-3">
+                <table className="table mt-3 loans-table">
                     <thead>
                         <tr>
                             <th>Asset</th>
@@ -132,7 +132,6 @@ export function Body() {
                             loading ? (
                                 Array.from({ length: 5 }).map((_, index) => (
                                     <tr key={index}>
-                                        <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
                                         <td className="text-center"><span className="line"></span></td>
