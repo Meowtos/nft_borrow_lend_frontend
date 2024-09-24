@@ -22,7 +22,7 @@ export async function PUT(req: NextRequest, context: { params: Params }){
         existLoan.status = "repayed";
         await existLoan.save();
         const user = await User.findOne({ address: existLoan.address });
-        return NextResponse.json({ message: "success", data: user?.discordId }, { status: 200 });
+        return NextResponse.json({ message: "success", data: user?.isNotification ? user?.discordId : null }, { status: 200 });
     } catch (error: unknown) {
         let errorMessage = 'An unexpected error occurred';
         if (error instanceof Error) {
