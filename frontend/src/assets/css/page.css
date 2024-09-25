@@ -729,8 +729,8 @@ ul.dropdown-menu li {
 .content-header {
     justify-content: space-between;
     align-items: center;
-    background: var(--bglight-10);
-    padding: 20px;
+    /* background: var(--bglight-10);
+    padding: 20px; */
     border-radius: 4px;
 }
 .lendnft{

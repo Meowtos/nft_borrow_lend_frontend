@@ -14,7 +14,8 @@ import { MdOutlineToken } from "react-icons/md";
 import { MAX_LOCK_DURATION } from "@/utils/aptos";
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
-import { LISTING_CHANNEL_ID, NETWORK } from "@/utils/env";
+import { LISTING_CHANNEL_ID } from "@/utils/env";
+import { useKeylessAccounts } from "@/core/useKeylessAccounts";
 
 export const assetListingModalId = "assetListingModal";
 interface ListingModalProps {
@@ -23,7 +24,8 @@ interface ListingModalProps {
 }
 export function ListingModal({ token, getUserListings }: ListingModalProps) {
     const { assets, getAssetByType } = useApp();
-    const { account, network } = useWallet();
+    const { account } = useWallet();
+    const { activeAccount } = useKeylessAccounts()
     const [dropdownToken, setDropdownToken] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
     const { values, handleSubmit, handleChange, setFieldValue, errors, touched } = useFormik({
@@ -39,16 +41,14 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
             apr: Yup.number().positive("Apr must be +ve"),
         }),
         onSubmit: async (data) => {
-            if (!account?.address || !token) return;
+            if ((!account?.address && !activeAccount?.accountAddress) || !token) return;
 
             setSubmitLoading(true)
             try {
-                if (network?.name !== NETWORK) {
-                    throw new Error(`Switch to ${NETWORK} network`)
-                }
+                const account_address = activeAccount ? activeAccount.accountAddress?.toString() : account?.address
                 const formData = {
                     ...data,
-                    address: account.address,
+                    address: account_address,
                     collection_id: token.collection_id,
                     collection_name: token.collection_name,
                     token_data_id: token.token_data_id,

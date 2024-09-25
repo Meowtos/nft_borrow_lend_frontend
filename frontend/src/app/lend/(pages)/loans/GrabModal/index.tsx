@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { PendingTransactionResponse, useWallet } from "@aptos-labs/wallet-adapter-react";
 import { toast } from "sonner";
 import { IoCheckmark, IoClose } from 'react-icons/io5'
 import { aptos } from "@/utils/aptos";
@@ -9,33 +9,45 @@ import { explorerUrl } from "@/utils/constants";
 import { Loan } from "@/types/ApiInterface";
 import Image from "next/image";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
-
+import { useKeylessAccounts } from "@/core/useKeylessAccounts";
+import { InputGenerateTransactionPayloadData } from "@aptos-labs/ts-sdk";
 export const grabModalId = "grabModal";
 interface GrabModalProps {
     offer: Loan | null;
     fetchLoans: () => Promise<void>;
 }
 export function GrabModal({ offer, fetchLoans }: GrabModalProps) {
+    const { activeAccount } = useKeylessAccounts()
     const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false)
     const onGrab = async (offer: Loan) => {
-        if (!account?.address || !offer.borrow_obj) return;
+        if ((!account?.address && !activeAccount) || !offer.borrow_obj) return;
         try {
-            if (network?.name !== NETWORK) {
+            if (account?.address && network?.name !== NETWORK) {
                 throw new Error(`Switch to ${NETWORK} network`)
             }
             const functionArguments = [
                 offer.borrow_obj
             ];
-            setLoading(true)
-            const response = await signAndSubmitTransaction({
-                sender: account.address,
-                data: {
-                    function: `${ABI_ADDRESS}::nft_lending::grab`,
-                    typeArguments: [],
-                    functionArguments
-                },
-            });
+            setLoading(true);
+            let response: PendingTransactionResponse;
+            const data: InputGenerateTransactionPayloadData = {
+                function: `${ABI_ADDRESS}::nft_lending::grab`,
+                typeArguments: [],
+                functionArguments
+            }
+            if(activeAccount){
+                const transaction =  await aptos.transaction.build.simple({
+                    sender: activeAccount.accountAddress,
+                    data,
+                });
+                response =  await aptos.signAndSubmitTransaction({ signer: activeAccount, transaction });
+            } else {
+                response = await signAndSubmitTransaction({
+                    sender: account?.address,
+                    data
+                });
+            }
             await aptos.waitForTransaction({
                 transactionHash: response.hash
             })
@@ -44,7 +56,7 @@ export function GrabModal({ offer, fetchLoans }: GrabModalProps) {
                 headers: {
                     contentType: "application/json"
                 },
-                body: JSON.stringify({ address: account.address })
+                body: JSON.stringify({ address: activeAccount ? activeAccount?.accountAddress?.toString() : account?.address })
             });
             const apiRes = await res.json();
             if (!res.ok) {

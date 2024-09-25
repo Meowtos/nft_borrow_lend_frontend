@@ -12,22 +12,28 @@ import { Clock } from "@/components/Clock";
 import { secInADay } from "@/utils/time";
 import { GrabModal, grabModalId } from "../GrabModal";
 import { IoNewspaperOutline } from "react-icons/io5";
+import { useKeylessAccounts } from "@/core/useKeylessAccounts";
 export function Body() {
     const { getAssetByType } = useApp();
+    const { activeAccount } = useKeylessAccounts();
     const { account } = useWallet();
     const [loading, setLoading] = useState(true)
     const [activeLoans, setActiveLoans] = useState<Loan[]>([]);
     const [prevLoans, setPrevLoans] = useState<Loan[]>([])
     const [grabOffer, setGrabOffer] = useState<Loan | null>(null)
     const fetchLoans = useCallback(async () => {
-        if (!account?.address) return;
+        if (!account?.address && !activeAccount) return;
         try {
-            const res = await fetch(`/api/lend?address=${account.address}&status=borrowed`);
+            const address = activeAccount ? activeAccount?.accountAddress?.toString() : account?.address;
+            if(!address){
+                throw new Error("Address not found")
+            }
+            const res = await fetch(`/api/lend?address=${address}&status=borrowed`);
             const response = await res.json();
             if (res.ok) {
                 setActiveLoans(response.data)
             }
-            const prevRes = await fetch(`/api/lend/previous?address=${account.address}`);
+            const prevRes = await fetch(`/api/lend/previous?address=${address}`);
             const prevResponse = await prevRes.json();
             if (prevRes.ok) {
                 setPrevLoans(prevResponse.data)
@@ -37,7 +43,7 @@ export function Body() {
         } finally {
             setLoading(false)
         }
-    }, [account?.address])
+    }, [account?.address, activeAccount])
     useEffect(() => {
         fetchLoans()
     }, [fetchLoans]);

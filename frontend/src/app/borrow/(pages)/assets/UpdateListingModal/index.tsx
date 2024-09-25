@@ -13,6 +13,7 @@ import { MAX_LOCK_DURATION } from "@/utils/aptos";
 import * as Yup from "yup";
 import { ButtonLoading } from "@/components/ButtonLoading";
 import { Listing } from "@/types/ApiInterface";
+import { useKeylessAccounts } from "@/core/useKeylessAccounts";
 export const updateListingModalId = "updateListingModal";
 interface UpdateListingModalProps {
     token: Listing | null;
@@ -20,6 +21,7 @@ interface UpdateListingModalProps {
 }
 export function UpdateListingModal({ token, getUserListings }: UpdateListingModalProps) {
     const { assets } = useApp();
+    const { activeAccount } = useKeylessAccounts();
     const { account } = useWallet();
     const [dropdownToken, setDropdownToken] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
@@ -37,7 +39,7 @@ export function UpdateListingModal({ token, getUserListings }: UpdateListingModa
             apr: Yup.number().positive("Apr must be +ve"),
         }),
         onSubmit: async (data) => {
-            if (!account?.address || !token) return;
+            if ((!account?.address && !activeAccount) || !token) return;
             setSubmitLoading(true)
             try {
                 const formData = {
@@ -77,10 +79,14 @@ export function UpdateListingModal({ token, getUserListings }: UpdateListingModa
         }
     }, [assets, values.coin])
     const onRemoveListing = async() => {
-        if(!account?.address || !token) return;
+        if((!account?.address && !activeAccount?.accountAddress) || !token) return;
         try {
             setIsRemoving(true);
-            const res = await fetch(`/api/listing/${token._id}?address=${account.address}`, {
+            const address = activeAccount ? activeAccount.accountAddress?.toString() : account?.address;
+            if(!address){
+                throw new Error("Address not found")
+            }
+            const res = await fetch(`/api/listing/${token._id}?address=${address}`, {
                 method: "DELETE",
             });
             const response = await res.json();
@@ -88,7 +94,7 @@ export function UpdateListingModal({ token, getUserListings }: UpdateListingModa
                 throw new Error(response.message)
             }
             document.getElementById("closeUpdateListingModal")?.click();
-            toast.success("Item removed successfully")
+            toast.success("Item delisted successfully")
             await getUserListings()
         } catch (error) {
             let errorMessage = 'An unexpected error occurred';

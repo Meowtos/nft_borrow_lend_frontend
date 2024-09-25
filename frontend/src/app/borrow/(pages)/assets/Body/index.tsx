@@ -15,10 +15,11 @@ import { MdFilter } from "react-icons/md";
 import { Listing } from "@/types/ApiInterface";
 import { UpdateListingModal, updateListingModalId } from "../UpdateListingModal";
 import { IoNewspaperOutline } from "react-icons/io5";
-
+import { useKeylessAccounts } from "@/core/useKeylessAccounts";
 
 export function Body() {
     const { account } = useWallet();
+    const { activeAccount } = useKeylessAccounts();
     const [userOwnedCollections, setUserOwnedCollections] = useState<Collection[]>([]);
     const [chosenCollection, setChosenCollection] = useState<Collection | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -27,10 +28,14 @@ export function Body() {
     const [userListings, setUserListings] = useState<Listing[]>([])
     const [userListingLoading, setUserListingLoading] = useState(true)
     const getCollectionsOwnedByUser = useCallback(async () => {
-        if (!account?.address) return;
+        if (!account?.address && !activeAccount) return;
         setIsLoading(true)
         try {
-            const res = await getUserOwnedCollections(account.address)
+            const address = activeAccount ? activeAccount?.accountAddress?.toString() : account?.address;
+            if(!address){
+                throw new Error("Address not found")
+            }
+            const res = await getUserOwnedCollections(address)
             const ownedCollections: Collection[] = [];
             for (const collection of res) {
                 ownedCollections.push({
@@ -49,12 +54,16 @@ export function Body() {
         } finally {
             setIsLoading(false)
         }
-    }, [account?.address])
+    }, [account?.address, activeAccount])
     const getUserListings = useCallback(async () => {
-        if (!account?.address) return;
+        if (!account?.address && !activeAccount) return;
         try {
             setUserListingLoading(true)
-            const res = await fetch(`/api/listing?address=${account.address}&status=open`);
+            const address = activeAccount ? activeAccount?.accountAddress?.toString() : account?.address;
+            if(!address){
+                throw new Error("Address not found")
+            }
+            const res = await fetch(`/api/listing?address=${address}&status=open`);
             if (res.ok) {
                 const response = await res.json();
                 setUserListings(response.data)
@@ -64,7 +73,7 @@ export function Body() {
         } finally {
             setUserListingLoading(false)
         }
-    }, [account?.address])
+    }, [account?.address, activeAccount])
     useEffect(() => {
         getCollectionsOwnedByUser()
     }, [getCollectionsOwnedByUser])
@@ -131,18 +140,23 @@ type OwnedTokensProps = {
 
 
 function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, userListingLoading }: OwnedTokensProps) {
+    const { activeAccount } = useKeylessAccounts()
     const { account } = useWallet()
     const [tokens, setTokens] = useState<Token[]>([]);
     const [chosenToken, setChosenToken] = useState<Token | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [updateListing, setUpdateListing] = useState<Listing | null>(null)
     const getOwnedTokensByCollection = useCallback(async () => {
-        if (!account?.address || !collectionId) {
+        if ((!account?.address && !activeAccount) || !collectionId) {
             return setTokens([])
         }
         setIsLoading(true)
         try {
-            const res = await getUserOwnedTokensByCollection(account.address, collectionId);
+            const address = activeAccount ? activeAccount?.accountAddress?.toString() : account?.address;
+            if(!address){
+                throw new Error("Address not found")
+            }
+            const res = await getUserOwnedTokensByCollection(address, collectionId);
             const ownedTokens: Token[] = [];
             for (const token of res) {
                 ownedTokens.push({
@@ -161,7 +175,7 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
         } finally {
             setIsLoading(false)
         }
-    }, [account?.address, collectionId])
+    }, [account?.address, collectionId, activeAccount])
     const onUpdateListing = (token: Token) => {
         const exists = userListings.find((item) => item.token_data_id === token.token_data_id);
         if (exists) {

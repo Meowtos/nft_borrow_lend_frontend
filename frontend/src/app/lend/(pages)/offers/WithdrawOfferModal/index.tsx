@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { PendingTransactionResponse, useWallet } from "@aptos-labs/wallet-adapter-react";
 import { toast } from "sonner";
 import { IoCheckmark, IoClose } from 'react-icons/io5'
 import { aptos } from "@/utils/aptos";
@@ -10,19 +10,24 @@ import { Loan } from "@/types/ApiInterface";
 import { useApp } from "@/context/AppProvider";
 import Image from "next/image";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
+import { useKeylessAccounts } from "@/core/useKeylessAccounts";
+import { InputGenerateTransactionPayloadData } from "@aptos-labs/ts-sdk";
 export const withdrawOfferModalId = "grabModal";
 interface WithdrawOfferModalProps {
     offer: Loan | null;
     getUserLoanOffers: () => Promise<void>
 }
 export function WithdrawOfferModal({ offer, getUserLoanOffers }: WithdrawOfferModalProps) {
+    const { activeAccount } = useKeylessAccounts();
     const { getAssetByType } = useApp();
     const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false)
     const onWithdrawOffer = async (offer: Loan) => {
-        if (!account) return;
+        if (!account && !activeAccount) {
+            return toast.error("Connect your wallet")
+        };
         try {
-            if(network?.name !== NETWORK) {
+            if(account?.address && network?.name !== NETWORK) {
                 throw new Error(`Switch to ${NETWORK} network`)
             }
             const coin = getAssetByType(offer.coin);
@@ -36,14 +41,24 @@ export function WithdrawOfferModal({ offer, getUserLoanOffers }: WithdrawOfferMo
             const functionArguments = [
                 offer.offer_obj,
             ];
-            const response = await signAndSubmitTransaction({
-                sender: account.address,
-                data: {
-                    function: `${ABI_ADDRESS}::nft_lending::${coin.token_standard === "v2" ? "withdraw_with_fa" : "withdraw_with_coin"}`,
-                    typeArguments,
-                    functionArguments,
-                }
-            });
+            let response: PendingTransactionResponse;
+            const data: InputGenerateTransactionPayloadData = {
+                function: `${ABI_ADDRESS}::nft_lending::${coin.token_standard === "v2" ? "withdraw_with_fa" : "withdraw_with_coin"}`,
+                typeArguments,
+                functionArguments,
+            }
+            if(activeAccount){
+                const transaction =  await aptos.transaction.build.simple({
+                    sender: activeAccount.accountAddress,
+                    data,
+                });
+                response =  await aptos.signAndSubmitTransaction({ signer: activeAccount, transaction });
+            } else {
+                response = await signAndSubmitTransaction({
+                    sender: account?.address,
+                    data 
+                });
+            }
             await aptos.waitForTransaction({
                 transactionHash: response.hash
             })
@@ -92,13 +107,13 @@ export function WithdrawOfferModal({ offer, getUserLoanOffers }: WithdrawOfferMo
                                     </div>
                                 </div>
                                 <div className="col-lg-9 p-0 ps-5">
-                                    <h3>Close offer</h3>
+                                    <h3>Cancel offer</h3>
                                     <p className="mt-4 notice"><strong>Notice:</strong> Once the offer is closed, your collateral held in escrow will be returned to you promptly.</p>
 
                                     {
                                         !loading
                                             ?
-                                            <button className="connect-btn mt-3 rounded" onClick={() => onWithdrawOffer(offer)}>Close offer</button>
+                                            <button className="connect-btn mt-3 rounded" onClick={() => onWithdrawOffer(offer)}>Cancel offer</button>
                                             :
                                             <button className="connect-btn mt-3 rounded">Loading...</button>
                                     }

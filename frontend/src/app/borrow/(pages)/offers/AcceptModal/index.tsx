@@ -4,13 +4,15 @@ import { Loan } from "@/types/ApiInterface";
 import Image from "next/image";
 import { IoCheckmark, IoClose } from "react-icons/io5";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { PendingTransactionResponse, useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useApp } from "@/context/AppProvider";
 import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { aptos } from "@/utils/aptos";
 import { toast } from "sonner";
 import { useState } from "react";
 import { explorerUrl } from "@/utils/constants";
+import { useKeylessAccounts } from "@/core/useKeylessAccounts";
+import { InputGenerateTransactionPayloadData } from "@aptos-labs/ts-sdk";
 export const acceptOfferModalId = "acceptOfferModal";
 interface AcceptModalProps {
     offer: Loan | null;
@@ -18,12 +20,15 @@ interface AcceptModalProps {
 }
 export function AcceptModal({ offer, fetchOffers }: AcceptModalProps) {
     const { getAssetByType } = useApp();
+    const { activeAccount } = useKeylessAccounts();
     const { account, signAndSubmitTransaction, network } = useWallet();
     const [loading, setLoading] = useState(false);
     const onBorrow = async (offer: Loan) => {
-        if (!account?.address) return;
+        if (!account?.address && !activeAccount) {
+            return toast.error("Connect your wallet")
+        };
         try {
-            if (network?.name !== NETWORK) {
+            if (account?.address && network?.name !== NETWORK) {
                 throw new Error(`Switch to ${NETWORK} network`)
             }
             const coin = getAssetByType(offer.coin);
@@ -37,14 +42,24 @@ export function AcceptModal({ offer, fetchOffers }: AcceptModalProps) {
                 offer.offer_obj,
             ];
             setLoading(true)
-            const response = await signAndSubmitTransaction({
-                sender: account.address,
-                data: {
-                    function: `${ABI_ADDRESS}::nft_lending::${coin.token_standard === "v1" ? "borrow_with_coin" : "borrow_with_fa"}`,
-                    typeArguments,
-                    functionArguments,
-                }
-            });
+            let response: PendingTransactionResponse;
+            const data: InputGenerateTransactionPayloadData = {
+                function: `${ABI_ADDRESS}::nft_lending::${coin.token_standard === "v1" ? "borrow_with_coin" : "borrow_with_fa"}`,
+                typeArguments,
+                functionArguments,
+            }
+            if(activeAccount){
+                const transaction =  await aptos.transaction.build.simple({
+                    sender: activeAccount.accountAddress,
+                    data
+                });
+                response =  await aptos.signAndSubmitTransaction({ signer: activeAccount, transaction });
+            } else {
+                response = await signAndSubmitTransaction({
+                    sender: account?.address,
+                    data
+                });
+            }
             await aptos.waitForTransaction({
                 transactionHash: response.hash
             });
@@ -65,7 +80,7 @@ export function AcceptModal({ offer, fetchOffers }: AcceptModalProps) {
                     contentType: "application/json"
                 },
                 body: JSON.stringify({
-                    address: account.address,
+                    address: activeAccount?.accountAddress ? activeAccount?.accountAddress?.toString() : account?.address,
                     borrow_obj: borrowObj,
                     start_timestamp: borrowTimestamp,
                 })
@@ -98,7 +113,6 @@ export function AcceptModal({ offer, fetchOffers }: AcceptModalProps) {
             }
             await fetchOffers()
         } catch (error: unknown) {
-            console.log({ error })
             let errorMessage = typeof error === "string" ? error : `An unexpected error has occured`;
             if (error instanceof Error) {
                 errorMessage = error.message;

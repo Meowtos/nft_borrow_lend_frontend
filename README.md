@@ -166,20 +166,22 @@ To run the project locally, follow these steps:
    ```
 ---
 
-Happy testing!
+Happy coding!
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 <!-- ROADMAP -->
 
-## Roadmap
+## Roadmap (Q4 2024)
 
 - [x] Testnet Launch
-- [ ] Aptos keyless integration
+- [x] Aptos keyless integration
 - [ ] Indexer apis for platform
 - [ ] Contract auditing
+- [ ] Community Building & Partnerships
+- [ ] Inner pages for better user experience
+- [ ] Testnet snapshot
 - [ ] Mainnet Launch
-  - [ ] Community Building
   - [ ] Seasonal Rewards
   - [ ] Liquidity pools for NFT loans
 

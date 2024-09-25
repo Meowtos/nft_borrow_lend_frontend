@@ -1,7 +1,7 @@
 "use client";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useApp } from "@/context/AppProvider";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { PendingTransactionResponse, useWallet } from "@aptos-labs/wallet-adapter-react";
 import { toast } from "sonner";
 import { useFormik } from "formik";
 import Image from 'next/image'
@@ -14,7 +14,8 @@ import { IListingSchema } from "@/models/listing";
 import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { MdCollections, MdOutlineToken } from "react-icons/md";
 import { explorerUrl } from "@/utils/constants";
-// import { interestAmount, } from "@/utils/math";
+import { useKeylessAccounts } from "@/core/useKeylessAccounts";
+import { InputGenerateTransactionPayloadData } from "@aptos-labs/ts-sdk";
 
 export const lendModalId = "lendModal";
 interface LendModalProps {
@@ -22,6 +23,7 @@ interface LendModalProps {
 }
 export function LendModal({ token }: LendModalProps) {
     const { assets, getAssetByType } = useApp();
+    const { activeAccount } = useKeylessAccounts();
     const { account, signAndSubmitTransaction, network } = useWallet();
     const [dropdownToken, setDropdownToken] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
@@ -40,14 +42,14 @@ export function LendModal({ token }: LendModalProps) {
             apr: Yup.number().positive("Apr must be +ve").required("Apr is required"),
         }),
         onSubmit: async (data) => {
-            if (!account?.address || !token) return;
+            if ((!account?.address && !activeAccount) || !token) return;
             setSubmitLoading(true)
             try {
                 const coin = assets.find((asset) => asset.asset_type === data.coin);
                 if (!coin) {
                     throw new Error("No coin")
                 };
-                if (network?.name !== NETWORK) {
+                if (account?.address && network?.name !== NETWORK) {
                     throw new Error(`Switch to ${NETWORK} network`)
                 }
 
@@ -67,14 +69,25 @@ export function LendModal({ token }: LendModalProps) {
                 if (coin.token_standard === "v2") {
                     functionArguments.push(coin.asset_type);
                 };
-                const response = await signAndSubmitTransaction({
-                    sender: account.address,
-                    data: {
-                        function: `${ABI_ADDRESS}::nft_lending::${coin.token_standard === "v2" ? "offer_with_fa" : "offer_with_coin"}`,
-                        typeArguments,
-                        functionArguments,
-                    }
-                });
+                let response: PendingTransactionResponse;
+                const inputTrasactionData: InputGenerateTransactionPayloadData = {
+                    function: `${ABI_ADDRESS}::nft_lending::${coin.token_standard === "v2" ? "offer_with_fa" : "offer_with_coin"}`,
+                    typeArguments,
+                    functionArguments,
+                }
+                if(activeAccount){
+                    const transaction =  await aptos.transaction.build.simple({
+                        sender: activeAccount.accountAddress,
+                        data: inputTrasactionData,
+                    });
+                    response =  await aptos.signAndSubmitTransaction({ signer: activeAccount, transaction });
+                } else {
+                    response = await signAndSubmitTransaction({
+                        sender: account?.address,
+                        data: inputTrasactionData
+                    })
+                }
+              
                 await aptos.waitForTransaction({
                     transactionHash: response.hash
                 })
@@ -90,7 +103,7 @@ export function LendModal({ token }: LendModalProps) {
                 const res = await fetch("/api/lend", {
                     method: "POST",
                     body: JSON.stringify({
-                        address: account.address,
+                        address: activeAccount ? activeAccount?.accountAddress?.toString() : account?.address,
                         forListing: token._id,
                         coin: data.coin,
                         amount: data.amount,
@@ -151,16 +164,20 @@ export function LendModal({ token }: LendModalProps) {
         }
     }, [assets, values.coin])
     const getBalance = useCallback(async () => {
-        if (!account?.address || !chosenCoin) {
+        if ((!account?.address && !activeAccount) || !chosenCoin) {
             return setBalance(0)
         }
         try {
-            const res = await getAssetBalance(account?.address, chosenCoin.asset_type, chosenCoin.token_standard);
+            const address = activeAccount ? activeAccount?.accountAddress?.toString() : account?.address;
+            if(!address){
+                throw new Error("Address not found")
+            }
+            const res = await getAssetBalance(address, chosenCoin.asset_type, chosenCoin.token_standard);
             setBalance(res / Math.pow(10, chosenCoin.decimals))
         } catch (error) {
             console.error(error)
         }
-    }, [chosenCoin, account?.address]);
+    }, [chosenCoin, account?.address, activeAccount]);
     useEffect(() => {
         getBalance()
     }, [getBalance])
