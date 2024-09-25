@@ -27,12 +27,12 @@ export function WithdrawOfferModal({ offer, getUserLoanOffers }: WithdrawOfferMo
             return toast.error("Connect your wallet")
         };
         try {
-            if(account?.address && network?.name !== NETWORK) {
+            if (account?.address && network?.name !== NETWORK) {
                 throw new Error(`Switch to ${NETWORK} network`)
             }
             const coin = getAssetByType(offer.coin);
             if (!coin) return;
-            
+
             setLoading(true)
             const typeArguments = [];
             if (coin.token_standard === "v1") {
@@ -47,16 +47,16 @@ export function WithdrawOfferModal({ offer, getUserLoanOffers }: WithdrawOfferMo
                 typeArguments,
                 functionArguments,
             }
-            if(activeAccount){
-                const transaction =  await aptos.transaction.build.simple({
+            if (activeAccount) {
+                const transaction = await aptos.transaction.build.simple({
                     sender: activeAccount.accountAddress,
                     data,
                 });
-                response =  await aptos.signAndSubmitTransaction({ signer: activeAccount, transaction });
+                response = await aptos.signAndSubmitTransaction({ signer: activeAccount, transaction });
             } else {
                 response = await signAndSubmitTransaction({
                     sender: account?.address,
-                    data 
+                    data
                 });
             }
             await aptos.waitForTransaction({
@@ -71,7 +71,7 @@ export function WithdrawOfferModal({ offer, getUserLoanOffers }: WithdrawOfferMo
                 icon: <IoCheckmark />
             })
             await getUserLoanOffers()
-           
+
         } catch (error: unknown) {
             let errorMessage = `An unexpected error has occured`;
             if (typeof error === "string") {
@@ -108,8 +108,10 @@ export function WithdrawOfferModal({ offer, getUserLoanOffers }: WithdrawOfferMo
                                 </div>
                                 <div className="col-lg-9 p-0 ps-5">
                                     <h3>Cancel offer</h3>
-                                    <p className="mt-4 notice"><strong>Notice:</strong> Once the offer is closed, your collateral held in escrow will be returned to you promptly.</p>
-
+                                    {/* <p className="mt-4 notice"><strong>Notice:</strong> Once the offer is closed, your collateral held in escrow will be returned to you promptly.</p> */}
+                                    <p className="mt-4 notice">
+                                        <strong>Notice:</strong> Once the offer is closed, your collateral held in escrow will be returned to you promptly. Canceling the offer will end any ongoing negotiations with borrowers, and the assets in escrow will be released back to your wallet. This process is secure and irreversible, ensuring your funds are returned without delay. If needed, you can relist your assets and create a new offer at any time. We are committed to providing a seamless experience throughout your lending journey.
+                                    </p>
                                     {
                                         !loading
                                             ?

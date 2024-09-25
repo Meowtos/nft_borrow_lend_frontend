@@ -801,4 +801,12 @@
     font-size: 32px;
   }
 
+
+  .grid-view .list-btn {
+    position: unset;
+  }
+  .card .card-body {
+    padding-bottom: 0px;
+  }
+
 }
