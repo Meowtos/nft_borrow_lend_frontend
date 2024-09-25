@@ -26,8 +26,13 @@ const Header = () => {
                     <div className="row m-0">
                         <div className="col-5 col-sm-1 col-lg-4 p-0 logo">
                             <Link href={"/"}>
-                                {/* <Image src="/media/logo2.png" alt="logo" height={65} width={75} className='rounded' /> */}
-                                <Image src="/media/logo-main.png" alt="logo" height={65} width={75} className='rounded' />
+                                {
+                                    theme == 'dark'
+                                        ?
+                                        <Image src="/media/octos4.png" alt="logo" height={65} width={75} className='rounded' />
+                                        :
+                                        <Image src="/media/octos3.png" alt="logo" height={65} width={75} className='rounded' />
+                                }
                             </Link>
                         </div>
 
@@ -54,7 +59,7 @@ const Header = () => {
                                 }
                                 {/* <DiscordNotification /> */}
                                 <ThemeToggle />
-                               
+
                             </div>
                             <DiscordNotification />
                             <WalletButtons />
