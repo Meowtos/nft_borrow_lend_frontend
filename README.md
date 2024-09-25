@@ -166,7 +166,7 @@ To run the project locally, follow these steps:
    ```
 ---
 
-Happy testing!
+Happy coding!
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
