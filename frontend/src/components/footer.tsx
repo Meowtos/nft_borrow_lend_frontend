@@ -3,8 +3,9 @@ import { discordLink, footerLinks, project, team, twitterLnk } from '@/utils/con
 import Image from 'next/image'
 import Link from 'next/link'
 import { BsDiscord } from "react-icons/bs";
-import { BsTwitter } from "react-icons/bs";
 import { useTheme } from '@/context/themecontext';
+import { BsTwitterX } from "react-icons/bs";
+
 
 const Footer = () => {
     const { theme } = useTheme()
@@ -17,9 +18,9 @@ const Footer = () => {
                             {
                                 theme == 'dark'
                                     ?
-                                    <Image src="/media/octos4.png" alt="logo" height={65} width={75} className='rounded' />
+                                    <Image src="/media/octos4.png" alt="logo" height={65} width={75} className='rounded footer-logo' />
                                     :
-                                    <Image src="/media/octos3.png" alt="logo" height={65} width={75} className='rounded' />
+                                    <Image src="/media/octos3.png" alt="logo" height={65} width={75} className='rounded footer-logo' />
                             }
                             <p className='pt-3'>Unlock liquidity without selling your NFTs. Use them as collateral for secure, decentralized loans and retain ownership of your digital assets.</p>
                         </div>
@@ -57,7 +58,7 @@ const Footer = () => {
                                     <BsDiscord className='sc-icon' />
                                 </Link>
                                 <Link href={twitterLnk}>
-                                    <BsTwitter className='sc-icon' />
+                                    <BsTwitterX className='sc-icon'/>
                                 </Link>
                             </div>
                         </div>
