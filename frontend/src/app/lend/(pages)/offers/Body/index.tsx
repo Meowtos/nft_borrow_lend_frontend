@@ -6,17 +6,23 @@ import Image from "next/image";
 import { useApp } from "@/context/AppProvider";
 import { WithdrawOfferModal, withdrawOfferModalId } from "../WithdrawOfferModal";
 import { IoNewspaperOutline } from "react-icons/io5";
+import { useKeylessAccounts } from "@/core/useKeylessAccounts";
 export function Body() {
     const { account } = useWallet();
+    const { activeAccount } = useKeylessAccounts();
     const { getAssetByType } = useApp()
     const [loading, setLoading] = useState(true);
     const [userOffers, setUserOffers] = useState<Loan[]>([])
     const [withdrawOffer, setWithdrawOffer] = useState<Loan | null>(null)
     const getUserLoanOffers = useCallback(async () => {
-        if (!account?.address) return;
+        if (!account?.address && !activeAccount) return;
         setLoading(true)
         try {
-            const res = await fetch(`/api/lend?address=${account.address}&status=pending`);
+            const address = activeAccount ? activeAccount?.accountAddress.toString() : account?.address;
+            if(!address){
+                throw new Error("Address not found")
+            }
+            const res = await fetch(`/api/lend?address=${address}&status=pending`);
             const response = await res.json();
             if (!res.ok) {
                 throw new Error(response.message)
@@ -27,7 +33,7 @@ export function Body() {
         } finally {
             setLoading(false)
         }
-    }, [account?.address]);
+    }, [account?.address, activeAccount]);
 
     useEffect(() => {
         getUserLoanOffers();

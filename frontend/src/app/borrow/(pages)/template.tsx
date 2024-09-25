@@ -4,10 +4,12 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useTheme } from "@/context/themecontext";
+import { useKeylessAccounts } from "@/core/useKeylessAccounts";
 export default function BorrowLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
+    const { activeAccount } = useKeylessAccounts()
     const { connected, isLoading } = useWallet();
-    const {theme} = useTheme()
+    const { theme } = useTheme()
     const paths = [
         {
             name: "My Assets",
@@ -78,7 +80,7 @@ export default function BorrowLayout({ children }: { children: React.ReactNode }
                             </div>
                             <div className="tab-content rounded">
                                 {
-                                    connected ? (
+                                    connected || activeAccount   ? (
                                         children
                                     ) : (
                                         <div className="cn-wallet text-center w-50 m-auto rounded">

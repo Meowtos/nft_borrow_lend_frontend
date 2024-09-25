@@ -8,8 +8,10 @@ import { useApp } from "@/context/AppProvider"
 import { Listing } from "@/types/ApiInterface"
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
 import { IoNewspaperOutline } from "react-icons/io5";
+import { useKeylessAccounts } from "@/core/useKeylessAccounts"
 
 export function Body() {
+    const { activeAccount } = useKeylessAccounts()
     const { account } = useWallet();
     const [view, setView] = useState("grid");
     const [tokensListing, setTokensListing] = useState<Listing[]>([])
@@ -31,9 +33,10 @@ export function Body() {
         getTokensListing()
     }, [setTokensListing]);
     const notMyListings = useMemo(() => {
-        if (!account?.address) return tokensListing;
-        return tokensListing.filter((token) => token.address !== account.address)
-    }, [tokensListing, account?.address])
+        const address = activeAccount ? activeAccount?.accountAddress?.toString() : account?.address
+        if (!address) return tokensListing;
+        return tokensListing.filter((token) => token.address !== address)
+    }, [tokensListing, account?.address, activeAccount])
     return (
         <React.Fragment>
             <div className="content-header d-flex mb-4 lendnft">

@@ -19,9 +19,13 @@ import { GOOGLE_CLIENT_ID } from "../core/constants";
 import useEphemeralKeyPair from "../core/useEphemeralKeyPair";
 import { shortenAddress } from "@/utils/shortenAddress";
 import { toast } from "sonner";
+import { useKeylessAccounts } from "@/core/useKeylessAccounts";
+import Link from "next/link";
 
 export const WalletButtons = () => {
   const { wallets, connected, disconnect, isLoading, account } = useWallet();
+  const { activeAccount, disconnectKeylessAccount } = useKeylessAccounts();
+
   const [copiedText, copy] = useCopyToClipboard()
   const handleCopy = (text: string) => () => {
     copy(text)
@@ -34,18 +38,28 @@ export const WalletButtons = () => {
       })
     console.log('Copied!', { copiedText })
   }
+  
   if (connected && account?.address) {
     return (
       <div className="connected d-flex align-center">
         <button className="connect-btn rounded disconnect dropdown-toggle position-relative" data-bs-toggle="dropdown" aria-expanded="false" >{shortenAddress(account.address)}<RiArrowDropDownLine className="arrow-icon" /></button>
         <ul className="dropdown-menu p-0 rounded wallet-dd">
-          {/* <div className="px-3 text-center profile">
-            <h6><MdOutlineAccountBalanceWallet className="mb-1 me-1" />{aptosBal} APT</h6>
-          </div> */}
           <li className="px-3 py-3" onClick={handleCopy(account.address)}><BsCopy className="me-2" />Copy Address</li>
           <li className="px-3 py-3" onClick={disconnect}><RxExit className="me-2" /> Disconnect</li>
         </ul>
       </div>
+    )
+  }
+
+  if(activeAccount){
+    return (
+      <div className="connected d-flex align-center">
+      <button className="connect-btn rounded disconnect dropdown-toggle position-relative" data-bs-toggle="dropdown" aria-expanded="false" >{shortenAddress(activeAccount.accountAddress.toString())}<RiArrowDropDownLine className="arrow-icon" /></button>
+      <ul className="dropdown-menu p-0 rounded wallet-dd">
+        <li className="px-3 py-3" onClick={handleCopy(activeAccount.accountAddress.toString())}><BsCopy className="me-2" />Copy Address</li>
+        <li className="px-3 py-3" onClick={disconnectKeylessAccount}><RxExit className="me-2" /> Disconnect</li>
+      </ul>
+    </div>
     )
   }
 
@@ -71,7 +85,6 @@ const WalletList = ({ wallets }: { wallets: Wallet[] }) => {
   return (
     <React.Fragment>
       <button type="button" className="connect-btn rounded cs-cnn" data-bs-toggle="modal" data-bs-target="#connectmodal">Connect Wallet</button>
-
       <div className="modal fade" id="connectmodal" tabIndex={-1} aria-labelledby="areaLabel" aria-hidden="true" >
         <div className="modal-dialog modal-dialog-centered wallet-modal">
           <div className="modal-content">
@@ -81,15 +94,17 @@ const WalletList = ({ wallets }: { wallets: Wallet[] }) => {
             </div>
             <div className="modal-body text-center p-0">
               {/* Aptos keyless */}
-                <button className="wl-item rounded w-100 disabled" disabled>
+              <Link href={redirectUrl.toString()}>
+                <button className="wl-item rounded w-100">
                   <Image
                     alt={"google"}
                     src={"/google-logo.svg"}
                     height={20}
                     width={20}
                   />&nbsp;
-                  Sign in with keyless account (coming soon)
+                  Sign in with keyless account 
                 </button>
+              </Link>
               {wallets.map((wallet, index) => (
                 <div key={index} >
                   <WalletView wallet={wallet} key={index} />

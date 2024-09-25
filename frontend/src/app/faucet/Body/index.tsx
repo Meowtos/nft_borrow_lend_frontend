@@ -2,36 +2,49 @@
 import React, { useState } from "react"
 import { punk_coin, moon_coin } from "@/utils/coins"
 import { toast } from "sonner";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { PendingTransactionResponse, useWallet } from "@aptos-labs/wallet-adapter-react";
 import { ABI_ADDRESS, NETWORK } from "@/utils/env";
 import { aptos } from "@/utils/aptos";
 import { explorerUrl } from "@/utils/constants";
 import { useTheme } from "@/context/themecontext";
 import { IoCheckmark } from "react-icons/io5";
+import { useKeylessAccounts } from "@/core/useKeylessAccounts";
+import { InputGenerateTransactionPayloadData } from "@aptos-labs/ts-sdk";
 export function Body() {
+    const { activeAccount } = useKeylessAccounts()
     const { account, signAndSubmitTransaction, network } = useWallet();
     const [coin, setCoin] = useState(punk_coin);
     const [loading, setLoading] = useState(false);
-    const {theme} = useTheme();
+    const { theme } = useTheme();
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!account?.address) {
+        if (!account?.address && !activeAccount) {
             return toast.error("Connect your wallet")
         };
         try {
-            if(network?.name !== NETWORK) {
+            if(account?.address && network?.name !== NETWORK) {
                 throw new Error(`Switch to ${NETWORK} network`)
             }
             setLoading(true);
             if (coin === moon_coin) {
-                const response = await signAndSubmitTransaction({
-                    sender: account.address,
-                    data: {
-                        function: `${ABI_ADDRESS}::moon_coin::faucet`,
-                        typeArguments: [],
-                        functionArguments: []
-                    }
-                });
+                let response: PendingTransactionResponse;
+                const data: InputGenerateTransactionPayloadData = {
+                    function: `${ABI_ADDRESS}::moon_coin::faucet`,
+                    typeArguments: [],
+                    functionArguments: [],
+                }
+                if(activeAccount){
+                    const transaction =  await aptos.transaction.build.simple({
+                        sender: activeAccount.accountAddress,
+                        data
+                    });
+                    response =  await aptos.signAndSubmitTransaction({ signer: activeAccount, transaction });
+                } else {
+                    response =  await signAndSubmitTransaction({
+                        sender: account?.address,
+                        data
+                    });
+                }
                 await aptos.waitForTransaction({
                     transactionHash: response.hash
                 });
@@ -40,14 +53,24 @@ export function Body() {
                 })
             }
             if (coin === punk_coin) {
-                const response = await signAndSubmitTransaction({
-                    sender: account.address,
-                    data: {
-                        function: `${ABI_ADDRESS}::punk_coin::faucet`,
-                        typeArguments: [],
-                        functionArguments: []
-                    }
-                });
+                let response: PendingTransactionResponse;
+                const data: InputGenerateTransactionPayloadData = {
+                    function: `${ABI_ADDRESS}::punk_coin::faucet`,
+                    typeArguments: [],
+                    functionArguments: []
+                }
+                if(activeAccount){
+                    const transaction =  await aptos.transaction.build.simple({
+                        sender: activeAccount.accountAddress,
+                        data
+                    });
+                    response =  await aptos.signAndSubmitTransaction({ signer: activeAccount, transaction });
+                } else {
+                    response =  await signAndSubmitTransaction({
+                        sender: account?.address,
+                        data
+                    });
+                }
                 await aptos.waitForTransaction({
                     transactionHash: response.hash
                 });
