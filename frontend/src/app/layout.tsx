@@ -24,7 +24,19 @@ import { project } from "@/utils/constants";
 const font = League_Spartan({ subsets: ["latin"], weight: "400" })
 export const metadata: Metadata = {
   title: project,
-  description: "Get tokens in loan by lending your nfts",
+  description: `${project} - Instant NFT Loans on your favorite Aptos blockchain`,
+  openGraph: {
+    title: project,
+    description: `${project} - Instant NFT Loans on your favorite Aptos blockchain`,
+    images: ["/media/octos-dark.png"],
+  },
+  twitter: {
+    card: "summary",
+    site: "",
+    title: project,
+    description: `${project} - Instant NFT Loans on your favorite Aptos blockchain`,
+    images: ["/media/octos-dark.png"],
+  },
 };
 
 export default function RootLayout({
