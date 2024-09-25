@@ -29,9 +29,9 @@ const Header = () => {
                                 {
                                     theme == 'dark'
                                         ?
-                                        <Image src="/media/octos4.png" alt="logo" height={65} width={75} className='rounded' />
+                                        <Image src="/media/octos-dark.png" alt="logo" height={65} width={65} className='rounded' />
                                         :
-                                        <Image src="/media/octos3.png" alt="logo" height={65} width={75} className='rounded' />
+                                        <Image src="/media/octos-light.png" alt="logo" height={65} width={65} className='rounded' />
                                 }
                             </Link>
                         </div>
