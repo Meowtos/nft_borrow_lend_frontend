@@ -15,7 +15,7 @@ export function Body() {
     const [selectedOffer, setSelectedOffer] = useState<Loan | null>(null);
     const [loading, setLoading] = useState(true)
     const fetchOffers = useCallback(async () => {
-        if (!account?.address && activeAccount) return;
+        if (!account?.address && !activeAccount) return;
         try {
             const address = activeAccount ? activeAccount?.accountAddress?.toString() : account?.address;
             if(!address){
