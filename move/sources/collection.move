@@ -75,7 +75,7 @@ module my_addrx::octos {
     }
 
     fun construct_token_name(counter: u64): vector<u8> {
-        bcs::to_bytes(&string_utils::format2(&b"{} #{}", utf8(COLLECTION_NAME), counter))
+        bcs::to_bytes(&string_utils::format1(&b"Octos #{}", counter))
     }
 
     #[view]
