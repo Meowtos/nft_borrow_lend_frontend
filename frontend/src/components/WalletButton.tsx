@@ -8,7 +8,6 @@ import {
   WalletName,
 } from "@aptos-labs/wallet-adapter-react";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 import { IoClose } from "react-icons/io5";
 import { RxExit } from "react-icons/rx";
