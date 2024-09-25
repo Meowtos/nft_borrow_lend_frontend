@@ -137,6 +137,7 @@ body {background-color: var(--dark);color: var(--light);}
 
 /* Headings */
 h1,h2,h3,h4,h5,h6,p {margin: 0px;}
+h1,h2,h3,h4,h5,h6 {letter-spacing: 0.5px;}
 h2 {font-size: 48px;font-weight: 600;line-height: 48px;}
 .col {padding: 0px}
 .py-100 {padding: 100px 0px;}

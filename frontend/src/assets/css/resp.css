@@ -337,6 +337,9 @@
     width: 28%;
     height: unset;
   }
+  .cs-cnn{
+    padding-right: 15px !important;
+  }
 
   /* .header .connect-btn{
     padding: 14px 14px;

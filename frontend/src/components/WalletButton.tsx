@@ -70,7 +70,7 @@ const WalletList = ({ wallets }: { wallets: Wallet[] }) => {
 
   return (
     <React.Fragment>
-      <button type="button" className="connect-btn rounded" data-bs-toggle="modal" data-bs-target="#connectmodal">Connect Wallet</button>
+      <button type="button" className="connect-btn rounded cs-cnn" data-bs-toggle="modal" data-bs-target="#connectmodal">Connect Wallet</button>
 
       <div className="modal fade" id="connectmodal" tabIndex={-1} aria-labelledby="areaLabel" aria-hidden="true" >
         <div className="modal-dialog modal-dialog-centered wallet-modal">
