@@ -82,6 +82,8 @@ button,
     color: var(--btn-text-light);
     transition: all 0.5s ease;
     border-radius: 0px;
+    position: absolute;
+    bottom: 0px;
 }
 
 .grid-view .list-btn:hover {
@@ -814,6 +816,7 @@ ul.dropdown-menu li {
     color: var(--light-33);
     padding: 0px;
     font-size: 14px;
+    padding-bottom: 55px;
 }
 
 .card .card-title {
