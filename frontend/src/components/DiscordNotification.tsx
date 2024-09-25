@@ -11,11 +11,10 @@ import { FaDiscord } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
 import { BsFillBellFill } from "react-icons/bs";
 import { BsBellSlashFill } from "react-icons/bs";
-
-
-
+import { useKeylessAccounts } from "@/core/useKeylessAccounts";
 export function DiscordNotification() {
     const router = useRouter()
+    const { activeAccount } = useKeylessAccounts()
     const { account } = useWallet();
     const searchParams = useSearchParams();
     const code = searchParams.get("code");
@@ -23,10 +22,11 @@ export function DiscordNotification() {
     const [loading, setLoading] = useState(true);
     const [isVerifying, setIsVerifying] = useState(false)
     const getUser = useCallback(async () => {
-        if (!account?.address) return;
+        if (!account?.address && !activeAccount) return;
         try {
             setLoading(true)
-            const res = await fetch(`/api/discord?address=${account.address}`);
+            const address = activeAccount ? activeAccount?.accountAddress?.toString() : account?.address
+            const res = await fetch(`/api/discord?address=${address}`);
             const response = await res.json();
             if (res.ok) {
                 setUser(response.data)
@@ -38,9 +38,9 @@ export function DiscordNotification() {
         } finally {
             setLoading(false)
         }
-    }, [account?.address]);
+    }, [account?.address, activeAccount]);
     const verifyDiscord = useCallback(async () => {
-        if (!account?.address || !code || code === "") {
+        if ((!account?.address && !activeAccount) || !code || code === "") {
             return
         }
         try {
@@ -80,13 +80,15 @@ export function DiscordNotification() {
                 throw new Error("Sorry an error occured, we are on the issue")
             }
             const userResponse = await userRes.json();
+            const address = activeAccount ? activeAccount?.accountAddress?.toString() : account?.address
+
             const bindRes = await fetch("/api/discord", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    address: account.address,
+                    address: address,
                     discordId: userResponse.id,
                     discordUsername: userResponse.username
                 })
@@ -107,11 +109,12 @@ export function DiscordNotification() {
             router.push("/")
             setIsVerifying(false)
         }
-    }, [account?.address, code, router, getUser])
+    }, [account?.address, code, router, getUser, activeAccount])
     const updateNotification = async () => {
-        if (!account?.address || !user || !user.discordId) return;
+        if ((!account?.address && !activeAccount) || !user || !user.discordId) return;
         try {
-            const res = await fetch(`/api/discord?address=${account?.address}`, {
+            const address = activeAccount ? activeAccount?.accountAddress?.toString() : account?.address
+            const res = await fetch(`/api/discord?address=${address}`, {
                 method: "PUT"
             });
             const response = await res.json();
@@ -134,7 +137,7 @@ export function DiscordNotification() {
     useEffect(() => {
         getUser()
     }, [getUser])
-    if (!account?.address) return null;
+    if (!account?.address && !activeAccount) return null;
     return (
         <div className="dropdown">
             <button disabled={loading || isVerifying} className="btn connect-btn dropdown-toggle border-0 p-2 rounded-circle me-3 disc-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"  data-bs-auto-close="outside">

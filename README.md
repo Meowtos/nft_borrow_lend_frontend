@@ -172,7 +172,9 @@ Happy coding!
 
 <!-- ROADMAP -->
 
-## Roadmap (Q4 2024)
+## Roadmap 
+
+### Q4 2024
 
 - [x] Testnet Launch
 - [x] Aptos keyless integration
@@ -216,12 +218,12 @@ Don't forget to give the project a star! Thanks again!
 
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
+We would like to express our gratitude to the following resources that have significantly contributed to our development journey:
 
 - [Aptos Docs](https://aptos.dev)
 - [Aptos Learn](https://learn.aptoslabs.com)
 
-### Special thanks
+### Specially
 
 - [Aptos dev discussions](https://github.com/aptos-labs/aptos-developer-discussions/discussions)
 
