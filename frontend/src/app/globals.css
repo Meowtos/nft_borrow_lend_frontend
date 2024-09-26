@@ -34,7 +34,8 @@
   --bgdark-99: #00000099;
 
 
-  --dark: #000000;
+  /* --dark: #000000; */
+  --dark: #090129;
   --dark-99: #00000099;
   --dark-ee: #000000ee;
 
@@ -199,7 +200,7 @@
 
 
 /* dark theme */
-.dark-theme.about,
+/* .dark-theme.about,
 .dark-theme.faqs {
   background: #0c0c0c;
 }
@@ -207,7 +208,46 @@
 .dark-theme .work-row,
 .dark-theme .accordion {
   background: #1e1e1e;
+} */
+/* ----------------------------------------------- */
+/* ----------------------------------------------- */
+/* New styling test */
+.dark-theme.about,
+.dark-theme.faqs {
+  /* background: #0c0c0c; */
+    /* background: radial-gradient(114.88% 50.27% at 2.73% 125%,#7b13ff82,#7b13ff0a); */
+    background: #090129;
+    border-top: 1px solid rgba(255,255,255,.09);
+    border-bottom: 1px solid rgba(255,255,255,.09);
 }
+.dark-theme.about p,
+.dark-theme.faqs .accordion-body{
+  color: rgba(255, 255, 255, .8) !important;
+  font-size: 18px;
+}
+
+.dark-theme .work-row,
+.dark-theme .accordion,
+.borrow-tabs{
+  border: 1px solid rgba(255, 255, 255, .09);
+  background: radial-gradient(114.88% 50.27% at 2.73% 125%, #7b13ff82, #7b13ff0a) !important;
+}
+
+.dark-theme .work-row .main,
+.dark-theme .wcs-card,
+.dark-theme .tab-btns,
+.dark-theme .tab-content {
+  border: 1px solid rgba(255, 255, 255, .09);
+  background: linear-gradient(247deg, #090129 77.16%, #7b13ff 158.68%) !important;
+}
+.dark-theme .work-row .main{
+  background: linear-gradient(120deg, #090129 77.16%, #7b13ff 158.68%) !important;
+}
+
+
+/* ----------------------------------------------- */
+/* ----------------------------------------------- */
+
 
 /* Theme */
 * {
