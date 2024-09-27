@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useTheme } from "@/context/themecontext";
 import { useKeylessAccounts } from "@/core/useKeylessAccounts";
+import {InnerParticlesComponent} from '@/components/Particles'
 export default function BorrowLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const { activeAccount } = useKeylessAccounts()
@@ -26,7 +27,8 @@ export default function BorrowLayout({ children }: { children: React.ReactNode }
     ]
     return (
         <React.Fragment>
-            <section className="inner-banner">
+            <InnerParticlesComponent id="particles-bg"/>
+            <section className={`inner-banner ${theme == 'light' ? 'light-theme' : 'dark-theme'}`}>
                 <div className="container">
                     <div className="row">
                         <div className="col text-center">
