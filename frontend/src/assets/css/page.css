@@ -151,7 +151,6 @@ button,
 /* Modals */
 /* ------------------------------------------------------- */
 .modal {
-    /* background: var(--bgdark-99); */
     background: var(--darkmain--99);
     z-index: 999999999;
 }
@@ -657,7 +656,6 @@ ul.dropdown-menu li {
     bottom: 0px;
     left: 0px;
     background: var(--darkmain);
-    /* opacity: 0.6; */
     opacity: 0.2;
 }
 
