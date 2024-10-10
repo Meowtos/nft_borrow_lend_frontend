@@ -1,25 +1,27 @@
 'use client'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 const Cursor = () => {
+  const [isHidden, setIsHidden] = useState(true)
     useEffect(() => {
         // cursor
         window.addEventListener('mousemove', (e) => {
-          let xcord = e.clientX;
-          let ycord = e.clientY;
+          const xcord = e.clientX;
+          const ycord = e.clientY;
 
-          let dots = document.querySelectorAll('.dots');
+          const dots = document.querySelectorAll('.dots');
           dots.forEach(dot => {
             const element = dot as HTMLElement; // Type cast each element to HTMLElement
             element.style.left = xcord + 'px';
             element.style.top = ycord + 'px';
           });
+          setIsHidden(false)
         });
         // cursor-end
       }, []);
 
     return (
         <>
-            <section className="cursor-follow" id='cursor'>
+            <section className="cursor-follow" id='cursor' hidden={isHidden}>
                 <span className="c1 dots"></span>
                 <span className="c2 dots"></span>
                 <span className="c3 dots"></span>

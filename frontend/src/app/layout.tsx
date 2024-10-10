@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-// import { League_Spartan } from "next/font/google";
-import { Courgette } from "next/font/google";
+import { League_Spartan } from "next/font/google";
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./globals.css";
@@ -19,7 +18,7 @@ const Header = dynamic(()=>import("@/components/header"), { ssr: false })
 import { ThemeProvider } from '@/context/themecontext';
 import { project } from "@/utils/constants";
 
-const font = Courgette({ subsets: ["latin"], weight: "400" })
+const font = League_Spartan({ subsets: ["latin"], weight: "400" })
 export const metadata: Metadata = {
   title: project,
   description: `${project} - Instant NFT Loans on your favorite Aptos blockchain`,
@@ -47,7 +46,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${font.className} container-fluid p-0`}>
         <AppProvider>
-          <WalletProvider>
+          <WalxletProvider>
             <Header />
             {children}
             <Footer />
