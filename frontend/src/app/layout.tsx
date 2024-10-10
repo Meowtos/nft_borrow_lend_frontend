@@ -46,7 +46,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${font.className} container-fluid p-0`}>
         <AppProvider>
-          <WalxletProvider>
+          <WalletProvider>
             <Header />
             {children}
             <Footer />
