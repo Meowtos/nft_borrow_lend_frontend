@@ -22,7 +22,7 @@ const Header = () => {
     const pathname = usePathname();
     return (
         <>
-        {/* <Cursor /> */}
+        <Cursor />
             <section className={`header py-3 ${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
                 <div className="container p-0">
                     <div className="row m-0">
