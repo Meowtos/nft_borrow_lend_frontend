@@ -182,7 +182,6 @@ Happy coding!
 - [x] MeowFi Testnet Launch
 - [ ] Hackathon Winning
   - [ ] Bigger Parntnerships
-  - [ ] Community Building
   - [ ] MeowFi Mainnet Launch
 - [ ] Building more tools on Aptos
  
