@@ -175,14 +175,14 @@ Happy coding!
 
 ## Roadmap 
 
-### Q4 2024
 - [x] Meow Token
 - [x] Meow Spin
 - [x] Meow Sniping Bot (First sniping bot on Aptos)
 - [x] Legends Trade Premarket (First premarket on Aptos)
 - [x] MeowFi Testnet Launch
 - [ ] Hackathon Winning
-  - [ ] Parntnerships
+  - [ ] Bigger Parntnerships
+  - [ ] Community Building
   - [ ] MeowFi Mainnet Launch
 - [ ] Building more tools on Aptos
  
