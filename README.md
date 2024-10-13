@@ -55,6 +55,7 @@
 ## About The Project
 
 [![MeowFi screenshot][product-screenshot]](https://fi.meowtos.xyz)
+[![MeowFi screenshot][product-screenshot-dark]](https://fi.meowtos.xyz)
 
 Welcome to MeowFi (a Meowtos product), the future of decentralized finance where NFTs are more than just art—they are assets. Meowfi is a groundbreaking platform on the Aptos blockchain, enabling users to leverage their NFTs as collateral and access token-based loans.
 
@@ -175,18 +176,16 @@ Happy coding!
 ## Roadmap 
 
 ### Q4 2024
-
-- [x] Testnet Launch
-- [x] Aptos keyless integration
-- [ ] Indexer apis for platform
-- [ ] Contract auditing
-- [ ] Community Building & Partnerships
-- [ ] Inner pages for better user experience
-- [ ] Testnet snapshot
-- [ ] Mainnet Launch
-  - [ ] Seasonal Rewards
-  - [ ] Liquidity pools for NFT loans
-
+- [x] Meow Token
+- [x] Meow Spin
+- [x] Meow Sniping Bot (First sniping bot on Aptos)
+- [x] Legends Trade Premarket (First premarket on Aptos)
+- [x] MeowFi Testnet Launch
+- [ ] Hackathon Winning
+  - [ ] Parntnerships
+  - [ ] MeowFi Mainnet Launch
+- [ ] Building more tools on Aptos
+ 
 See the [open issues](https://github.com/ajaythxkur/meowfi/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
