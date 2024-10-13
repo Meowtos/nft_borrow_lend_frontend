@@ -81,7 +81,7 @@ export function Body() {
         getUserListings()
     }, [getUserListings])
 
-    const handleCollectionSelect = (collection: Collection) => {
+    const handleCollectionSelect = (collection: Collection | null) => {
         setChosenCollection(collection)
         setDropdown(!dropdown); // Close the dropdown after selection
     };
@@ -98,8 +98,8 @@ export function Body() {
                             <button className="rounded text-start coll-btn" onClick={() => setDropdown(!dropdown)}>
                                 {
                                     userOwnedCollections.length === 0
-                                        ? "No Collections Available"
-                                        : (chosenCollection ? chosenCollection.collection_name : "Select Collection")
+                                        ? "No collections"
+                                        : (chosenCollection ? chosenCollection.collection_name : "Any")
                                 }
                                 <IoIosArrowDown className="dd-icon" /></button>
                         }
@@ -110,7 +110,7 @@ export function Body() {
                     <div className="coll-dropdown cl-1 rounded" hidden={dropdown}>
                         {userOwnedCollections.map((collection, index) => (
                             <div className="coll-item" key={index} onClick={() => handleCollectionSelect(collection)}>
-                                <p>{collection.collection_name} ({collection.token_standard})</p>
+                                <p>{collection.collection_name}</p>
                             </div>
                         ))}
                     </div>

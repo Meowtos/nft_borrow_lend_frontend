@@ -84,18 +84,47 @@
     0% {
         background-position: -150px;
     }
-
+    
     50% {
         background-position: 150px;
     }
-
+    
     100% {
         background-position: 350px;
     }
 }
 
+/* ------------------------------------------- */
+/* Skeleton cel loading */
+/* ------------------------------------------- */
+/* CURSOR css */
 
+.dots{z-index:999999999; position: fixed; border-radius: 50%;height:26px;width:26px;}
 
+.dots{
+    background-image: linear-gradient(to bottom, var(--primary-3), var(--sec-2));
+}
+
+.c1{transition: all 0.02s ease;}
+.c2{transition: all 0.035s ease;transform:scale(0.95,0.95);}
+.c3{transition: all 0.05s ease;transform:scale(0.9,0.9)}
+.c4{transition: all 0.065s ease;transform:scale(0.85,0.85)}
+.c5{transition: all 0.08s ease;transform:scale(0.8,0.8)}
+.c6{transition: all 0.09s ease;transform:scale(0.75,0.75)}
+.c7{transition: all 0.1s ease;transform:scale(0.7,0.7)}
+.c8{transition: all 0.11s ease;transform:scale(0.65,0.65)}
+.c9{transition: all 0.12s ease;transform:scale(0.6,0.6)}
+.c10{transition: all 0.13s ease;transform:scale(0.55,0.55)}
+.c11{transition: all 0.14s ease;transform:scale(0.5,0.5)}
+.c12{transition: all 0.15s ease;transform:scale(0.45,0.45)}
+.c13{transition: all 0.16s ease;transform:scale(0.4,0.4)}
+.c14{transition: all 0.17s ease;transform:scale(0.35,0.35)}
+.c15{transition: all 0.18s ease;transform:scale(0.3,0.3)}
+.c16{transition: all 0.19s ease;transform:scale(0.25,0.25)}
+.c17{transition: all 0.2s ease;transform:scale(0.2,0.2)}
+.c18{transition: all 0.21s ease;transform:scale(0.15,0.15)}
+.c19{transition: all 0.22s ease;transform:scale(0.1,0.1)}
+.c20{transition: all 0.23s ease;transform:scale(0.05,0.05)}
 
 
 /* Styles for laptop screens */

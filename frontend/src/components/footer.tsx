@@ -18,9 +18,9 @@ const Footer = () => {
                             {
                                 theme == 'dark'
                                     ?
-                                    <Image src="/media/octos-dark.png" alt="logo" height={65} width={75} className='rounded footer-logo' />
+                                    <Image src="/media/octos-dark.png" alt="logo" height={65} width={70} className='rounded footer-logo' />
                                     :
-                                    <Image src="/media/octos-light.png" alt="logo" height={65} width={75} className='rounded footer-logo' />
+                                    <Image src="/media/octos-light.png" alt="logo" height={65} width={70} className='rounded footer-logo' />
                             }
                             <p className='pt-3'>Unlock liquidity without selling your NFTs. Use them as collateral for secure, decentralized loans and retain ownership of your digital assets.</p>
                         </div>

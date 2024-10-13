@@ -9,13 +9,20 @@ import { Listing } from "@/types/ApiInterface"
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
 import { IoNewspaperOutline } from "react-icons/io5";
 import { useKeylessAccounts } from "@/core/useKeylessAccounts"
-
+import { IoIosArrowDown } from "react-icons/io"
+import { MdFilter } from "react-icons/md"
+type Collection = {
+    name: string;
+    id: string;
+}
 export function Body() {
     const { activeAccount } = useKeylessAccounts()
     const { account } = useWallet();
     const [view, setView] = useState("grid");
     const [tokensListing, setTokensListing] = useState<Listing[]>([])
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const [dropdown, setDropdown] = useState(true);
+    const [chosenCollection, setChosenCollection] = useState<Collection | null>(null)
     useEffect(() => {
         async function getTokensListing() {
             try {
@@ -37,9 +44,58 @@ export function Body() {
         if (!address) return tokensListing;
         return tokensListing.filter((token) => token.address !== address)
     }, [tokensListing, account?.address, activeAccount])
+    const collections = useMemo(()=>{
+        const newArr: Collection[] = [];
+        notMyListings.forEach((item)=>{
+            if(!newArr.some(v => v.id === item.collection_id)){
+                newArr.push({
+                    name: item.collection_name,
+                    id: item.collection_id
+                })
+            }
+        })
+        return newArr;
+    },[notMyListings])
+    const handleCollectionSelect = (collection: Collection|null) => {
+        setChosenCollection(collection)
+        setDropdown(!dropdown); // Close the dropdown after selection
+    };
+    const tokens = useMemo(()=>{
+        if(!chosenCollection){
+            return notMyListings;
+        }
+        return notMyListings.filter((token)=> token.collection_id === chosenCollection.id)
+    },[chosenCollection, notMyListings])
     return (
         <React.Fragment>
-            <div className="content-header d-flex mb-4 lendnft">
+            <div className="content-header d-flex mb-4">
+            <div className="collection">
+                    <div className="dropdown-btn sl-coll">
+                        <span className="me-2 fs-6">Select Collection:</span>
+                        {
+                            !loading && collections.length > 0
+                            &&
+                            <button className="rounded text-start coll-btn" onClick={() => setDropdown(!dropdown)}>
+                                {
+                                  chosenCollection ? chosenCollection.name : "Any"
+                                }
+                                <IoIosArrowDown className="dd-icon" /></button>
+                        }
+
+                    </div>
+                    <MdFilter className="mb-coll-filter d-none rounded" onClick={() => setDropdown(!dropdown)} />
+
+                    <div className="coll-dropdown cl-1 rounded" hidden={dropdown}>
+                        <div className="coll-item" onClick={() => handleCollectionSelect(null)}>
+                            <p>Any</p>
+                        </div>
+                        {collections.map((collection, index) => (
+                            <div className="coll-item" key={index} onClick={() => handleCollectionSelect(collection)}>
+                                <p>{collection.name}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
                 <div className="view-type d-flex align-items-center">
                     <span className="me-2">View:</span>
                     <div className="dsp-layout">
@@ -49,7 +105,7 @@ export function Body() {
                 </div>
             </div>
             <div className="content-body">
-                <TokenListings viewtype={view} tokens={notMyListings} loading={loading} />
+                <TokenListings viewtype={view} tokens={tokens} loading={loading} />
             </div>
         </React.Fragment>
     )

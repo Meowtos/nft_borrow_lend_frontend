@@ -151,7 +151,6 @@ button,
 /* Modals */
 /* ------------------------------------------------------- */
 .modal {
-    /* background: var(--bgdark-99); */
     background: var(--darkmain--99);
     z-index: 999999999;
 }
@@ -353,13 +352,9 @@ ul.dropdown-menu li {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center !important;
-    padding: 100px 80px;
+    padding: 100px 80px 50px 80px;
     margin-top: 32px;
     gap: 32px;
-    /* background-image: url('/media/dark-texture.jpg') !important;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat; */
 }
 
 .work-row div:nth-child(1),
@@ -391,14 +386,16 @@ ul.dropdown-menu li {
     grid-row: 2;
 }
 
-.outer,
-.main {
+.outer, .main {
     transition: all 0.5s ease;
 }
 
 .outer {
     background: var(--bglight-20);
     padding: 0px 32px 0px 32px;
+    border-radius: 8px;
+    /* box-shadow: rgba(255, 255, 255, 0.2) 0rem 0.25rem 0.5rem -0.1rem, rgba(255, 255, 255, 0.1) 0rem 0.125rem 0.25rem -0.1rem; */
+
 }
 
 .main {
@@ -408,6 +405,7 @@ ul.dropdown-menu li {
     position: relative;
     top: -50px;
     border-top: 3px solid var(--sec-2);
+    border-radius: 8px;
 }
 
 .main h4 {
@@ -422,14 +420,8 @@ ul.dropdown-menu li {
     background: var(--sec-2);
 }
 
-.outer:hover .main {
-    background-color: var(--sec-1);
-}
-
-
-.outer:hover .main h4,
 .outer:hover .main p {
-    color: var(--txt-light);
+    color: var(--light);
 }
 
 /* why choose us */
@@ -599,14 +591,6 @@ ul.dropdown-menu li {
     box-shadow: 0 0 10px 0px var(--primary-1);
     /* border: 1px dashed var(--primary-1); */
 }
-.light-theme.footer .popped{
-    background: var(--primary-1);
-}
-.light-theme .footer-logo {
-    background: #ffffff;
-    border-radius: 100%;
-    padding: 4px;
-}
 
 .ft-list,
 .social {
@@ -672,7 +656,6 @@ ul.dropdown-menu li {
     bottom: 0px;
     left: 0px;
     background: var(--darkmain);
-    /* opacity: 0.6; */
     opacity: 0.2;
 }
 
@@ -684,6 +667,7 @@ ul.dropdown-menu li {
 /* Borrowpage */
 .borrow-tabs {
     background: #181818;
+    padding-bottom: 140px;
 }
 
 .tab-btns {
@@ -1085,16 +1069,4 @@ ul.dropdown-menu li {
 
 .mint-form input::placeholder {
     color: var(--light-66) !important;
-}
-
-/* for light theme */
-.light-theme .card.mint,
-.light-theme .card.faucet {
-    box-shadow: 0px 0px 20px 2px #ffffff20;
-    background: #fafafa;
-}
-
-.light-theme .select-coin,
-.light-theme .mint-form input {
-    background: #cfcfcf;
 }
