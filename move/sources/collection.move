@@ -3,7 +3,7 @@
 //// Test Collection
 //
 //
-module my_addrx::octos {
+module my_addrx::meowtos {
     use std::signer::address_of;
     use aptos_token_objects::token;
     use aptos_token_objects::collection;
@@ -21,10 +21,10 @@ module my_addrx::octos {
         counter: u64,
     }
 
-    const COLLECTION_NAME: vector<u8> = b"Octos";
-    const COLLECTION_DESCRIPTION: vector<u8> = b"Keep minting!!";
-    const COLLECTION_URI: vector<u8> = b"https://github.com/ajaythxkur/octos";
-    const TOKEN_DESCRIPTION: vector<u8> = b"LFGGGGGG";
+    const COLLECTION_NAME: vector<u8> = b"Meowtos";
+    const COLLECTION_DESCRIPTION: vector<u8> = b"Say Meow!";
+    const COLLECTION_URI: vector<u8> = b"https://pbs.twimg.com/profile_images/1842388513448484864/RMwESVRz_400x400.jpg";
+    const TOKEN_DESCRIPTION: vector<u8> = b"meow meow";
 
     fun init_module(creator: &signer) {
         let constructor_ref = object::create_named_object(creator, COLLECTION_NAME);
@@ -75,7 +75,7 @@ module my_addrx::octos {
     }
 
     fun construct_token_name(counter: u64): vector<u8> {
-        bcs::to_bytes(&string_utils::format1(&b"Octos #{}", counter))
+        bcs::to_bytes(&string_utils::format1(&b"Meowtos #{}", counter))
     }
 
     #[view]

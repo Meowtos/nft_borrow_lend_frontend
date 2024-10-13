@@ -1,6 +1,6 @@
 import { AptosConfig, NetworkToNetworkName, Aptos, TokenStandard } from "@aptos-labs/ts-sdk";
 import { NETWORK } from "./env";
-import { aptos as aptos_coin, punk_coin, moon_coin } from "./coins";
+import { aptos as aptos_coin, meow_coin, moon_coin } from "./coins";
 const config = new AptosConfig({
     network: NetworkToNetworkName[NETWORK]
 });
@@ -25,7 +25,7 @@ export const getFAMetadata = async () => {
         options: {
             where: {
                 asset_type: {
-                    _in: [aptos_coin, punk_coin, moon_coin]
+                    _in: [aptos_coin, meow_coin, moon_coin]
                 },
             },
         }

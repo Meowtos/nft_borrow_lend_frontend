@@ -1,8 +1,8 @@
-export const project = `Octos`;
+export const project = `Meowtos`;
 export const explorerUrl = "https://explorer.aptoslabs.com" 
 export const discordLink = "https://discord.gg/tFQMPWSQ5z";
-export const twitterLnk ="#";
-
+export const twitterLnk ="https://x.com/Meowtos";
+export const telegramLink = "https://t.me/meowaptos"
 export const menu =[
     {
         name: "Home",

@@ -14,7 +14,7 @@ export function Body() {
     const { account, signAndSubmitTransaction, network } = useWallet()
     const [uri, setUri] = useState("");
     const [loading, setLoading] = useState(false);
-    const [collection, setCollection] = useState("octos")
+    const [collection, setCollection] = useState("meowtos")
     const { theme } = useTheme();
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -74,8 +74,8 @@ export function Body() {
                                 <div className="mb-3">
                                     <label htmlFor="token" className="form-label">Select Collection:</label>
                                     <select className="form-select select-coin" name="token" value={collection} onChange={(e)=>setCollection(e.target.value)} required>
-                                        <option value="octos">Octos</option>
-                                        <option value="octos_movers">Octos Movers</option>
+                                        <option value="meowtos">Meowtos</option>
+                                        <option value="meow_money">Meow Money</option>
                                     </select>
                                 </div>
                                 <div className="mb-3">

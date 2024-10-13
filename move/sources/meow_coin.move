@@ -3,7 +3,7 @@
 //// Test Coin
 //
 //
-module my_addrx::punk_coin {
+module my_addrx::meow_coin {
     use std::signer;
     use aptos_framework::fungible_asset::{Self, MintRef, TransferRef, Metadata};
     use aptos_framework::object;
@@ -16,9 +16,9 @@ module my_addrx::punk_coin {
         transfer_ref: TransferRef,
     }
 
-    const ASSET_SYMBOL: vector<u8> = b"PUNK";
-    const ASSET_NAME: vector<u8> = b"Aptos Punk";
-    const ASSET_ICON_URI: vector<u8> = b"https://img.freepik.com/premium-psd/pixel-art-boy-character-with-sunglasses-isolated-transparent-background-game-character_401927-2106.jpg";
+    const ASSET_SYMBOL: vector<u8> = b"MEOW";
+    const ASSET_NAME: vector<u8> = b"Meow Money";
+    const ASSET_ICON_URI: vector<u8> = b"https://pbs.twimg.com/profile_images/1842388513448484864/RMwESVRz_400x400.jpg";
 
     fun init_module(creator: &signer){
         let constructor_ref = object::create_named_object(creator, ASSET_SYMBOL);
@@ -29,7 +29,7 @@ module my_addrx::punk_coin {
             utf8(ASSET_SYMBOL),
             8,
             utf8(ASSET_ICON_URI),
-            utf8(b"https://github.com/ajaythxkur/@my_addrx_protocol"), // project uri
+            utf8(b"https://x.com/Meowtos"), // project uri
         );
         let obj_signer = &object::generate_signer(&constructor_ref);
         move_to(

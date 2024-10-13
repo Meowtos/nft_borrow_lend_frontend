@@ -1,8 +1,8 @@
 "use client"
-import { discordLink, footerLinks, project, team, twitterLnk } from '@/utils/constants';
+import { discordLink, footerLinks, project, telegramLink, twitterLnk } from '@/utils/constants';
 import Image from 'next/image'
 import Link from 'next/link'
-import { BsDiscord } from "react-icons/bs";
+import { BsDiscord, BsTelegram } from "react-icons/bs";
 import { useTheme } from '@/context/themecontext';
 import { BsTwitterX } from "react-icons/bs";
 
@@ -15,13 +15,7 @@ const Footer = () => {
                 <div className="container">
                     <div className="row popped rounded">
                         <div className="col-lg-3 pe-5">
-                            {
-                                theme == 'dark'
-                                    ?
-                                    <Image src="/media/octos-dark.png" alt="logo" height={65} width={70} className='rounded footer-logo' />
-                                    :
-                                    <Image src="/media/octos-light.png" alt="logo" height={65} width={70} className='rounded footer-logo' />
-                            }
+                            <Image src="/media/logo.png" alt="logo" height={65} width={70} className='rounded footer-logo' />
                             <p className='pt-3'>Unlock liquidity without selling your NFTs. Use them as collateral for secure, decentralized loans and retain ownership of your digital assets.</p>
                         </div>
                         <div className="col-lg-3">
@@ -38,16 +32,22 @@ const Footer = () => {
                             </ul>
                         </div>
                         <div className="col-lg-3">
-                            <h4>Meet The Team</h4>
+                            <h4>Our Products</h4>
                             <p className="br"></p>
                             <ul className='ft-list m-0 p-0'>
-                                {
-                                    team.map((v, idx) => (
-                                        <Link href={v.github} target='_blank' key={`team-${idx}`}>
-                                            <li><Image src={v.profile} alt="profile" height={24} width={24} className='me-2 rounded-circle' />{v.name}</li>
-                                        </Link>
-                                    ))
-                                }
+                                <Link href={"https://t.me/meow_sniper_bot"} target='_blank'>
+                                    <li><Image src={"https://pbs.twimg.com/media/GZvTyiLW0AEqNwO?format=jpg&name=small"} alt="meow_bot" height={24} width={24} className='me-2 rounded-circle' />Meow Bot</li>
+                                </Link>
+                                <Link href={"https://meowtos.xyz/spin"} target='_blank'>
+                                    <li><Image src={"https://pbs.twimg.com/media/GZYWF4nasAUNNlg?format=png&name=small"} alt="meow_spin" height={24} width={24} className='me-2 rounded-circle' />Meow Spin</li>
+                                </Link>
+                                <Link href={"https://app.legends.trade/?network=aptos"} target='_blank'>
+                                    <li><Image src={"https://pbs.twimg.com/profile_images/1783544053365157888/N8BVsRZo_400x400.jpg"} alt="premarket" height={24} width={24} className='me-2 rounded-circle' />Pre-Market</li>
+                                </Link>
+                                <Link href={"https://app.panora.exchange/swap?pair=APT_MEOW"} target='_blank'>
+                                    <li><Image src={"https://pbs.twimg.com/profile_images/1768967680357548032/ZIjlSSQ__400x400.jpg"} alt="buy_meow" height={24} width={24} className='me-2 rounded-circle' />Buy $MEOW</li>
+                                </Link>
+                              
                             </ul>
                         </div>
                         <div className="col-lg-3">
@@ -57,8 +57,11 @@ const Footer = () => {
                                 <Link href={discordLink} target='_blank'>
                                     <BsDiscord className='sc-icon' />
                                 </Link>
-                                <Link href={twitterLnk}>
+                                <Link href={twitterLnk} target='_blank'>
                                     <BsTwitterX className='sc-icon'/>
+                                </Link>
+                                <Link href={telegramLink} target='_blank'>
+                                    <BsTelegram className='sc-icon'/>
                                 </Link>
                             </div>
                         </div>

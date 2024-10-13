@@ -426,13 +426,13 @@ module my_addrx::nft_lending {
     ////
     //
     #[test_only]
-    use my_addrx::punk_coin;
+    use my_addrx::meow_coin;
 
     #[test_only]
     use my_addrx::moon_coin;
 
     #[test_only]
-    use my_addrx::octos;
+    use my_addrx::meowtos;
 
     #[test_only]
     use std::string::utf8;
@@ -448,9 +448,9 @@ module my_addrx::nft_lending {
     #[test_only]
     fun setup(admin: &signer){
         init_module_for_test(admin);
-        punk_coin::init_module_for_test(admin);
+        meow_coin::init_module_for_test(admin);
         moon_coin::init_module_for_test(admin);
-        octos::init_module_for_test(admin);
+        meowtos::init_module_for_test(admin);
     }
 
     #[test_only]
@@ -491,8 +491,8 @@ module my_addrx::nft_lending {
     #[test(admin=@my_addrx, user=@0xCAFE)]
     fun make_offer_with_fa_test(admin: &signer, user: &signer) {
         setup(admin);
-        punk_coin::faucet(user);
-        let metadata = punk_coin::asset_metadata(punk_coin::asset_address());
+        meow_coin::faucet(user);
+        let metadata = meow_coin::asset_metadata(meow_coin::asset_address());
         offer_with_fa(
             user,
             dummy_object(address_of(user)),
@@ -501,7 +501,7 @@ module my_addrx::nft_lending {
             30 * APR_DENOMINATOR,
             metadata
         );
-        assert!(punk_coin::balance(address_of(user)) == 800000000, 0);
+        assert!(meow_coin::balance(address_of(user)) == 800000000, 0);
     }
 
     #[test_only]
@@ -548,14 +548,14 @@ module my_addrx::nft_lending {
         timestamp::set_time_has_started_for_testing(aptos_framework);
         setup(admin);
         // Faucet to alice
-        punk_coin::faucet(alice);
-        let metadata = punk_coin::asset_metadata(punk_coin::asset_address());
+        meow_coin::faucet(alice);
+        let metadata = meow_coin::asset_metadata(meow_coin::asset_address());
         // NFT to bob
-        octos::mint(
+        meowtos::mint(
             bob,
             utf8(b"uri"),
         );
-        let token_addr = octos::get_token_address(0);
+        let token_addr = meowtos::get_token_address(0);
         let token =  object::address_to_object(token_addr);
         let offer = make_offer_with_fa_for_test(
            alice,
@@ -564,7 +564,7 @@ module my_addrx::nft_lending {
         );
         borrow_with_fa(bob, offer);
         assert!(!object::is_owner(token, address_of(bob)), 4);
-        assert!(punk_coin::balance(address_of(bob)) == 200000000, 0)
+        assert!(meow_coin::balance(address_of(bob)) == 200000000, 0)
     }
 
     #[test(admin=@my_addrx, alice=@0x100, bob=@0x200, aptos_framework=@0x1)]
@@ -576,11 +576,11 @@ module my_addrx::nft_lending {
         account::create_account_for_test(address_of(bob));
         moon_coin::faucet(alice);
         // NFT to bob
-        octos::mint(
+        meowtos::mint(
             bob,
             utf8(b"uri"),
         );
-        let token_addr = octos::get_token_address(0);
+        let token_addr = meowtos::get_token_address(0);
         let token = object::address_to_object(token_addr);
         let offer = make_offer_with_coin_for_test<moon_coin::MoonCoin>(
            alice,
@@ -612,14 +612,14 @@ module my_addrx::nft_lending {
         timestamp::set_time_has_started_for_testing(aptos_framework);
         setup(admin);
         // Faucet to alice
-        punk_coin::faucet(alice);
-        let metadata = punk_coin::asset_metadata(punk_coin::asset_address());
+        meow_coin::faucet(alice);
+        let metadata = meow_coin::asset_metadata(meow_coin::asset_address());
         // NFT to bob
-        octos::mint(
+        meowtos::mint(
             bob,
             utf8(b"uri"),
         );
-        let token_addr = octos::get_token_address(0);
+        let token_addr = meowtos::get_token_address(0);
         let token = object::address_to_object(token_addr);
         let offer = make_offer_with_fa_for_test(
            alice,
@@ -627,13 +627,13 @@ module my_addrx::nft_lending {
            metadata
         );
         let borrow = borrow_with_fa_for_test(bob, offer);
-        assert!(punk_coin::balance(address_of(bob)) == 200000000, 0);
+        assert!(meow_coin::balance(address_of(bob)) == 200000000, 0);
         assert!(!object::is_owner(token, address_of(bob)), 4);
-        punk_coin::faucet(bob); // bob gets 5 more coin to pay back interest
+        meow_coin::faucet(bob); // bob gets 5 more coin to pay back interest
         repay_with_fa_for_test(bob, borrow);
         let repay_amount = amount_with_intrest(200000000, 30 * APR_DENOMINATOR, 1);
-        assert!(punk_coin::balance(address_of(alice)) == repay_amount + 800000000, 1);
-        assert!(punk_coin::balance(address_of(bob)) == 1000000000 - repay_amount + 200000000, 2);
+        assert!(meow_coin::balance(address_of(alice)) == repay_amount + 800000000, 1);
+        assert!(meow_coin::balance(address_of(bob)) == 1000000000 - repay_amount + 200000000, 2);
         assert!(object::is_owner(token, address_of(bob)), 3);
     }
 
@@ -646,11 +646,11 @@ module my_addrx::nft_lending {
         account::create_account_for_test(address_of(bob));
         moon_coin::faucet(alice);
         // NFT to bob
-        octos::mint(
+        meowtos::mint(
             bob,
             utf8(b"uri"),
         );
-        let token_addr = octos::get_token_address(0);
+        let token_addr = meowtos::get_token_address(0);
         let token = object::address_to_object(token_addr);
         let offer = make_offer_with_coin_for_test<moon_coin::MoonCoin>(
            alice,
@@ -686,11 +686,11 @@ module my_addrx::nft_lending {
         account::create_account_for_test(address_of(bob));
         moon_coin::faucet(alice);
         // NFT to bob
-        octos::mint(
+        meowtos::mint(
             bob,
             utf8(b"uri"),
         );
-        let token_addr = octos::get_token_address(0);
+        let token_addr = meowtos::get_token_address(0);
         let token = object::address_to_object(token_addr);
         let offer = make_offer_with_coin_for_test<moon_coin::MoonCoin>(
            alice,
