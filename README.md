@@ -8,21 +8,21 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/ajaythxkur/octos">
+  <a href="https://github.com/ajaythxkur/meowfi">
     <img src="media-kit/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Octos</h3>
+  <h3 align="center">MeowFi (Meowtos)</h3>
 
   <p align="center">
     Turn your NFTs into collateral and access cryptocurrency loans with ease. No need to sell—just lend your NFTs and get the liquidity you need in minutes.
     <br />
     <br />
-    <a href="https://octos-xyz.vercel.app">View Demo</a>
+    <a href="https://fi.meowtos.xyz">View Demo</a>
     ·
-    <a href="https://github.com/ajaythxkur/octos/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/ajaythxkur/meowfi/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
-    <a href="https://github.com/ajaythxkur/octos/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/ajaythxkur/meowfi/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -54,9 +54,10 @@
 
 ## About The Project
 
-[![Octos screenshot][product-screenshot]](https://octos-xyz.vercel.app)
+[![MeowFi screenshot][product-screenshot]](https://fi.meowtos.xyz)
+[![MeowFi screenshot][product-screenshot-dark]](https://fi.meowtos.xyz)
 
-Welcome to Octos, the future of decentralized finance where NFTs are more than just art—they are assets. Octos is a groundbreaking platform on the Aptos blockchain, enabling users to leverage their NFTs as collateral and access token-based loans.
+Welcome to MeowFi (a Meowtos product), the future of decentralized finance where NFTs are more than just art—they are assets. Meowfi is a groundbreaking platform on the Aptos blockchain, enabling users to leverage their NFTs as collateral and access token-based loans.
 
 Key Features:
 
@@ -65,13 +66,13 @@ Key Features:
 - Simple and efficient—borrowers get access to tokens, while lenders earn by providing liquidity.
 - Stay connected through our real-time Discord updates, keeping you informed about loans, collateral, and community events.
 
-Octos is here to redefine how you utilize NFTs. Join us today and experience decentralized NFT finance on Aptos!
+Meowtos is here to redefine how you utilize NFTs. Join us today and experience decentralized NFT finance on Aptos!
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 ### Architecture
 
-[![Architecture screenshot][architecture-screenshot]](https://octos-xyz.vercel.app)
+[![Architecture screenshot][architecture-screenshot]](https://fi.meowtos.xyz)
 
 ### Built With
 
@@ -84,7 +85,7 @@ Octos is here to redefine how you utilize NFTs. Join us today and experience dec
 
 ## Getting Started
 
-Follow these steps to set up Octos locally on your machine:
+Follow these steps to set up Meowfi locally on your machine:
 
 ### Prerequisites
 
@@ -174,20 +175,17 @@ Happy coding!
 
 ## Roadmap 
 
-### Q4 2024
-
-- [x] Testnet Launch
-- [x] Aptos keyless integration
-- [ ] Indexer apis for platform
-- [ ] Contract auditing
-- [ ] Community Building & Partnerships
-- [ ] Inner pages for better user experience
-- [ ] Testnet snapshot
-- [ ] Mainnet Launch
-  - [ ] Seasonal Rewards
-  - [ ] Liquidity pools for NFT loans
-
-See the [open issues](https://github.com/ajaythxkur/octos/issues) for a full list of proposed features (and known issues).
+- [x] Meow Token
+- [x] Meow Spin
+- [x] Meow Sniping Bot (First sniping bot on Aptos)
+- [x] Legends Trade Premarket (First premarket on Aptos)
+- [x] MeowFi Testnet Launch
+- [ ] Hackathon Winning
+  - [ ] Bigger Parntnerships
+  - [ ] MeowFi Mainnet Launch
+- [ ] Building more tools on Aptos
+ 
+See the [open issues](https://github.com/ajaythxkur/meowfi/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
@@ -208,8 +206,8 @@ Don't forget to give the project a star! Thanks again!
 
 ### Top contributors:
 
-<a href="https://github.com/ajaythxkur/octos/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=ajaythxkur/octos" alt="contrib.rocks image" />
+<a href="https://github.com/ajaythxkur/meowfi/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ajaythxkur/meowfi" alt="contrib.rocks image" />
 </a>
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
@@ -230,17 +228,18 @@ We would like to express our gratitude to the following resources that have sign
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 [contributors-shield]: https://img.shields.io/github/contributors/ajaythxkur/wiz_protocol.svg?style=for-the-badge
-[contributors-url]: https://github.com/ajaythxkur/octos/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/ajaythxkur/octos.svg?style=for-the-badge
-[forks-url]: https://github.com/ajaythxkur/octos/network/members
-[stars-shield]: https://img.shields.io/github/stars/ajaythxkur/octos.svg?style=for-the-badge
-[stars-url]: https://github.com/ajaythxkur/octos/stargazers
-[issues-shield]: https://img.shields.io/github/issues/ajaythxkur/octos.svg?style=for-the-badge
-[issues-url]: https://github.com/ajaythxkur/octos/issues
-[github-url]: https://github.com/ajaythxkur/octos
+[contributors-url]: https://github.com/ajaythxkur/meowfi/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/ajaythxkur/meowfi.svg?style=for-the-badge
+[forks-url]: https://github.com/ajaythxkur/meowfi/network/members
+[stars-shield]: https://img.shields.io/github/stars/ajaythxkur/meowfi.svg?style=for-the-badge
+[stars-url]: https://github.com/ajaythxkur/meowfi/stargazers
+[issues-shield]: https://img.shields.io/github/issues/ajaythxkur/meowfi.svg?style=for-the-badge
+[issues-url]: https://github.com/ajaythxkur/meowfi/issues
+[github-url]: https://github.com/ajaythxkur/meowfi
 [product-screenshot]: media-kit/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [Move]: media-kit/move.png?style=for-the-badge
 [Move-url]: https://aptos.dev/en/build/smart-contracts
 [architecture-screenshot]: media-kit/architecture.jpeg
+[product-screenshot-dark]: media-kit/screenshot-dark.png

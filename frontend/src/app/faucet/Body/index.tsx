@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from "react"
-import { punk_coin, moon_coin } from "@/utils/coins"
+import { meow_coin, moon_coin } from "@/utils/coins"
 import { toast } from "sonner";
 import { PendingTransactionResponse, useWallet } from "@aptos-labs/wallet-adapter-react";
 import { ABI_ADDRESS, NETWORK } from "@/utils/env";
@@ -13,7 +13,7 @@ import { InputGenerateTransactionPayloadData } from "@aptos-labs/ts-sdk";
 export function Body() {
     const { activeAccount } = useKeylessAccounts()
     const { account, signAndSubmitTransaction, network } = useWallet();
-    const [coin, setCoin] = useState(punk_coin);
+    const [coin, setCoin] = useState(meow_coin);
     const [loading, setLoading] = useState(false);
     const { theme } = useTheme();
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -52,10 +52,10 @@ export function Body() {
                     action: <a href={`${explorerUrl}/txn/${response.hash}`}>View Txn</a>
                 })
             }
-            if (coin === punk_coin) {
+            if (coin === meow_coin) {
                 let response: PendingTransactionResponse;
                 const data: InputGenerateTransactionPayloadData = {
-                    function: `${ABI_ADDRESS}::punk_coin::faucet`,
+                    function: `${ABI_ADDRESS}::meow_coin::faucet`,
                     typeArguments: [],
                     functionArguments: []
                 }
@@ -100,7 +100,7 @@ export function Body() {
                             <form onSubmit={onSubmit} className="mt-4">
                                 <label htmlFor="name" className="form-label">Choose Coin:</label>
                                 <select className="form-select select-coin" name="coin" value={coin} onChange={(e) => setCoin(e.target.value)} required >
-                                    <option value={punk_coin}>Aptos Punk</option>
+                                    <option value={meow_coin}>Meow Coin</option>
                                     <option value={moon_coin}>Moon Coin</option>
                                 </select>
                                 <div className="text-center">

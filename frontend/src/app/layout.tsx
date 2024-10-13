@@ -25,14 +25,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: project,
     description: `${project} - Instant NFT Loans on your favorite Aptos blockchain`,
-    images: ["/media/octos-dark.png"],
+    images: ["/media/logo.png"],
   },
   twitter: {
     card: "summary",
     site: "",
     title: project,
     description: `${project} - Instant NFT Loans on your favorite Aptos blockchain`,
-    images: ["/media/octos-dark.png"],
+    images: ["/media/logo.png"],
   },
 };
 

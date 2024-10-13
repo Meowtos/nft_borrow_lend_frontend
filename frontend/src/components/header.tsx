@@ -12,7 +12,7 @@ import { menu } from '@/utils/constants'
 import { DiscordNotification } from './DiscordNotification';
 import ThemeToggle from './ThemeToggle';
 import { usePathname } from 'next/navigation'
-import Cursor from "@/components/cursor"
+// import Cursor from "@/components/cursor"
 
 const Header = () => {
     const { theme } = useTheme();
@@ -22,19 +22,13 @@ const Header = () => {
     const pathname = usePathname();
     return (
         <>
-        <Cursor />
+        {/* <Cursor /> */}
             <section className={`header py-3 ${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
                 <div className="container p-0">
                     <div className="row m-0">
                         <div className="col-5 col-sm-1 col-lg-4 p-0 logo">
                             <Link href={"/"}>
-                                {
-                                    theme == 'dark'
-                                        ?
-                                        <Image src="/media/octos-dark.png" alt="logo" height={65} width={65} className='rounded' />
-                                        :
-                                        <Image src="/media/octos-light.png" alt="logo" height={65} width={65} className='rounded' />
-                                }
+                                <Image src="/media/logo.png" alt="logo" height={65} width={65} className='rounded' />
                             </Link>
                         </div>
 
