@@ -12,7 +12,6 @@ import { menu } from '@/utils/constants'
 import { DiscordNotification } from './DiscordNotification';
 import ThemeToggle from './ThemeToggle';
 import { usePathname } from 'next/navigation'
-// import Cursor from "@/components/cursor"
 
 const Header = () => {
     const { theme } = useTheme();
@@ -22,7 +21,6 @@ const Header = () => {
     const pathname = usePathname();
     return (
         <>
-        {/* <Cursor /> */}
             <section className={`header py-3 ${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
                 <div className="container p-0">
                     <div className="row m-0">
