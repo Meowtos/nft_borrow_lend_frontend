@@ -16,6 +16,7 @@ import { MdCollections, MdOutlineToken } from "react-icons/md";
 import { explorerUrl } from "@/utils/constants";
 import { useKeylessAccounts } from "@/core/useKeylessAccounts";
 import { InputGenerateTransactionPayloadData } from "@aptos-labs/ts-sdk";
+import { interestAmount } from "@/utils/math";
 
 export const lendModalId = "lendModal";
 interface LendModalProps {
@@ -189,9 +190,9 @@ export function LendModal({ token }: LendModalProps) {
             setFieldValue("apr", token.apr ?? "")
         }
     }, [setFieldValue, token])
-    // const receiveAmount = useMemo(()=>{
-    //     return Number(values.amount) + interestAmount(Number(values.apr), Number(values.amount), Number(values.duration))
-    // },[values.amount, values.apr, values.duration])
+    const receiveAmount = useMemo(()=>{
+        return Number(values.amount) + interestAmount(Number(values.apr), Number(values.amount), Number(values.duration))
+    },[values.amount, values.apr, values.duration])
     return (
         <React.Fragment>
             <div className="modal fade" id={lendModalId} tabIndex={-1} aria-labelledby={`${lendModalId}Label`} >
@@ -266,9 +267,9 @@ export function LendModal({ token }: LendModalProps) {
                                             <input type="text" name="apr" value={values.apr} onChange={handleChange} className="form-control" placeholder="Enter APR (%)" />
                                             {errors.apr && touched.apr && <span className="text-danger">{errors.apr}</span>}
                                         </div>
-                                        {/* <div className="mb-3">
-                                            <p className="mb-0">You will receive: {receiveAmount}</p>
-                                        </div> */}
+                                        <div className="mb-3">
+                                            <p className="mb-0">After repay, you&apos;ll get - {receiveAmount ?? 0} {chosenCoin?.symbol}</p>
+                                        </div>
                                         {
                                             submitLoading
                                                 ?
