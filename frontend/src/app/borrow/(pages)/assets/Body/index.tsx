@@ -213,7 +213,7 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
                         :
                         tokens.map((token) => (
                             <div className="card border-0 text-light" key={token.token_data_id}>
-                                <Image src={`${token.token_icon_uri}`} className="card-img-top w-100" alt={token.token_name} width={150} height={200} />
+                                <Image src={`${token.token_icon_uri}`} className="card-img-top w-100" alt={token.token_name} width={150} height={230} />
                                 <div className="card-body">
                                     <h4 className="card-title">{token.token_name}</h4>
                                     <p className="d-flex">Collection: <span>{token.collection_name}</span></p>

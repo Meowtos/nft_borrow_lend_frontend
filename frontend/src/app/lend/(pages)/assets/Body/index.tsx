@@ -147,7 +147,7 @@ export function TokenListings({ viewtype, tokens, loading }: TokenListingsProps)
                         :
                         tokens.map((token) => (
                             <div className="card border-0" key={token.token_data_id}>
-                                <Image src={`${token.token_icon}`} className="card-img-top w-100" alt={token.token_name} width={150} height={150} />
+                                <Image src={`${token.token_icon}`} className="card-img-top w-100" alt={token.token_name} width={150} height={230} />
                                 <div className="card-body ">
                                     <h4 className="card-title">{token.token_name}</h4>
                                     <p className="card-text p-2">{token.collection_name}</p>
