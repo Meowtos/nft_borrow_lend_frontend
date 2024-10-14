@@ -123,6 +123,10 @@
 .light-theme .tab-btn{
   background: #E9ECEF !important;
 }
+.light-theme .outer .main{
+background:#FBFBFB !important;
+}
+
 .light-theme .work-row,
 .light-theme .accordion,
 .light-theme .wcs-card,

@@ -808,5 +808,18 @@
   .card .card-body {
     padding-bottom: 0px;
   }
+  .dark-theme .work-row,
+  .dark-theme .accordion{
+    border: unset !important;
+  }
+  .dark-theme .accordion {
+    background: unset !important;
+  }
+  .dark-theme .accordion-button{
+    background: transparent !important;
+  }
+  .dark-theme .accordion-item {
+    background:  var(--bg-rad-gradiant) !important;
+  }
 
 }
