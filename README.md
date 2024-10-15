@@ -18,7 +18,7 @@
     Turn your NFTs into collateral and access cryptocurrency loans with ease. No need to sell—just lend your NFTs and get the liquidity you need in minutes.
     <br />
     <br />
-    <a href="https://fi.meowtos.xyz">View Demo</a>
+    <a href="https://youtu.be/n_O28LvNU1I?si=Kdq1D9lt_t9Se_6d">View Demo</a>
     ·
     <a href="https://github.com/ajaythxkur/meowfi/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·

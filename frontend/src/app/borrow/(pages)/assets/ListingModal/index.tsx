@@ -90,6 +90,21 @@ export function ListingModal({ token, getUserListings }: ListingModalProps) {
                         duration: data.duration !== "" ? data.duration : null
                     })
                 });
+                await fetch("/api/telegram/send-photo", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        title: `${token.token_name}`,
+                        image: token.token_icon_uri,
+                        url: `${window.location.origin}/lend/assets`,
+                        amount: data.amount != "" ? data.amount : null,
+                        coin: data.coin ? getAssetByType(data.coin)?.symbol : null,
+                        apr: data.apr !== "" ? data.apr : null,
+                        duration: data.duration !== "" ? data.duration : null
+                    })
+                })
             } catch (error: unknown) {
                 let errorMessage = 'An unexpected error occurred';
                 if (error instanceof Error) {

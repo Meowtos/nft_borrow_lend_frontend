@@ -7,3 +7,5 @@ export const DISCORD_CLIENT_SECRET = process.env.NEXT_PUBLIC_DISCORD_CLIENT_SECR
 export const DISCORD_REDIRECT_URI = process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI as string;
 export const BOT_TOKEN = process.env.NEXT_PUBLIC_DISCORD_BOT_TOKEN as string;
 export const LISTING_CHANNEL_ID = process.env.NEXT_PUBLIC_LISTING_CHANNEL_ID as string;
+export const TG_BOT_TOKEN = process.env.NEXT_PUBLIC_TG_BOT_TOKEN as string;
+export const TG_CHAT_ID = process.env.NEXT_PUBLIC_TG_CHAT_ID as string;
