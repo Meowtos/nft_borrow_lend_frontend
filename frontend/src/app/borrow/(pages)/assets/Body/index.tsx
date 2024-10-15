@@ -16,7 +16,6 @@ import { Listing } from "@/types/ApiInterface";
 import { UpdateListingModal, updateListingModalId } from "../UpdateListingModal";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { useKeylessAccounts } from "@/core/useKeylessAccounts";
-import { FaBullseye } from "react-icons/fa";
 
 export function Body() {
     const { account } = useWallet();
