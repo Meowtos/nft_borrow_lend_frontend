@@ -54,8 +54,8 @@
 
 ## About The Project
 
-[![MeowFi screenshot][product-screenshot]](https://fi.meowtos.xyz)
-[![MeowFi screenshot][product-screenshot-dark]](https://fi.meowtos.xyz)
+[![MeowFi screenshot][product-screenshot]](https://testnet-fi.meowtos.xyz)
+[![MeowFi screenshot][product-screenshot-dark]](https://testnet-fi.meowtos.xyz)
 
 Welcome to MeowFi (a Meowtos product), the future of decentralized finance where NFTs are more than just art—they are assets. Meowfi is a groundbreaking platform on the Aptos blockchain, enabling users to leverage their NFTs as collateral and access token-based loans.
 
@@ -72,7 +72,7 @@ Meowtos is here to redefine how you utilize NFTs. Join us today and experience d
 
 ### Architecture
 
-[![Architecture screenshot][architecture-screenshot]](https://fi.meowtos.xyz)
+[![Architecture screenshot][architecture-screenshot]](https://testnet-fi.meowtos.xyz)
 
 ### Built With
 
