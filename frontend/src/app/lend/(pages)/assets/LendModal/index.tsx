@@ -269,7 +269,7 @@ export function LendModal({ token }: LendModalProps) {
                                             {errors.apr && touched.apr && <span className="text-danger">{errors.apr}</span>}
                                         </div>
                                         <div className="mb-3">
-                                            <p className="mb-0">After repay, you&apos;ll get - {millify(receiveAmount) ?? 0} {chosenCoin?.symbol}</p>
+                                            <p className="mb-0">After repay, you&apos;ll get: {millify(receiveAmount) ?? 0} {chosenCoin?.symbol}</p>
                                         </div>
                                         {
                                             submitLoading

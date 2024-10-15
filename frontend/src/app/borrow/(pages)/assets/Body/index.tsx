@@ -32,7 +32,7 @@ export function Body() {
         setIsLoading(true)
         try {
             const address = activeAccount ? activeAccount?.accountAddress?.toString() : account?.address;
-            if(!address){
+            if (!address) {
                 throw new Error("Address not found")
             }
             const res = await getUserOwnedCollections(address)
@@ -60,7 +60,7 @@ export function Body() {
         try {
             setUserListingLoading(true)
             const address = activeAccount ? activeAccount?.accountAddress?.toString() : account?.address;
-            if(!address){
+            if (!address) {
                 throw new Error("Address not found")
             }
             const res = await fetch(`/api/listing?address=${address}&status=open`);
@@ -150,10 +150,10 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
         if ((!account?.address && !activeAccount) || !collectionId) {
             return setTokens([])
         }
-        setIsLoading(true)
+        // setIsLoading(true)
         try {
             const address = activeAccount ? activeAccount?.accountAddress?.toString() : account?.address;
-            if(!address){
+            if (!address) {
                 throw new Error("Address not found")
             }
             const res = await getUserOwnedTokensByCollection(address, collectionId);
@@ -187,7 +187,8 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
     }, [getOwnedTokensByCollection]);
     return (
         <React.Fragment>
-            {tokens.length === 0 && !isLoading && (
+            {/* {tokens.length === 0 && !isLoading && ( */}
+            {tokens.length === 0 && (
                 <>
                     <div className="empty-box text-center py-5 px-3 rounded">
                         <IoNewspaperOutline className="fs-1" />
@@ -196,6 +197,7 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
                 </>
             )}
             {/* Grid View */}
+            {tokens.length > 0 && (
             <div className="all-cards grid-view" hidden={viewtype == 'grid' ? false : true}>
                 {
                     isLoading || userListingLoading ?
@@ -229,8 +231,10 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
                         ))
                 }
             </div>
+            )}
 
             {/* List View */}
+            {tokens.length > 0 && (
             <div className="list-view" hidden={viewtype == 'list' ? false : true}>
                 <table className="table">
                     {tokens.length > 0 && (
@@ -282,6 +286,7 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
                     </tbody>
                 </table>
             </div>
+            )}
             <ListingModal token={chosenToken} getUserListings={getUserListings} />
             <UpdateListingModal token={updateListing} getUserListings={getUserListings} />
         </React.Fragment>

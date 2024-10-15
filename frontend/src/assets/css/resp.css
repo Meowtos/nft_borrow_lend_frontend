@@ -1,5 +1,9 @@
 @media (min-width: 1440px) {
+
   /* Styles for larger screens */
+  .modal {
+    top: 95px !important;
+  }
 }
 
 /* ------------------------------------------------------------------------------------------------------------------ */
@@ -121,16 +125,26 @@
   .submit-btn {
     width: fit-content;
   }
+
   .faucet p {
     width: 100%;
   }
-  .loans-table, .offers-table, .list-view .table{
+
+  .loans-table,
+  .offers-table,
+  .list-view .table {
     width: max-content !important;
   }
-  .loans-table.table td, .offers-table.table td, .list-view .table td {
+
+  .loans-table.table td,
+  .offers-table.table td,
+  .list-view .table td {
     padding-right: 24px;
   }
-  .loans-table.table td:last-child, .offers-table.table td:last-child, .list-view .table td:last-child {
+
+  .loans-table.table td:last-child,
+  .offers-table.table td:last-child,
+  .list-view .table td:last-child {
     padding-right: 8px;
   }
 
@@ -300,7 +314,10 @@
   .ft-list li {
     margin-top: 10px;
   }
-  .connect-btn .arrow-icon{display: none;}
+
+  .connect-btn .arrow-icon {
+    display: none;
+  }
 }
 
 /* ------------------------------------------------------------------------------------------------------------------ */
@@ -337,7 +354,8 @@
     width: 28%;
     height: unset;
   }
-  .cs-cnn{
+
+  .cs-cnn {
     padding-right: 15px !important;
   }
 
@@ -352,11 +370,12 @@
 
   .header .connect-btn {
     padding: 10px 15px;
-    padding-right:30px;
+    padding-right: 30px;
     font-size: 12px;
     line-height: 12px;
     border-radius: 8px;
   }
+
   .arrow-icon {
     bottom: 6px;
   }
@@ -805,21 +824,26 @@
   .grid-view .list-btn {
     position: unset;
   }
+
   .card .card-body {
     padding-bottom: 0px;
   }
+
   .dark-theme .work-row,
-  .dark-theme .accordion{
+  .dark-theme .accordion {
     border: unset !important;
   }
+
   .dark-theme .accordion {
     background: unset !important;
   }
-  .dark-theme .accordion-button{
+
+  .dark-theme .accordion-button {
     background: transparent !important;
   }
+
   .dark-theme .accordion-item {
-    background:  var(--bg-rad-gradiant) !important;
+    background: var(--bg-rad-gradiant) !important;
   }
 
 }
