@@ -3,6 +3,7 @@
 //// Test Coin
 //
 //
+#[test_only]
 module my_addrx::moon_coin {
     use std::signer;
     use aptos_framework::coin::{Self, MintCapability, BurnCapability};

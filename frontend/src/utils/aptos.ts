@@ -1,12 +1,13 @@
 import { AptosConfig, NetworkToNetworkName, Aptos, TokenStandard } from "@aptos-labs/ts-sdk";
 import { NETWORK } from "./env";
-import { aptos as aptos_coin, meow_coin, moon_coin } from "./coins";
+import { aptos as aptos_coin, MAINNET_COINS, meow_coin, moon_coin } from "./coins";
 const config = new AptosConfig({
     network: NetworkToNetworkName[NETWORK]
 });
 export const aptos = new Aptos(config);
 export const APR_DENOMINATOR = 10000;
 export const MAX_LOCK_DURATION = 365;
+
 export const getUserOwnedCollections = async (ownerAddr: string) => {
     const result = await aptos.getAccountCollectionsWithOwnedTokens({
         accountAddress: ownerAddr,
@@ -25,7 +26,7 @@ export const getFAMetadata = async () => {
         options: {
             where: {
                 asset_type: {
-                    _in: [aptos_coin, meow_coin, moon_coin]
+                    _in: NETWORK === "mainnet" ? MAINNET_COINS : [aptos_coin, meow_coin, moon_coin]
                 },
             },
         }

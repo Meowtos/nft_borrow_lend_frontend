@@ -3,6 +3,7 @@
 //// Test Collection
 //
 //
+#[test_only]
 module my_addrx::meowtos {
     use std::signer::address_of;
     use aptos_token_objects::token;

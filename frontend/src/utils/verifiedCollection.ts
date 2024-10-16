@@ -1,0 +1,1 @@
+export const verifiedCollection = []; //List of verified collections in our platform
