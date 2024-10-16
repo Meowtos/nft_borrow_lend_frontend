@@ -16,6 +16,10 @@ export const menu =[
         name: "Lend",
         url: "/lend/assets"
     },
+    {
+        name: "Verify Coll",
+        url: "https://forms.gle/ZWxNbkJDRtmTHAGKA"
+    },
     // {
     //     name: "Faucet",
     //     url: "/faucet"
