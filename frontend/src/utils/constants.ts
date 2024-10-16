@@ -16,14 +16,14 @@ export const menu =[
         name: "Lend",
         url: "/lend/assets"
     },
-    {
-        name: "Faucet",
-        url: "/faucet"
-    },
-    {
-        name: "Mint",
-        url: "/nft-mint"
-    },
+    // {
+    //     name: "Faucet",
+    //     url: "/faucet"
+    // },
+    // {
+    //     name: "Mint",
+    //     url: "/nft-mint"
+    // },
 ]
 
 export const footerLinks = [

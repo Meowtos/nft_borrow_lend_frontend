@@ -9,7 +9,7 @@ import { IoClose } from 'react-icons/io5'
 import { useTheme } from '@/context/themecontext';
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { menu } from '@/utils/constants'
-import { DiscordNotification } from './DiscordNotification';
+// import { DiscordNotification } from './DiscordNotification';
 import ThemeToggle from './ThemeToggle';
 import { usePathname } from 'next/navigation'
 
@@ -51,11 +51,10 @@ const Header = () => {
                                         </div>
                                     ) : (' ')
                                 }
-                                {/* <DiscordNotification /> */}
                                 <ThemeToggle />
 
                             </div>
-                            <DiscordNotification />
+                            {/* <DiscordNotification /> */}
                             <WalletButtons />
 
                             {/* Mobile Menu */}

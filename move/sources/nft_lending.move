@@ -11,6 +11,9 @@ module my_addrx::nft_lending {
     use aptos_framework::aptos_account;
 
     struct AppSigner has key {
+        // meowfi fee in %age
+        fee: u64,
+        fee_wallet: address,
         extend_ref: object::ExtendRef,
     }
 
@@ -99,6 +102,8 @@ module my_addrx::nft_lending {
     const EUNAUTHORIZED_ACTION: u64 = 11;
     const EREPAY_TIME_HAS_NOT_EXCEED: u64 = 12;
     const ENO_COLLATERAL: u64 = 13;
+    const ENOT_OBJECT_OWNER: u64 = 14;
+    const EFEE_INVALID: u64 = 15;
 
     //
     ////
@@ -107,14 +112,29 @@ module my_addrx::nft_lending {
     //
 
     const APR_DENOMINATOR: u64 = 10000;
-    const APP_OBJECT_SEED: vector<u8> = b"NFT LENDING APP";
+    const APP_OBJECT_SEED: vector<u8> = b"MEOW FI";
+    const FEE_DENOMINATOR: u64 = 10000;
 
     fun init_module(module_signer: &signer){
         let constructor_ref = &object::create_named_object(module_signer, APP_OBJECT_SEED);
         let obj_signer = &object::generate_signer(constructor_ref);
         move_to(obj_signer, AppSigner {
+            // initial fee 0.01
+            fee: 1000, 
+            fee_wallet: address_of(module_signer),
             extend_ref: object::generate_extend_ref(constructor_ref),
         });
+    }
+
+    entry fun update_config(account: &signer, fee: u64, fee_wallet: address) acquires AppSigner {
+        let obj_holds_signer = object::address_to_object<AppSigner>(get_app_signer_address());
+        // ensure that the signer using the function is module signer
+        assert!(object::is_owner(obj_holds_signer, address_of(account)), ENOT_OBJECT_OWNER);
+        // fee cannot exceed 100%
+        assert!(fee < (FEE_DENOMINATOR*100), EFEE_INVALID);
+        let app_signer = borrow_global_mut<AppSigner>(get_app_signer_address());
+        app_signer.fee = fee;
+        app_signer.fee_wallet = fee_wallet;
     }
 
     fun get_app_signer_address(): address {
@@ -322,13 +342,19 @@ module my_addrx::nft_lending {
     entry fun repay_with_fa(
         account: &signer,
         borrow: Object<object::ObjectCore>,
-    ) acquires Borrow, MetadataInfo {
+    ) acquires Borrow, MetadataInfo, AppSigner {
         let borrow_addr = object::object_address(&borrow);
         assert!(exists<MetadataInfo>(borrow_addr), ENO_METADATA);
         let metadata = borrow_global<MetadataInfo>(borrow_addr).metadata;
         let (amount, to) = repay(account, borrow);
         let pfs = primary_fungible_store::ensure_primary_store_exists(to, metadata);
         let fa = primary_fungible_store::withdraw(account, metadata, amount);
+        fungible_asset::deposit(pfs, fa);
+        // MEOWFI FEE
+        let obj_holds_signer = borrow_global<AppSigner>(get_app_signer_address());
+        let fee = ((amount * obj_holds_signer.fee) / FEE_DENOMINATOR) / 100;
+        let pfs = primary_fungible_store::ensure_primary_store_exists(obj_holds_signer.fee_wallet, metadata);
+        let fa = primary_fungible_store::withdraw(account, metadata, fee);
         fungible_asset::deposit(pfs, fa);
     }
 
@@ -367,13 +393,17 @@ module my_addrx::nft_lending {
     entry fun repay_with_coin<CoinType>(
         account: &signer,
         borrow: Object<object::ObjectCore>,
-    ) acquires Borrow, CoinTypeInfo {
+    ) acquires Borrow, CoinTypeInfo, AppSigner {
         let borrow_addr = object::object_address(&borrow);
         assert!(exists<CoinTypeInfo>(borrow_addr), ENO_COINTYPE);
         let coin_type = borrow_global<CoinTypeInfo>(borrow_addr).coin_type;
         assert!(coin_struct_name<CoinType>() == coin_type, EINVALID_COINTYPE);
         let (amount, to) = repay(account, borrow);
         aptos_account::transfer_coins<CoinType>(account, to, amount);
+        // MEOWFI FEE
+        let obj_holds_signer = borrow_global<AppSigner>(get_app_signer_address());
+        let fee = ((amount * obj_holds_signer.fee) / FEE_DENOMINATOR) / 100;
+        aptos_account::transfer_coins<CoinType>(account, obj_holds_signer.fee_wallet, fee);
     }
 
     entry fun grab(
@@ -403,8 +433,29 @@ module my_addrx::nft_lending {
         object::transfer(obj_signer, token_id, from_addr);
         object::delete(delete_ref);
     }
-    
-     //
+
+    #[view]
+    public fun get_config(): (u64, address) acquires AppSigner {
+        let obj_holds_signer = borrow_global<AppSigner>(get_app_signer_address());
+        (obj_holds_signer.fee, obj_holds_signer.fee_wallet)
+    }
+
+    #[view]
+    public fun get_offer(object: Object<object::ObjectCore>): (address, Object<object::ObjectCore>, u64, u64, u64) acquires Offer {
+        let obj_addr = object::object_address(&object);
+        assert!(exists<Offer>(obj_addr), EOFFER_DOESNT_EXIST);
+        let offer = borrow_global<Offer>(obj_addr);
+        (offer.by_addr, offer.token_id, offer.amount, offer.duration, offer.apr)
+    }
+
+    #[view]
+    public fun get_borrow(object: Object<object::ObjectCore>): (address, address, Object<object::ObjectCore>, u64, u64, u64, u64) acquires Borrow {
+        let obj_addr = object::object_address(&object);
+        assert!(exists<Borrow>(obj_addr), EBORROW_DOESNT_EXIST);
+        let borrow = borrow_global<Borrow>(obj_addr);
+        (borrow.user_addr, borrow.from_addr, borrow.token_id, borrow.amount, borrow.duration, borrow.apr, borrow.start_timestamp)
+    }
+    //
     ////
     // Helper functions
     ////
@@ -422,7 +473,7 @@ module my_addrx::nft_lending {
 
     //
     ////
-    // Tests
+    // Tests (REWRITE TESTS)
     ////
     //
     #[test_only]
@@ -592,7 +643,7 @@ module my_addrx::nft_lending {
     }
 
     #[test_only]
-    public fun repay_with_fa_for_test(account: &signer, borrow: Object<object::ObjectCore>) acquires Borrow, MetadataInfo {
+    public fun repay_with_fa_for_test(account: &signer, borrow: Object<object::ObjectCore>) acquires Borrow, MetadataInfo, AppSigner {
         repay_with_fa(
             account,
             borrow,
@@ -600,7 +651,7 @@ module my_addrx::nft_lending {
     }
 
     #[test_only]
-    public fun repay_with_coin_for_test<CoinType>(account: &signer, borrow: Object<object::ObjectCore>) acquires Borrow, CoinTypeInfo {
+    public fun repay_with_coin_for_test<CoinType>(account: &signer, borrow: Object<object::ObjectCore>) acquires Borrow, CoinTypeInfo, AppSigner {
         repay_with_coin<CoinType>(
             account,
             borrow,
@@ -703,6 +754,24 @@ module my_addrx::nft_lending {
         // bob failed to make the payment
         grab_for_test(alice, borrow);
         assert!(object::is_owner(token, address_of(alice)), 5);
+    }
+
+    #[test(admin=@my_addrx)]
+    fun update_config_test(admin :&signer) acquires AppSigner {
+        init_module_for_test(admin);
+        update_config(admin, 20000, address_of(admin));
+        let app_signer_obj = borrow_global<AppSigner>(get_app_signer_address());
+        assert!(app_signer_obj.fee == 20000, 6);
+        assert!(app_signer_obj.fee_wallet == address_of(admin), 7);
+    }
+
+    #[test(admin=@0xCAFE)]
+    #[expected_failure]
+    fun update_config_test_fail(admin :&signer) acquires AppSigner {
+        init_module_for_test(admin);
+        update_config(admin, 20000, address_of(admin));
+        let app_signer_obj = borrow_global<AppSigner>(get_app_signer_address());
+        assert!(app_signer_obj.fee == 20000, 6);
     }
 
 }

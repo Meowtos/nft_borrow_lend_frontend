@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest){
     try {
         const body = await req.json();
-        let caption = `🟩 🟩 🟩 🟩 🟩 🟩 🟩\n\nNew Listing\n\n<b>${body.title}</b>`
+        let caption = `🟩 🟩 🟩 🟩 🟩 🟩 🟩 🟩 🟩 🟩 🟩 🟩 🟩 🟩\n\nNew Listing on MeowFi\n\n<b>${body.title}</b>`
         if(body.amount){
             caption += `\n\nAmount - ${body.amount} ${body.coin ?? "Any Coin"}`
         } 
@@ -16,8 +16,7 @@ export async function POST(req: NextRequest){
         if(body.duration){
             caption += `\n\nLoan Duration - ${body.duration} days`
         }
-        // caption += `Give Loan - ${body.url}` // After mainnet launch
-        caption += `\n\n<a href="https://meowtos.xyz">View Here</a>`
+        caption += `\n\n<a href="${body.url}">View Here</a>`;
         await sendTgMessage(TG_CHAT_ID, body.image, caption);
         return NextResponse.json({ message: "success" })
     } catch (error: unknown) {

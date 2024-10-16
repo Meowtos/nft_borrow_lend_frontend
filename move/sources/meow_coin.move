@@ -3,6 +3,7 @@
 //// Test Coin
 //
 //
+#[test_only]
 module my_addrx::meow_coin {
     use std::signer;
     use aptos_framework::fungible_asset::{Self, MintRef, TransferRef, Metadata};

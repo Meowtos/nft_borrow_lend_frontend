@@ -15,3 +15,8 @@ aptos move create-object-and-publish-package \
 
 aptos move publish --named-addresses my_addrx=default --skip-fetch-latest-git-deps --included-artifacts none
 
+(DEVNET)
+ABI=0x220942cb68d23452e311c7edf64a8835706afd468ee3cbbd3f0c14f64c4030f8
+
+(MAINNET)
+ABI=0x3128936eff12dc2953ea3189d31fcd60db1397546017180f72f9ff5e59bfed13
