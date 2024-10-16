@@ -157,7 +157,7 @@ export function Body() {
                                             </td>
                                             <td>
                                                 <Link href={`https://explorer.aptoslabs.com/account/${item.address}?network=${NETWORK}`} target="_blank">
-                                                    {shortenAddress(item.address)}
+                                                    {shortenAddress(item.forAddress)}
                                                 </Link>
                                             </td>
                                             <td>{interestPercentage(item.apr, item.duration)}%</td>
