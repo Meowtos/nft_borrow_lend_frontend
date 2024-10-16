@@ -1,8 +1,10 @@
-@media (min-width: 1440px) {
 
-  /* Styles for larger screens */
-  .modal {
-    top: 95px !important;
+@media (max-width: 1540px) {
+  .modal-backdrop{
+    display: none;
+  }
+  .footer{
+    position: unset !important;
   }
 }
 

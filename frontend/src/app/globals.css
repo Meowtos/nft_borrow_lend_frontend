@@ -384,6 +384,11 @@ h2 {
   position: relative;
   z-index: 2;
 }
+.modal {
+  padding-top: 90px;
+  padding-top: 90px;
+  z-index: 999 !important;
+}
 
 .banner-content a {
   text-decoration: none;
