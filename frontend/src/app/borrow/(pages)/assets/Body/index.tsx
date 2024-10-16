@@ -5,7 +5,6 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { getUserOwnedCollections, getUserOwnedTokensByCollection } from "@/utils/aptos";
 import { Collection } from "@/types/Collection";
 import Image from "next/image";
-import Link from 'next/link';
 import { Token } from "@/types/Token";
 import { IoIosArrowDown } from "react-icons/io";
 import { BsList } from "react-icons/bs";
