@@ -5,7 +5,6 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { getUserOwnedCollections, getUserOwnedTokensByCollection } from "@/utils/aptos";
 import { Collection } from "@/types/Collection";
 import Image from "next/image";
-import Link from 'next/link';
 import { Token } from "@/types/Token";
 import { IoIosArrowDown } from "react-icons/io";
 import { BsList } from "react-icons/bs";
@@ -192,7 +191,7 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
                 <>
                     <div className="empty-box text-center py-5 px-3 rounded">
                         <IoNewspaperOutline className="fs-1" />
-                        <p className="mt-2 w-100 text-center">No Assets Found. <Link href="/nft-mint" className="mint-link">Add New</Link></p>
+                        <p className="mt-2 w-100 text-center">No Assets Found</p>
                     </div>
                 </>
             )}
