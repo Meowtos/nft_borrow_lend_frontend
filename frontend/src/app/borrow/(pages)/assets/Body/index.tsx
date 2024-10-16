@@ -192,7 +192,7 @@ function OwnedTokens({ collectionId, viewtype, userListings, getUserListings, us
                 <>
                     <div className="empty-box text-center py-5 px-3 rounded">
                         <IoNewspaperOutline className="fs-1" />
-                        <p className="mt-2 w-100 text-center">No Assets Found. <Link href="/nft-mint" className="mint-link">Add New</Link></p>
+                        <p className="mt-2 w-100 text-center">No Assets Found</p>
                     </div>
                 </>
             )}
