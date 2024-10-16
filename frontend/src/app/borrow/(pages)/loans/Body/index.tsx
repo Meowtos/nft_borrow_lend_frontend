@@ -11,7 +11,6 @@ import { interestPercentage } from "@/utils/math";
 import { Clock } from "@/components/Clock";
 import { secInADay } from "@/utils/time";
 import { RepayModal, repayModalId } from "../RepayModal";
-import millify from "millify";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { useKeylessAccounts } from "@/core/useKeylessAccounts";
 export function Body() {
@@ -98,7 +97,7 @@ export function Body() {
                                                     {shortenAddress(item.address)}
                                                 </Link>
                                             </td>
-                                            <td>{millify(interestPercentage(item.apr, item.duration))}%</td>
+                                            <td>{interestPercentage(item.apr, item.duration)}%</td>
                                             <td>{item.apr} %</td>
                                             <td>{item.duration} day/days</td>
                                             <td>{item.start_timestamp ? <Clock timestamp={item.start_timestamp + item.duration * secInADay} /> : ""}</td>
@@ -154,7 +153,7 @@ export function Body() {
                                                     {shortenAddress(item.address)}
                                                 </Link>
                                             </td>
-                                            <td>{millify(interestPercentage(item.apr, item.duration))}%</td>
+                                            <td>{interestPercentage(item.apr, item.duration)}%</td>
                                             <td>{item.apr} %</td>
                                             <td>{item.duration} day/days</td>
                                             <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>

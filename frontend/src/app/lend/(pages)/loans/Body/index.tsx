@@ -13,7 +13,6 @@ import { secInADay } from "@/utils/time";
 import { GrabModal, grabModalId } from "../GrabModal";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { useKeylessAccounts } from "@/core/useKeylessAccounts";
-import millify from "millify";
 export function Body() {
     const { getAssetByType } = useApp();
     const { activeAccount } = useKeylessAccounts();
@@ -161,7 +160,7 @@ export function Body() {
                                                     {shortenAddress(item.address)}
                                                 </Link>
                                             </td>
-                                            <td>{millify(interestPercentage(item.apr, item.duration))}%</td>
+                                            <td>{interestPercentage(item.apr, item.duration)}%</td>
                                             <td>{item.apr} %</td>
                                             <td>{item.duration} day/days</td>
                                             <td>{item.amount} {getAssetByType(item.coin)?.symbol}</td>
