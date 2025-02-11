@@ -1,18 +1,22 @@
 "use client";
+import { ReactNode } from "react";
 
 import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
-import { PetraWallet } from "petra-plugin-wallet-adapter";
-import { ReactNode } from "react";
-import {NETWORK} from "../utils/env"
+import { WalletProvider as MovementWalletProvider } from '@razorlabs/razorkit';
+import { SupraWalletProvider } from "./SupraWalletProvider";
+import { useApp } from "./AppProvider";
 import { NetworkToNetworkName } from "@aptos-labs/ts-sdk";
-const wallets = [new PetraWallet()];
-
 export function WalletProvider({ children }: { children: ReactNode }) {
+  const { chain } = useApp();
   return (
-    <AptosWalletAdapterProvider plugins={wallets} autoConnect={true} dappConfig={{
-      network: NetworkToNetworkName[NETWORK]
+    <AptosWalletAdapterProvider autoConnect={chain.name === "aptos"} dappConfig={{
+      network: NetworkToNetworkName[process.env.APTOS_NETWORK!]
     }}>
-      {children}
+      <MovementWalletProvider autoConnect={chain.name === "movement"}>
+        <SupraWalletProvider autoConnect={chain.name === "supra"}>
+          {children}
+        </SupraWalletProvider>
+      </MovementWalletProvider>
     </AptosWalletAdapterProvider>
   );
 }

@@ -1,4 +1,4 @@
-import { connectDB } from "@/lib/connect";
+import { connectDB } from "@/libs/common";
 import { Listing } from "@/models/listing";
 import { Loan } from "@/models/loan";
 import { User } from "@/models/user";

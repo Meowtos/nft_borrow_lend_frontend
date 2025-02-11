@@ -12,11 +12,14 @@ import { menu } from '@/utils/constants'
 // import { DiscordNotification } from './DiscordNotification';
 import ThemeToggle from './ThemeToggle';
 import { usePathname } from 'next/navigation'
+import { useApp } from '@/context/AppProvider';
+import { chains } from '@/utils/chain';
+import { Wallets } from './wallets';
 
+import { storage } from '@/utils/storage';
 const Header = () => {
     const { theme } = useTheme();
-    const { connected } = useWallet();
-    const [soon, setSoon] = useState(true);
+    const { chain, setChain } = useApp();
     const [mobileMenu, setMobileMenu] = useState(false)
     const pathname = usePathname();
     return (
@@ -41,21 +44,34 @@ const Header = () => {
                                             </Link>
                                         ))
                                     }
+                                    <div className="dropdown">
+                                        <a className="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <Image src={chain.icon} alt={chain.name} height={22} width={22} />
+                                        </a>
+
+                                        <ul className="dropdown-menu">
+                                            {
+                                                chains.map((item, idx) => (
+                                                    <li key={idx} onClick={()=>{
+                                                        storage.set("lend-borrow-chain", JSON.stringify(item))
+                                                        setChain(item)
+                                                    }}>
+                                                        <a className="dropdown-item text-capitalize" href="#">
+                                                            <Image src={item.icon} alt={item.name} height={22} width={22} />&nbsp;
+                                                            {item.name}
+                                                        </a>
+                                                    </li>
+                                                ))
+                                            }
+                                        </ul>
+                                    </div>
                                 </ul>
-                                {
-                                    connected ? (
-                                        <div className="rewards" id="rewards">
-                                            {/* <FaAward className="cn-icon" onClick={() => setSoon(!soon)} /> */}
-                                            <span className="cn-icon" onClick={() => setSoon(!soon)} >s:01</span>
-                                            <p className="soon rounded-pill mt-2" hidden={soon}>Season-1 is coming soon!</p>
-                                        </div>
-                                    ) : (' ')
-                                }
+        
                                 <ThemeToggle />
 
                             </div>
                             {/* <DiscordNotification /> */}
-                            <WalletButtons />
+                            <Wallets />
 
                             {/* Mobile Menu */}
                             <div className="menu-mobile">
